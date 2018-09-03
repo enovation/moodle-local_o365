@@ -78,6 +78,13 @@ $functions = [
         'description' => 'Update a grade.',
         'type' => 'write',
     ],
+    'local_o365_get_due_assignments' => [
+        'classname' => '\local_o365\webservices\read_due_assignments',
+        'methodname' => 'due_assignments_read',
+        'classpath' => 'local/o365/classes/webservices/read_due_assignments.php',
+        'description' => 'Get a list of student due assignments.',
+        'type' => 'read',
+    ],
 ];
 
 // Pre-built service.
@@ -91,6 +98,7 @@ $services = [
             'local_o365_get_teachercourses',
             'local_o365_get_course_users',
             'local_o365_get_assignments',
+            'local_o365_get_due_assignments',
             'local_o365_update_grade',
             'mod_assign_get_assignments',
             'mod_assign_get_grades',
