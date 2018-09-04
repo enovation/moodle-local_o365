@@ -175,6 +175,14 @@ class read_due_assignments extends \external_api {
                 }
             }
         }
+        if(empty($assignmentarray)){
+            $warnings[] = array(
+                'item' => 'assignments',
+                'itemid' => 0,
+                'warningcode' => '1',
+                'message' => 'No due assignments found'
+            );
+        }
 
         $result = array(
             'assignments' => $assignmentarray,
@@ -214,9 +222,9 @@ class read_due_assignments extends \external_api {
         return new \external_single_structure(
             array(
                 'assignments' => new \external_multiple_structure(self::get_due_assignments_structure(), 'list of due assignments', VALUE_DEFAULT, []),
-                'warnings'  => new \external_warnings('item can be \'course\' (errorcode 1 or 2) or \'module\' (errorcode 1)',
-                    'When item is a course then itemid is a course id. When the item is a module then itemid is a module id',
-                    'errorcode can be 1 (no access rights) or 2 (not enrolled or no permissions)')
+                'warnings'  => new \external_warnings('item can be \'assignments\' (errorcode 1)',
+                    'When item is "assignments" then itemid is by default 0',
+                    'errorcode can be 1 (no records found)')
             )
         );
     }
