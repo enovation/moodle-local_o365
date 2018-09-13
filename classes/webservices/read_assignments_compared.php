@@ -23,23 +23,18 @@
 
 namespace local_o365\webservices;
 
+
 /**
  * Get a list of assignments and quizes grades in one or more courses.
  */
-class read_grades extends \external_api {
+class read_assignments_compared extends \external_api {
 
-    private static function get_activities_list(){
-        return [
-            'assign',
-            'quiz'
-        ];
-    }
     /**
      * Returns description of method parameters
      *
      * @return external_function_parameters
      */
-    public static function grades_read_parameters() {
+    public static function assignments_compared_read_parameters() {
         return new \external_function_parameters([
             'limitnumber' => new \external_value(
                 PARAM_INT,
@@ -61,29 +56,29 @@ class read_grades extends \external_api {
      * @return An array of courses and warnings.
      * @since  Moodle 2.4
      */
-    public static function grades_read($limitnumber = 10) {
+    public static function assignments_compared_read($limitnumber = 10) {
         global $USER, $DB;
-        $gradesarray = [];
+        $assignmentsarray = [];
         $warnings = [];
         $params = self::validate_parameters(
-            self::grades_read_parameters(),
+            self::assignments_compared_read_parameters(),
             array(
                 'limitnumber' => $limitnumber
             )
         );
 
-        $activities = self::get_activities_list();
-        $activities = join("','", $activities);
-        $sql = "SELECT g.id, gi.itemmodule, gi.iteminstance, g.finalgrade, g.timemodified FROM {grade_grades} g
+        $sql = "SELECT gi.iteminstance, g.itemid, g.finalgrade, g.timemodified FROM {grade_grades} g
                 JOIN {grade_items} gi ON gi.id = g.itemid
-                WHERE g.userid = ? AND gi.itemmodule IN ('$activities') AND g.finalgrade IS NOT NULL
+                WHERE g.userid = ? AND gi.itemmodule LIKE 'assign' AND g.finalgrade IS NOT NULL
                 ORDER BY g.timemodified DESC";
+
         if (!empty($params['limitnumber'])) {
             $sql .= " LIMIT {$params['limitnumber']}";
         }
         $sqlparams = [$USER->id];
-        $grades = $DB->get_records_sql($sql, $sqlparams);
-        if (empty($grades)) {
+        $assignments = $DB->get_records_sql($sql, $sqlparams);
+
+        if (empty($assignments)) {
             $warnings[] = array(
                 'item' => 'grades',
                 'itemid' => 0,
@@ -91,22 +86,34 @@ class read_grades extends \external_api {
                 'message' => 'No grades found'
             );
         } else {
-            foreach($grades as $grade){
-                $cm = get_coursemodule_from_instance($grade->itemmodule, $grade->iteminstance);
-                $url = new \moodle_url("/mod/{$grade->itemmodule}/view.php", ['id' => $grade->iteminstance]);
-                $grade = array(
+            $assaignmentskeys = join(',',array_keys($assignments));
+            // Find sums of all grade items in assignments.
+            $sql = "SELECT g.itemid, COUNT(*) AS amount, SUM(g.finalgrade) AS sum
+                      FROM {grade_items} gi
+                      JOIN {grade_grades} g ON g.itemid = gi.id
+                      JOIN {user} u ON u.id = g.userid                      
+                     WHERE gi.iteminstance IN ($assaignmentskeys)
+                       AND u.deleted = 0
+                       AND g.finalgrade IS NOT NULL                       
+                     GROUP BY g.itemid";
+            $averages = $DB->get_records_sql($sql);
+            foreach($assignments as $assign){
+                $cm = get_coursemodule_from_instance('assign', $assign->iteminstance);
+                $url = new \moodle_url("/mod/assign/view.php", ['id' => $assign->iteminstance]);
+                $assignment = array(
                     'cmid' => $cm->id,
                     'name' => $cm->name,
-                    'type' => $grade->itemmodule,
-                    'grade' => $grade->finalgrade,
-                    'date' => $grade->timemodified,
+                    'grade' => $assign->finalgrade,
+                    'classgrade' => $averages[$assign->itemid]->sum / $averages[$assign->itemid]->amount,
+                    'date' => $assign->timemodified,
                     'url' => $url->out()
                 );
-                $gradesarray[] = $grade;
+                $assignmentsarray[] = $assignment;
             }
         }
+
         $result = array(
-            'grades' => $gradesarray,
+            'grades' => $assignmentsarray,
             'warnings' => $warnings
         );
 
@@ -120,14 +127,14 @@ class read_grades extends \external_api {
      * @return external_single_structure
      * @since Moodle 2.4
      */
-    private static function get_grades_structure() {
+    private static function get_assignments_compared_structure() {
         return new \external_single_structure(
             array(
                 'cmid' => new \external_value(PARAM_INT, 'course module id'),
                 'name' => new \external_value(PARAM_TEXT, 'activity name'),
-                'type' => new \external_value(PARAM_TEXT, 'activity type'),
                 'grade' => new \external_value(PARAM_TEXT, 'activity grade'),
-                'date' => new \external_value(PARAM_INT, 'grade date (unix timestamp)'),
+                'classgrade' => new \external_value(PARAM_TEXT, 'grade date (unix timestamp)'),
+                'date' => new \external_value(PARAM_INT, 'grade date'),
                 'url' => new \external_value(PARAM_TEXT, 'activity link'),
             ), 'assignment information object'
         );
@@ -139,12 +146,12 @@ class read_grades extends \external_api {
      * @return external_single_structure
      * @since Moodle 2.4
      */
-    public static function grades_read_returns() {
+    public static function assignments_compared_read_returns() {
         return new \external_single_structure(
             array(
-                'grades' => new \external_multiple_structure(self::get_grades_structure(), 'list of user grades', VALUE_DEFAULT, []),
-                'warnings'  => new \external_warnings('item can be \'grades\' (errorcode 1)',
-                    'When item is "grades" then itemid is by default 0',
+                'grades' => new \external_multiple_structure(self::get_assignments_compared_structure(), 'list of user assignments with grades', VALUE_DEFAULT, []),
+                'warnings'  => new \external_warnings('item can be \'assignments\' (errorcode 1)',
+                    'When item is "assignments" then itemid is by default 0',
                     'errorcode can be 1 (no records found)')
             )
         );

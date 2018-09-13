@@ -92,6 +92,13 @@ $functions = [
         'description' => 'Get a list of student grades.',
         'type' => 'read',
     ],
+    'local_o365_get_assignments_compared' => [
+        'classname' => '\local_o365\webservices\read_assignments_compared',
+        'methodname' => 'assignments_compared_read',
+        'classpath' => 'local/o365/classes/webservices/read_assignments_compared.php',
+        'description' => 'Get a list of assignments grades compared to class average.',
+        'type' => 'read',
+    ],
 ];
 
 // Pre-built service.
@@ -105,6 +112,7 @@ $services = [
             'local_o365_get_teachercourses',
             'local_o365_get_course_users',
             'local_o365_get_assignments',
+            'local_o365_get_assignments_compared',
             'local_o365_get_due_assignments',
             'local_o365_update_grade',
             'local_o365_get_grades',
