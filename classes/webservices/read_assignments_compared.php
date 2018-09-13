@@ -86,25 +86,33 @@ class read_assignments_compared extends \external_api {
                 'message' => 'No grades found'
             );
         } else {
-            $assaignmentskeys = join(',',array_keys($assignments));
             // Find sums of all grade items in assignments.
-            $sql = "SELECT g.itemid, COUNT(*) AS amount, SUM(g.finalgrade) AS sum
+
+            foreach($assignments as $assign){
+                $cm = get_coursemodule_from_instance('assign', $assign->iteminstance);
+                $coursecontext = \context_course::instance($cm->course);
+                $course = get_course($cm->course);
+                $group = groups_get_course_group($course);
+                $participants = get_enrolled_users($coursecontext,'',$group,'u.id',null,0,0,false);
+                $participants = join(',', array_keys($participants));
+                $url = new \moodle_url("/mod/assign/view.php", ['id' => $assign->iteminstance]);
+                $sql = "SELECT g.itemid, COUNT(*) AS amount, SUM(g.finalgrade) AS sum
                       FROM {grade_items} gi
                       JOIN {grade_grades} g ON g.itemid = gi.id
                       JOIN {user} u ON u.id = g.userid                      
-                     WHERE gi.iteminstance IN ($assaignmentskeys)
+                     WHERE gi.itemmodule LIKE 'assign' 
+                       AND gi.iteminstance = :assignmentid
                        AND u.deleted = 0
-                       AND g.finalgrade IS NOT NULL                       
+                       AND g.finalgrade IS NOT NULL
+                       AND u.id IN ($participants)                      
                      GROUP BY g.itemid";
-            $averages = $DB->get_records_sql($sql);
-            foreach($assignments as $assign){
-                $cm = get_coursemodule_from_instance('assign', $assign->iteminstance);
-                $url = new \moodle_url("/mod/assign/view.php", ['id' => $assign->iteminstance]);
+                $sqlparams = ['assignmentid' => $assign->iteminstance];
+                $average = $DB->get_record_sql($sql, $sqlparams);
                 $assignment = array(
                     'cmid' => $cm->id,
                     'name' => $cm->name,
                     'grade' => $assign->finalgrade,
-                    'classgrade' => $averages[$assign->itemid]->sum / $averages[$assign->itemid]->amount,
+                    'classgrade' => $average->sum / $average->amount,
                     'date' => $assign->timemodified,
                     'url' => $url->out()
                 );
