@@ -73,7 +73,7 @@ $manifest = array(
             'needsChannelSelector' => false,
             'isNotificationOnly' => false,
             'scopes' => array(
-                'teams',
+                'team',
                 'personal',
             ),
         ),
