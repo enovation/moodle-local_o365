@@ -26,17 +26,15 @@
 require_once(__DIR__ . '/../../config.php');
 
 // force theme
-$SESSION->theme = 'boost_o365teams';
+if (get_config('theme_boost_o365teams', 'version')) {
+    $SESSION->theme = 'boost_o365teams';
+}
 
 echo "<script src=\"https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
 
 $js = '
 microsoftTeams.initialize();
-
-if (!inIframe()) {
-    window.location.href = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
-}
 
 // ADAL.js configuration
 let config = {
@@ -101,10 +99,9 @@ echo html_writer::script($js);
 
 $id = required_param('id', PARAM_INT);
 
-$coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
-
+$redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 if ($USER->id) {
-    redirect($coursepageurl);
+    $redirecturl = new moodle_url('/course/view.php', array('id' => $id));
 } else {
     $SESSION->wantsurl = $coursepageurl;
 
@@ -113,3 +110,10 @@ if ($USER->id) {
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
 }
+
+$redirectjs = '
+if (!inIframe()) {
+    window.location.href = "' . $redirecturl->out() . '";
+}
+';
+echo html_writer::script($redirectjs);
