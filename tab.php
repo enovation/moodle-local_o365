@@ -100,9 +100,8 @@ echo html_writer::script($js);
 $id = required_param('id', PARAM_INT);
 
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
-if ($USER->id) {
-    $redirecturl = new moodle_url('/course/view.php', array('id' => $id));
-} else {
+$coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
+if (!$USER->id) {
     $SESSION->wantsurl = $coursepageurl;
 
     require_once($CFG->dirroot . '/auth/oidc/auth.php');
@@ -112,7 +111,9 @@ if ($USER->id) {
 }
 
 $redirectjs = '
-if (!inIframe()) {
+if (inIframe()) {
+    window.location.href = "' . $coursepageurl->out() . '";
+} else {
     window.location.href = "' . $redirecturl->out() . '";
 }
 ';
