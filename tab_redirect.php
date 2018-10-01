@@ -26,4 +26,5 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-print_error('errorinvalidteamstabappid', 'local_o365');
+unset($SESSION->theme);
+print_error('errornodirectaccess', 'local_o365');
