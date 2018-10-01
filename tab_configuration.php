@@ -39,7 +39,7 @@ $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
-    window.location.replace = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
+    window.location.href = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
 }
 
 let config = {

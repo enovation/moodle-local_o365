@@ -25,8 +25,6 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-$id = required_param('id', PARAM_INT);
-
 // force theme
 $SESSION->theme = 'boost_o365teams';
 
@@ -37,7 +35,7 @@ $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
-    window.location.replace = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
+    window.location.href = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
 }
 
 // ADAL.js configuration
@@ -100,6 +98,8 @@ function inIframe () {
 ';
 
 echo html_writer::script($js);
+
+$id = required_param('id', PARAM_INT);
 
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 
