@@ -35,13 +35,20 @@ class tabconfiguration extends \moodleform {
         $mform = $this->_form;
 
         $courseoptions = self::get_course_options();
-        $courseselector = $mform->createElement('select', 'course', get_string('course'), $courseoptions,
-            array('onchange' => 'onChange()'));
-        $courseselector->setSize(100);
-        $courseselector->setMultiple(true);
+        if ($courseoptions) {
+            // User can access at least one course, show course selector
+            $courseselector = $mform->createElement('select', 'course', get_string('course'), $courseoptions,
+                array('onchange' => 'onChange()'));
+            $courseselector->setSize(100);
+            $courseselector->setMultiple(true);
 
-        $mform->addElement($courseselector);
-        $mform->addRule('course', null, 'required', null, 'client');
+            $mform->addElement($courseselector);
+            $mform->setType('course', PARAM_INT);
+        } else {
+            // User cannot access any course, show message
+            $messagehtml = \html_writer::tag('p', get_string('teams_no_course', 'local_o365'));
+            $mform->addElement('html', $messagehtml);
+        }
     }
 
     /**
