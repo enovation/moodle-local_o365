@@ -370,10 +370,10 @@ if ($hassiteconfig) {
     }
 
     if ($tab == LOCAL_O365_TAB_TEAMS || !empty($install)) {
-        // teams_tab_app_id
-        $settings->add(new admin_setting_configtext_with_maxlength('local_o365/teams_tab_app_id',
-            get_string('settings_teams_tab_app_id', 'local_o365'),
-            get_string('settings_teams_tab_app_id_desc', 'local_o365'),
+        // bot_app_id
+        $settings->add(new admin_setting_configtext_with_maxlength('local_o365/bot_app_id',
+            get_string('settings_bot_app_id', 'local_o365'),
+            get_string('settings_bot_app_id_desc', 'local_o365'),
             '00000000-0000-0000-0000-000000000000', PARAM_TEXT, 38, 36));
 
         // manifest download link

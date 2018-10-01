@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/filestorage/zip_archive.php');
 require_once($CFG->dirroot . '/local/o365/lib.php');
 
 // task 1 : check if app ID has been set, and print error if it's missing
-$appid = get_config('local_o365', 'teams_tab_app_id');
+$appid = get_config('local_o365', 'bot_app_id');
 if (!$appid || $appid == '00000000-0000-0000-0000-000000000000') {
     $redirecturl = new moodle_url('/admin/settings.php', array('section' => 'local_o365', 's_local_o365_tabs' => '5'));
     print_error('errorinvalidteamstabappid', 'local_o365', $redirecturl);
@@ -47,7 +47,7 @@ $manifest = array(
     'manifestVersion' => '1.3',
     'version' => '1.0.0',
     'id' => $appid,
-    'packageName' => 'ie.enovation.ms.teams.moodletab', //todo update package name
+    'packageName' => 'ie.enovation.microsoft.o365', //todo update package name
     'developer' => array(
         'name' => 'Enovation Solutions', // todo update developer name
         'websiteUrl' => 'https://enovation.ie', // todo update developer website URL
@@ -60,22 +60,36 @@ $manifest = array(
     ),
     'name' => array(
         'short' => 'Moodle', // todo update short name
-        'full' => 'Moodle course', // todo update full name
+        'full' => 'Moodle integration with Microsoft Teams', // todo update full name
     ),
     'description' => array(
-        'short' => 'This tab allows a Moodle course to be displayed in Microsoft Teams.', // todo update short description
-        'full' => 'This tab allows a Moodle course to be displayed in Microsoft Teams.', // todo update full description
+        'short' => 'Bot and tab for Moodle in Teams.', // todo update short description
+        'full' => 'This plugin contains a bot that allows users to interact with Moodle from Teams, and a tab to show course page in Teams.', // todo update full description
     ),
-    'accentColor' => '#FFFFFF',
+    'accentColor' => '#60A18E',
+    'bots' => array(
+        array(
+            'botId' => $appid,
+            'needsChannelSelector' => false,
+            'isNotificationOnly' => false,
+            'scopes' => array(
+                'teams',
+                'personal',
+            ),
+        ),
+    ),
     'configurableTabs' => array(
         array(
             'configurationUrl' => $CFG->wwwroot . '/local/o365/tab_configuration.php',
             'canUpdateConfiguration' => false,
-            'scopes' => array('team'),
+            'scopes' => array(
+                'team',
+            ),
         ),
     ),
     'permissions' => array(
-        'identity', 'messageTeamMembers',
+        'identity',
+        'messageTeamMembers',
     ),
     'validDomains' => array(
         parse_url($CFG->wwwroot, PHP_URL_HOST),

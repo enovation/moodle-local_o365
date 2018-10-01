@@ -519,8 +519,8 @@ $string['settings_onenote_details'] = 'Disabling Office 365 OneNote will allow u
 $string['settings_userconnections'] = 'Connections';
 $string['settings_userconnections_linktext'] = 'Manage User Connections';
 $string['settings_userconnections_details'] = 'Review and manage connections between Moodle and Office 365 users.';
-$string['settings_teams_tab_app_id'] = 'Teams tab app ID';
-$string['settings_teams_tab_app_id_desc'] = 'The unique Microsoft-generated identifier for this app. If you have registered a bot via the Microsoft Bot Framework, or your tab\'s web app already signs in with Microsoft, you should already have an ID and should enter it here. Otherwise, you should generate a new ID at the Microsoft Application Registration Portal (<a href="https://apps.dev.microsoft.com/">My Applications</a>), enter it here, and then reuse it when you add a bot.';
+$string['settings_bot_app_id'] = 'Bot app ID';
+$string['settings_bot_app_id_desc'] = 'The unique Microsoft-generated identifier for this app. If you have registered a bot via the Microsoft Bot Framework, or your tab\'s web app already signs in with Microsoft, you should already have an ID and should enter it here. Otherwise, you should generate a new ID at the Microsoft Application Registration Portal (<a href="https://apps.dev.microsoft.com/">My Applications</a>), enter it here, and then reuse it when you add a bot.';
 $string['settings_download_teams_tab_app_manifest'] = 'Download manifest file for tab';
 
 $string['spsite_group_contributors_name'] = '{$a} contributors';
