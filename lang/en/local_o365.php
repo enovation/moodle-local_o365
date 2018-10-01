@@ -196,6 +196,7 @@ $string['erroro365apisiteexistsnolocal'] = 'Site already exists, but could not f
 $string['errorcouldnotcreatespgroup'] = 'Could not create the SharePoint group.';
 $string['errorcoursenotsubsiteenabled'] = 'This course is not SharePoint subsite enabled.';
 $string['errorusermatched'] = 'The Office 365 account "{$a->aadupn}" is already matched with Moodle user "{$a->username}". To complete the connection, please log in as that Moodle user first and follow the instructions in the Microsoft block.';
+$string['errorinvalidteamstabappid'] = 'App ID invalid or missing';
 
 $string['eventapifail'] = 'API failure';
 $string['eventcalendarsubscribed'] = 'User subscribed to a calendar';
@@ -389,6 +390,7 @@ $string['settings_header_syncsettings'] = 'Sync Settings';
 $string['settings_header_tools'] = 'Tools';
 $string['settings_header_advanced'] = 'Advanced';
 $string['settings_header_sds'] = 'School Data Sync (preview)';
+$string['settings_header_teams'] = 'Teams Tab Settings';
 $string['settings_healthcheck'] = 'Health Check';
 $string['settings_healthcheck_details'] = 'If something isn\'t working correctly, performing a health check can usually identify the problem and propose solutions';
 $string['settings_healthcheck_linktext'] = 'Perform health check';
@@ -516,6 +518,9 @@ $string['settings_onenote_details'] = 'Disabling Office 365 OneNote will allow u
 $string['settings_userconnections'] = 'Connections';
 $string['settings_userconnections_linktext'] = 'Manage User Connections';
 $string['settings_userconnections_details'] = 'Review and manage connections between Moodle and Office 365 users.';
+$string['settings_teams_tab_app_id'] = 'Teams tab app ID';
+$string['settings_teams_tab_app_id_desc'] = 'The unique Microsoft-generated identifier for this app. If you have registered a bot via the Microsoft Bot Framework, or your tab\'s web app already signs in with Microsoft, you should already have an ID and should enter it here. Otherwise, you should generate a new ID at the Microsoft Application Registration Portal (<a href="https://apps.dev.microsoft.com/">My Applications</a>), enter it here, and then reuse it when you add a bot.';
+$string['settings_download_teams_tab_app_manifest'] = 'Download manifest file for tab';
 
 $string['spsite_group_contributors_name'] = '{$a} contributors';
 $string['spsite_group_contributors_desc'] = 'All users who have access to manage files for course {$a}';

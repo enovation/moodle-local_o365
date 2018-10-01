@@ -86,3 +86,22 @@ function local_o365_connectioncapability($userid, $mode = 'link', $require = fal
     $contextuser = \context_user::instance($userid);
     return has_capability($cap, $contextsys) || $check($cap, $contextuser);
 }
+
+/**
+ * Recursively delete content of the folder and all its contents.
+ *
+ * @param $path
+ */
+function local_o365_rmdir($path) {
+    $it = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS);
+    $files = new RecursiveIteratorIterator($it,
+        RecursiveIteratorIterator::CHILD_FIRST);
+    foreach($files as $file) {
+        if ($file->isDir()){
+            rmdir($file->getRealPath());
+        } else {
+            unlink($file->getRealPath());
+        }
+    }
+    rmdir($path);
+}
