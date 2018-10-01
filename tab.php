@@ -36,6 +36,10 @@ echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/ad
 $js = '
 microsoftTeams.initialize();
 
+if (!inIframe()) {
+    window.location.replace = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
+}
+
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
@@ -83,6 +87,14 @@ function loadData(upn) {
                 // Failed to get the token silently; need to show the login button
             }
         });
+    }
+}
+
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
     }
 }
 ';

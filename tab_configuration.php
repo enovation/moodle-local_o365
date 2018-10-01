@@ -38,6 +38,10 @@ echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/ad
 $js = '
 microsoftTeams.initialize();
 
+if (!inIframe()) {
+    window.location.replace = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
+}
+
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
     redirectUri: "' . $CFG->wwwroot . '/auth/oidc",
@@ -104,6 +108,14 @@ function onChange() {
         contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
     });
     microsoftTeams.settings.setValidityState(true);
+}
+
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
 }
 ';
 

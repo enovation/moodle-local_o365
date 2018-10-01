@@ -197,6 +197,7 @@ $string['errorcouldnotcreatespgroup'] = 'Could not create the SharePoint group.'
 $string['errorcoursenotsubsiteenabled'] = 'This course is not SharePoint subsite enabled.';
 $string['errorusermatched'] = 'The Office 365 account "{$a->aadupn}" is already matched with Moodle user "{$a->username}". To complete the connection, please log in as that Moodle user first and follow the instructions in the Microsoft block.';
 $string['errorinvalidteamstabappid'] = 'App ID invalid or missing';
+$string['errornodirectaccess'] = 'Direct access to the page is prohibited';
 
 $string['eventapifail'] = 'API failure';
 $string['eventcalendarsubscribed'] = 'User subscribed to a calendar';
