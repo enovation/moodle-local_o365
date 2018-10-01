@@ -30,7 +30,7 @@ require_once($CFG->dirroot . '/local/o365/lib.php');
 // task 1 : check if app ID has been set, and print error if it's missing
 $appid = get_config('local_o365', 'teams_tab_app_id');
 if (!$appid || $appid == '00000000-0000-0000-0000-000000000000') {
-    $redirecturl = new moodle_url('/admin/settings.php', array('section' => 'local_o365'));
+    $redirecturl = new moodle_url('/admin/settings.php', array('section' => 'local_o365', 's_local_o365_tabs' => '5'));
     print_error('errorinvalidteamstabappid', 'local_o365', $redirecturl);
 }
 
