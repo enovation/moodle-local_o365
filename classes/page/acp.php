@@ -37,6 +37,7 @@ class acp extends base {
         $extra = '';
         switch ($mode) {
             case 'usergroupcustom':
+            case 'teamcustom':
             case 'sharepointcourseselect':
                 $extra = '&s_local_o365_tabs=1';
                 break;
@@ -1419,5 +1420,172 @@ class acp extends base {
             echo \html_writer::tag('div', $message, ['class' => 'alert alert-info', 'style' => 'text-align:center']);
             $this->standard_footer();
         }
+    }
+
+    /**
+     * User team customization.
+     *
+     * @throws \coding_exception
+     * @throws \moodle_exception
+     */
+    public function mode_teamcustom() {
+        global $OUTPUT, $PAGE;
+
+        $PAGE->navbar->add(get_string('acp_teamcustom', 'local_o365'),
+            new \moodle_url($this->user, ['mode' => 'teamcustom']));
+
+        $totalcount = 0;
+        $perpage = 20;
+
+        $curpage = optional_param('page', 0, PARAM_INT);
+        $sort = optional_param('sort', '', PARAM_ALPHA);
+        $search = optional_param('search', '', PARAM_TEXT);
+        $sortdir = strtolower(optional_param('sortdir', 'asc', PARAM_ALPHA));
+
+        $headers = [
+            'shortname' => get_string('shortnamecourse'),
+            'fullname' => get_string('fullnamecourse'),
+        ];
+        if (empty($sort) || !isset($headers[$sort])) {
+            $sort = 'shortname';
+        }
+        if (!in_array($sortdir, ['asc', 'desc'], true)) {
+            $sortdir = 'asc';
+        }
+
+        $table = new \html_table();
+        foreach ($headers as $hkey => $desc) {
+            $diffsortdir = ($sort === $hkey && $sortdir === 'asc') ? 'desc' : 'asc';
+            $linkattrs = ['mode' => 'teamcustom', 'sort' => $hkey, 'sortdir' => $diffsortdir];
+            $link = new \moodle_url('/local/o365/acp.php', $linkattrs);
+
+            if ($sort === $hkey) {
+                $desc .= ' '.$OUTPUT->pix_icon('t/'.'sort_'.$sortdir, 'sort');
+            }
+            $table->head[] = \html_writer::link($link, $desc);
+        }
+        $table->head[] = get_string('acp_teamcustom_enabled', 'local_o365');
+
+        $limitfrom = $curpage * $perpage;
+        $coursesid = [];
+
+        if (empty($search)) {
+            $courses = get_courses_page('all', 'c.'.$sort.' '.$sortdir, 'c.*', $totalcount, $limitfrom, $perpage);
+        } else {
+            $searchar = explode(' ', $search);
+            $courses = get_courses_search($searchar, 'c.'.$sort.' '.$sortdir, $curpage, $perpage, $totalcount);
+        }
+
+        foreach ($courses as $course) {
+            if ($course->id == SITEID) {
+                continue;
+            }
+
+            $coursesid[] = $course->id;
+            $isenabled = \local_o365\feature\teams\utils::course_is_team_enabled($course->id);
+            $enabledname = 'course_' . $course->id . '_enabled';
+
+            $enablecheckboxattrs = [
+                'onchange' => 'local_o365_set_team(\'' . $course->id . '\', $(this).prop(\'checked\'), $(this))',
+            ];
+
+            $rowdata = [
+                $course->shortname,
+                $course->fullname,
+                \html_writer::checkbox($enabledname, 1, $isenabled, '', $enablecheckboxattrs),
+            ];
+
+            $table->data[] = $rowdata;
+        }
+
+        $PAGE->requires->jquery();
+        $this->standard_header();
+
+        $endpoint = new \moodle_url('/local/o365/acp.php', ['mode' => 'teamcustom_change', 'sesskey' => sesskey()]);
+
+        $js = 'var local_o365_set_team = function(courseid, state, checkbox) { ';
+        $js .= 'data = {courseid: courseid, state: state}; ';
+        $js .= 'var newfeaturedisabled = (state == 0) ? true : false; ';
+        $js .= 'var newfeaturechecked = (state == 1) ? true : false; ';
+        $js .= 'var featurecheckboxes = checkbox.parents("tr").find("input.feature"); ';
+        $js .= 'featurecheckboxes.prop("disabled", newfeaturedisabled); ';
+        $js .= 'featurecheckboxes.prop("checked", newfeaturechecked); ';
+        $js .= '}; ';
+
+        $js .= 'var local_o365_team_coursesid = ' . json_encode($coursesid) . '; ';
+
+        $js .= 'var local_o365_team_save = function() { ' . "\n";
+        $js .= 'var coursedata = {}; ' . "\n";
+        $js .= 'for (var I = 0; I < local_o365_team_coursesid.length; i++) {' . "\n";
+        $js .= 'var courseid = local_o365_team_coursesid[i]; ' . "\n";
+        $js .= 'var enabled = $("input[name=\'course_"+courseid+"_enabled\']").is(\':checked\'); ' . "\n";
+        $js .= 'var features = {enabled: enabled}; ' . "\n";
+        $js .= 'coursedata[courseid] = features; ' . "\n";
+        $js .= '}; ' . "\n";
+        $js .= ' // Send data to server. ' . "\n";
+        $js .= '$.ajax({
+            url: \'' . $endpoint->out(false) . '\',
+            data: {coursedata: JSON.stringify(coursedata)},
+            type: "POST",
+            success: function(data) {
+                console.log(data);
+                $(\'#acp_teamcustom_savemessage\').show();
+                setTimeout(function () { $(\'#acp_uesrteamcustom_savemessage\').hide(); }, 5000);
+            }
+        }); ' . "\n";
+        $js .= '); ' . "\n";
+        echo \html_writer::script($js);
+        echo \html_writer::tag('h2', get_string('acp_teamcustom', 'local_o365'));
+
+        // Search form
+        echo \html_writer::tag('h5', get_string('search'));
+        echo \html_writer::start_tag('form', ['id' => 'coursesearchform', 'method' => 'get']);
+        echo \html_writer::start_tag('fieldset', ['class' => 'coursesearchbox invisiblefieldset']);
+        echo \html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'mode', 'value' => 'teamcustom']);
+        echo \html_writer::empty_tag('input', ['type' => 'text', 'id' => 'coursesearchbox', 'size' => 40,
+            'name' => 'search', 'value' => s($search)]);
+        echo \html_writer::empty_tag('input', ['type' => 'submit', 'value' => get_string('go')]);
+        echo \html_writer::div(\html_writer::tag('strong',
+            get_string('acp_teamcustom_searchwarning', 'local_o365')));
+        echo \html_writer::end_tag('fieldset');
+        echo \html_writer::end_tag('form');
+        echo \html_writer::empty_tag('br');
+
+        echo \html_writer::tag('h5', get_string('courses'));
+        echo \html_writer::table($table);
+        echo \html_writer::tag('p', get_string('acp_teamcustom_savemessage', 'local_o365'),
+            ['id' => 'acp_teamcustom_savemessage', 'style' => 'display: none; font-weight: bold; color: red;']);
+        echo \html_writer::tag('button', get_string('savechanges'),
+            ['class' => 'buttonsbar', 'onclick' => 'local_o365_team_save()']);
+        $cururl = new \moodle_url('/local/o365/acp.php', ['mode' => 'teamcustom']);
+        echo $OUTPUT->paging_bar($totalcount, $curpage, $perpage, $cururl);
+        $this->standard_footer();
+    }
+
+    /**
+     * Endpoint to change user team customization.
+     *
+     * @throws \coding_exception
+     */
+    public function mode_teamcustom_change() {
+        $coursedata = json_decode(required_param('coursedata', PARAM_RAW), true);
+        require_sesskey();
+
+        foreach ($coursedata as $courseid => $course) {
+            if (!is_scalar($courseid) || ((string)$courseid !== (string)(int)$courseid)) {
+                // Non-intlike courseid value. Invalid. Skip.
+                continue;
+            }
+            foreach ($course as $feature => $value) {
+                // Value must be boolean - existing set_* functions below already treat non-true as false, so let's be clear.
+                if (!is_bool($value)) {
+                    $value = false;
+                }
+                if ($feature === 'enabled') {
+                    \local_o365\feature\teams\utils::set_course_team_enabled($courseid, $value);
+                }
+            }
+        }
+        echo json_encode(['Saved']);
     }
 }

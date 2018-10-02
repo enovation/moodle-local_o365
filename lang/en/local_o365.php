@@ -86,6 +86,16 @@ $string['acp_usergroupcustom_enabled'] = 'Enabled';
 $string['acp_usergroupcustom_bulk'] = 'Bulk Operations';
 $string['acp_usergroupcustom_bulk_enable'] = 'Enable All';
 $string['acp_usergroupcustom_bulk_disable'] = 'Disable All';
+$string['acp_teamcustom'] = 'User Team Customization';
+$string['acp_teamcustom_off'] = 'Disabled<br />Disables all Course Teams (i.e. Office 365 Teams) integration for all Moodle courses.';
+$string['acp_teamcustom_savemessage'] = 'Your changes have been saved.';
+$string['acp_teamcustom_searchwarning'] = 'Note: Searches will lose any unsaved progress. Press save changes to ensure your changes are saved.';
+$string['acp_teamcustom_oncustom'] = 'Customize<br />Allows you to select which courses to create Course Teams (i.e. Office 365 Teams) for, as well as select which Teams features are exposed in the Microsoft block for each course.<br> <span id="adminsetting_usergroups" style="font-weight: bold"><a href="{$a}">Customize teams</a></span>';
+$string['acp_teamcustom_onall'] = 'All Features Enabled<br />Enables Course Teams (i.e. Office 365 Teams) for all courses and exposes all Teams features in the Microsoft block for all courses.';
+$string['acp_teamcustom_enabled'] = 'Enabled';
+$string['acp_teamcustom_bulk'] = 'Bulk Operations';
+$string['acp_teamcustom_bulk_enable'] = 'Enable All';
+$string['acp_teamcustom_bulk_disable'] = 'Disable All';
 $string['acp_maintenance_debugdata'] = 'Generate debug data package';
 $string['acp_maintenance_debugdata_desc'] = 'This will generate a package containing various pieces of information about your Moodle and Office 365 environment to assist developers in solving any issues you may have. If requested by a developer, run this tool and send the resulting file download. Note: Although this package does not contain sensitive token data, we ask that you do not post this file publicly or send it to an untrusted party.';
 $string['acp_usermatch'] = 'User Matching';
@@ -341,6 +351,9 @@ $string['settings_detectoidc_credsvalid_link'] = 'Change';
 $string['settings_detectoidc_credsinvalid'] = 'Credentials have not been set or are incomplete.';
 $string['settings_detectoidc_credsinvalid_link'] = 'Set Credentials';
 $string['settings_migration'] = '<b>Note: This version removes the legacy Office 365 API. If you cannot yet migrate to the Graph API, you can add "$CFG->local_o365_forcelegacyapi = true;" to your Moodle config.php. However, this option will be removed in the next version. For more information, please consult the <a href="https://docs.moodle.org/34/en/Office365">Integration Documentation</a></b>';
+
+$string['settings_teams'] = 'Course Teams';
+$string['settings_teams_desc'] = 'If enabled, this will create and maintain an Office 365 Teams for every course on the site (Default: Disabled). This will create any needed Teams each cron run (and add all current members). After that, team membership will be maintained as users are enrolled or uneorlled from Moodle courses.';
 
 $string['settings_detectperms'] = 'Application Permissions';
 $string['settings_detectperms_details'] = 'The use the plugin features, correct permissions must be set up for the application in Azure AD.';
