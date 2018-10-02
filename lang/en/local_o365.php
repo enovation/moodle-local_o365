@@ -351,9 +351,8 @@ $string['settings_detectoidc_credsvalid_link'] = 'Change';
 $string['settings_detectoidc_credsinvalid'] = 'Credentials have not been set or are incomplete.';
 $string['settings_detectoidc_credsinvalid_link'] = 'Set Credentials';
 $string['settings_migration'] = '<b>Note: This version removes the legacy Office 365 API. If you cannot yet migrate to the Graph API, you can add "$CFG->local_o365_forcelegacyapi = true;" to your Moodle config.php. However, this option will be removed in the next version. For more information, please consult the <a href="https://docs.moodle.org/34/en/Office365">Integration Documentation</a></b>';
-
 $string['settings_teams'] = 'Course Teams';
-$string['settings_teams_desc'] = 'If enabled, this will create and maintain an Office 365 Teams for every course on the site (Default: Disabled). This will create any needed Teams each cron run (and add all current members). After that, team membership will be maintained as users are enrolled or uneorlled from Moodle courses.';
+$string['settings_teams_details'] = 'If enabled, this will create and maintain an Office 365 Teams for every course on the site (Default: Disabled). This will create any needed Teams each cron run (and add all current members). After that, team membership will be maintained as users are enrolled or uneorlled from Moodle courses.';
 
 $string['settings_detectperms'] = 'Application Permissions';
 $string['settings_detectperms_details'] = 'The use the plugin features, correct permissions must be set up for the application in Azure AD.';
