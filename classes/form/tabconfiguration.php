@@ -36,9 +36,13 @@ class tabconfiguration extends \moodleform {
 
         $courseoptions = self::get_course_options();
         if ($courseoptions) {
-            // User can access at least one course, show course selector
+            // User can access at least one course, show tab name field and course selector
+            $mform->addElement('text', 'tab_name', get_string('tab_name', 'local_o365'),
+                array('onchange' => 'onTabNameChange()'));
+            $mform->setType('tab_name', PARAM_TEXT);
+
             $courseselector = $mform->createElement('select', 'course', get_string('course'), $courseoptions,
-                array('onchange' => 'onChange()'));
+                array('onchange' => 'onCourseChange()'));
             $courseselector->setSize(100);
             $courseselector->setMultiple(true);
 

@@ -631,3 +631,4 @@ $string['help_user_nodelta'] = 'Perform a full sync help';
 $string['help_user_nodelta_help'] = 'By default, user sync will only sync changes from Azure AD. Checking this option will force a full user sync each time.';
 
 $string['teams_no_course'] = 'You don\'t have any course to add.';
+$string['tab_name'] = 'Tab name';

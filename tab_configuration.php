@@ -66,9 +66,9 @@ function loadData(upn) {
     } else {
         config.extraQueryParameters = "scope=openid+profile";
     }
-    
+
     let authContext = new AuthenticationContext(config);
-    
+
     // See if there\'s a cached user and it matches the expected user
     let user = authContext.getCachedUser();
     if (user) {
@@ -77,7 +77,7 @@ function loadData(upn) {
             authContext.clearCache();
         }
     }
-    
+
     // Get the id token (which is the access token for resource = clientId)
     let token = authContext.getCachedToken(config.clientId);
     if (!token) {
@@ -85,14 +85,14 @@ function loadData(upn) {
         authContext._renewIdToken(function (err, idToken) {
             if (err) {
                 console.log("Renewal failed: " + err);
-                
+
                 // Failed to get the token silently; show the login button
             }
         });
     }
 }
 
-function onChange() {
+function onCourseChange() {
     var course = document.getElementsByName("course[]")[0];
     var courseid = course.value;
     course.removeAttribute("multiple");
@@ -103,12 +103,20 @@ function onChange() {
             options[i].selected = false;
         }
     }
-    
+
     microsoftTeams.settings.setSettings({
         entityId: "course_" + courseid,
         contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
     });
     microsoftTeams.settings.setValidityState(true);
+}
+
+function onTabNameChange() {
+    var tabname =  document.getElementByName("tab_name")[0];
+
+    microsoftTeams.settings.setSettings({
+        suggestedTabName: tabname.value,
+    });
 }
 
 function inIframe () {
