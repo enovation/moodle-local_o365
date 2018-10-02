@@ -104,18 +104,28 @@ function onCourseChange() {
         }
     }
 
+    var tabname =  document.getElementsByName("tab_name")[0];
+    var tabnamevalue = tabname.value;
+
     microsoftTeams.settings.setSettings({
         entityId: "course_" + courseid,
         contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
+        suggestedTabName: tabnamevalue,
     });
     microsoftTeams.settings.setValidityState(true);
 }
 
 function onTabNameChange() {
-    var tabname =  document.getElementByName("tab_name")[0];
+    var course = document.getElementsByName("course[]")[0];
+    var courseid = course.value;
+
+    var tabname =  document.getElementsByName("tab_name")[0];
+    var tabnamevalue = tabname.value;
 
     microsoftTeams.settings.setSettings({
-        suggestedTabName: tabname.value,
+        entityId: "course_" + courseid,
+        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
+        suggestedTabName: tabnamevalue,
     });
 }
 
