@@ -25,7 +25,7 @@ namespace local_o365\adminsetting;
 
 defined('MOODLE_INTERNAL') || die;
 
-required_once($CFG->dirroot . '/lib/adminlib.php');
+require_once($CFG->dirroot . '/lib/adminlib.php');
 
 class teams extends \admin_setting {
     /**
