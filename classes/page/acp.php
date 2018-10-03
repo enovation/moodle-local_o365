@@ -1533,7 +1533,7 @@ class acp extends base {
                 setTimeout(function () { $(\'#acp_uesrteamcustom_savemessage\').hide(); }, 5000);
             }
         }); ' . "\n";
-        $js .= '); ' . "\n";
+        $js .= '}; ' . "\n";
         echo \html_writer::script($js);
         echo \html_writer::tag('h2', get_string('acp_teamcustom', 'local_o365'));
 
