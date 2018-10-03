@@ -220,10 +220,6 @@ if ($hassiteconfig) {
         $desc = new lang_string('settings_usergroups_details', 'local_o365');
         $settings->add(new \local_o365\adminsetting\usergroups('local_o365/creategroups', $label, $desc, 'off'));
 
-        // Teams sync
-        $label = new lang_string('settings_teams', 'local_o365');
-        $desc = new lang_string('settings_teams_details', 'local_o365');
-        $settings->add(new \local_o365\adminsetting\teams('local_o365/createteams', $label, $desc, 'off'));
     }
 
     if ($tab === LOCAL_O365_TAB_ADVANCED || !empty($install)) {
