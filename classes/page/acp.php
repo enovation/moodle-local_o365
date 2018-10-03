@@ -1516,7 +1516,7 @@ class acp extends base {
 
         $js .= 'var local_o365_team_save = function() { ' . "\n";
         $js .= 'var coursedata = {}; ' . "\n";
-        $js .= 'for (var I = 0; I < local_o365_team_coursesid.length; i++) {' . "\n";
+        $js .= 'for (var i = 0; i < local_o365_team_coursesid.length; i++) {' . "\n";
         $js .= 'var courseid = local_o365_team_coursesid[i]; ' . "\n";
         $js .= 'var enabled = $("input[name=\'course_"+courseid+"_enabled\']").is(\':checked\'); ' . "\n";
         $js .= 'var features = {enabled: enabled}; ' . "\n";
