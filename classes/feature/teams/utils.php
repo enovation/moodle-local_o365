@@ -36,7 +36,7 @@ class utils {
     }
 
     /**
-     * Get an arry of enabled courses.
+     * Get an array of enabled courses.
      *
      * @return array|bool
      * @throws \dml_exception
@@ -56,7 +56,7 @@ class utils {
     }
 
     /**
-     * Determin whether a course is team-enabled.
+     * Determine whether a course is team-enabled.
      *
      * @param $courseid
      *
@@ -95,13 +95,11 @@ class utils {
 
         if ($enabled === true) {
             $teamconfig[$courseid] = $enabled;
-            static::set_course_team_enabled($courseid, $enabled);
         } else {
             if (isset($teamconfig[$courseid])) {
                 unset($teamconfig[$courseid]);
                 //static::delete_team($courseid);
             }
-            static::set_course_team_enabled($courseid, $enabled);
         }
         set_config('teamcustom', json_encode($teamconfig), 'local_o365');
     }

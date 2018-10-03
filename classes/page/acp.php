@@ -1503,16 +1503,16 @@ class acp extends base {
 
         $endpoint = new \moodle_url('/local/o365/acp.php', ['mode' => 'teamcustom_change', 'sesskey' => sesskey()]);
 
-        $js = 'var local_o365_set_team = function(courseid, state, checkbox) { ';
-        $js .= 'data = {courseid: courseid, state: state}; ';
-        $js .= 'var newfeaturedisabled = (state == 0) ? true : false; ';
-        $js .= 'var newfeaturechecked = (state == 1) ? true : false; ';
-        $js .= 'var featurecheckboxes = checkbox.parents("tr").find("input.feature"); ';
-        $js .= 'featurecheckboxes.prop("disabled", newfeaturedisabled); ';
-        $js .= 'featurecheckboxes.prop("checked", newfeaturechecked); ';
-        $js .= '}; ';
+        $js = 'var local_o365_set_team = function(courseid, state, checkbox) { ' . "\n";
+        $js .= 'data = {courseid: courseid, state: state}; ' . "\n";
+        $js .= 'var newfeaturedisabled = (state == 0) ? true : false; ' . "\n";
+        $js .= 'var newfeaturechecked = (state == 1) ? true : false; ' . "\n";
+        $js .= 'var featurecheckboxes = checkbox.parents("tr").find("input.feature"); ' . "\n";
+        $js .= 'featurecheckboxes.prop("disabled", newfeaturedisabled); ' . "\n";
+        $js .= 'featurecheckboxes.prop("checked", newfeaturechecked); ' . "\n";
+        $js .= '}; ' . "\n";
 
-        $js .= 'var local_o365_team_coursesid = ' . json_encode($coursesid) . '; ';
+        $js .= 'var local_o365_team_coursesid = ' . json_encode($coursesid) . '; ' . "\n";
 
         $js .= 'var local_o365_team_save = function() { ' . "\n";
         $js .= 'var coursedata = {}; ' . "\n";
