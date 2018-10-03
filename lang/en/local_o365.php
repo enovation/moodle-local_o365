@@ -167,6 +167,7 @@ $string['groups_calendar'] = 'Calendar';
 $string['groups_conversations'] = 'Conversations';
 $string['groups_notebook'] = 'Course Notebook';
 $string['groups_notenabledforcourse'] = 'Office Groups are not enabled for this course.';
+$string['groups_team'] = 'Team';
 $string['groups_editsettings'] = 'Edit group settings';
 $string['groups_manage'] = 'Manage groups';
 $string['groups_more'] = 'More...';
