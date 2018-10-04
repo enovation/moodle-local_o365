@@ -1812,7 +1812,6 @@ class unified extends \local_o365\rest\o365api {
                 'allowCreateUpdateChannels' => true,
                 'allowDeleteChannels' => true,
             ],
-            'isArchived' => false,
             'memberSettings' => [
                 'allowCreateUpdateChannels' => true,
                 'allowDeleteChannels' => true,
