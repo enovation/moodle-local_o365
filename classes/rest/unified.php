@@ -1799,4 +1799,39 @@ class unified extends \local_o365\rest\o365api {
             return $userobjectdata->o365name;
         }
     }
+
+    public function create_team($groupobjectid) {
+        $teamdata = [
+            'funSettings' => [
+                'allowGiphy' => true,
+                'giphyContentRating' => 'strict',
+                'allowStickersAndMemes' => true,
+                'allowCustomMemes' => true,
+            ],
+            'guestSettings' => [
+                'allowCreateUpdateChannels' => true,
+                'allowDeleteChannels' => true,
+            ],
+            'isArchived' => false,
+            'memberSettings' => [
+                'allowCreateUpdateChannels' => true,
+                'allowDeleteChannels' => true,
+                'allowAddRemoveApps' => true,
+                'allowCreateUpdateRemoveTabs' => true,
+                'allowCreateUpdateRemoveConnectors' => true,
+            ],
+            'messagingSettings' => [
+                'allowUserEditMessages' => true,
+                'allowUserDeleteMessages' => true,
+                'allowOwnerDeleteMessages' => true,
+                'allowTeamMentions' => true,
+                'allowChannelMentions' => true,
+            ],
+        ];
+
+        $response = $this->apicall('post', '/groups/' . $groupobjectid . '/team', json_encode($teamdata));
+        $expectedparams = ['id' => null];
+        $response = $this->process_apicall_response($response, $expectedparams);
+        return $response;
+    }
 }

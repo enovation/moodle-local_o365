@@ -643,7 +643,7 @@ class acp extends base {
         $js .= '$("input.feature_"+feature+":not(:disabled)").prop("checked", enabled); ';
         $js .= '}; ';
         $js .= 'var local_o365_usergroup_coursesid = '.json_encode($coursesid).'; ';
-        $js .= 'var local_o365_usergroup_features = ["calendar", "onedrive", "conversations", "notebook"]; ';
+        $js .= 'var local_o365_usergroup_features = ["calendar", "onedrive", "conversations", "notebook", "team"]; ';
 
         $js .= 'var local_o365_usergroup_save = function() { '."\n";
         $js .= 'var coursedata = {}; '."\n";
