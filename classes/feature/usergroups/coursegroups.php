@@ -163,7 +163,7 @@ class coursegroups {
             if (\local_o365\feature\usergroups\utils::course_is_group_feature_enabled($course->id, 'team')) {
                 $this->mtrace('Attempting to create team for course #' . $course->id . '...');
                 $coursesprocessed++;
-                $groupobjectrec = $this->db->get_record('local_o365_objects',
+                $groupobjectrec = $this->DB->get_record('local_o365_objects',
                     ['type' => 'group', 'subtype' => 'course', 'moodleid' => $course->id]);
                 if (empty($groupobjectrec)) {
                     $errmsg = 'Could not find group object ID in local_o365_objects for course ' . $course->id;
