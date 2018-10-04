@@ -1800,6 +1800,14 @@ class unified extends \local_o365\rest\o365api {
         }
     }
 
+    /**
+     * Create a team.
+     *
+     * @param $groupobjectid
+     *
+     * @return array|null|string
+     * @throws \moodle_exception
+     */
     public function create_team($groupobjectid) {
         $teamdata = [
             'funSettings' => [
@@ -1830,6 +1838,21 @@ class unified extends \local_o365\rest\o365api {
 
         $response = $this->betaapicall('put', '/groups/' . $groupobjectid . '/team',
             ['file' => json_encode($teamdata)]);
+        $expectedparams = ['id' => null];
+        $response = $this->process_apicall_response($response, $expectedparams);
+        return $response;
+    }
+
+    /**
+     * Update a team.
+     *
+     * @param $teamobjectid
+     *
+     * @return array|null|string
+     * @throws \moodle_exception
+     */
+    public function update_team($teamobjectid) {
+        $response = $this->betaapicall('patch', '/teams/' . $teamobjectid);
         $expectedparams = ['id' => null];
         $response = $this->process_apicall_response($response, $expectedparams);
         return $response;
