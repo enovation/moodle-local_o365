@@ -1842,19 +1842,4 @@ class unified extends \local_o365\rest\o365api {
         $response = $this->process_apicall_response($response, $expectedparams);
         return $response;
     }
-
-    /**
-     * Update a team.
-     *
-     * @param $teamobjectid
-     *
-     * @return array|null|string
-     * @throws \moodle_exception
-     */
-    public function update_team($teamobjectid) {
-        $response = $this->betaapicall('patch', '/teams/' . $teamobjectid);
-        $expectedparams = ['id' => null];
-        $response = $this->process_apicall_response($response, $expectedparams);
-        return $response;
-    }
 }

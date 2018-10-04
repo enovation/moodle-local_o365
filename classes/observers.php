@@ -387,27 +387,6 @@ class observers {
         } catch (\Exception $e) {
             \local_o365\utils::debug('Exception: '.$e->getMessage(), $caller, $e);
         }
-
-        if (\local_o365\feature\usergroups\utils::course_is_group_feature_enabled($courseid, 'team')) {
-            $teamparams = [
-                'type' => 'group',
-                'subtype' => 'courseteam',
-                'moodleid' => $courseid,
-            ];
-            $teamobjectrec = $DB->get_record('local_o365_objects', $teamparams);
-            if (empty($teamobjectrec)) {
-                \local_o365\utils::debug('handle_user_enrolment_created no team found for course ' . $courseid,
-                    $caller);
-                return false;
-            }
-            try {
-                $apiclient = \local_o365\utils::get_api();
-                $apiclient->update_team($teamobjectrec->objectid);
-            } catch (\Exception $e) {
-                \local_o365\utils::debug('Could not update team for course #' . $courseid . '. Reason: ' .
-                    $e->getMessage());
-            }
-        }
         return false;
     }
 
