@@ -1829,7 +1829,7 @@ class unified extends \local_o365\rest\o365api {
             ],
         ];
 
-        $response = $this->betaapicall('post', '/groups/' . $groupobjectid . '/team', json_encode($teamdata));
+        $response = $this->betaapicall('put', '/groups/' . $groupobjectid . '/team', json_encode($teamdata));
         $expectedparams = ['id' => null];
         $response = $this->process_apicall_response($response, $expectedparams);
         return $response;
