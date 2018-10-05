@@ -569,7 +569,7 @@ class unified extends \local_o365\rest\o365api {
      */
     public function remove_member_from_group($groupobjectid, $memberobjectid) {
         $endpoint = '/groups/'.$groupobjectid.'/members/'.$memberobjectid.'/$ref';
-        $response = $this->apicall('delete', $endpoint);
+        $response = $this->betaapicall('delete', $endpoint);
         return ($response === '') ? true : $response;
     }
 
