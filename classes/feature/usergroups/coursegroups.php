@@ -131,14 +131,6 @@ class coursegroups {
                 $this->mtrace('Could not sync users to group for course #'.$course->id.'. Reason: '.$e->getMessage());
                 continue;
             }
-
-            if (\local_o365\feature\usergroups\utils::course_is_group_feature_enabled($course->id, 'team')) {
-                try {
-                    $this->create_team($course->id, $objectrec['objectid']);
-                } catch (\Exception $e) {
-                    $this->mtrace('Could not create team for course #' . $course->id . '. Reason: ' . $e->getMessage());
-                }
-            }
         }
         if (empty($coursesprocessed)) {
             $this->mtrace('All courses have a group recorded.');
