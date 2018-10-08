@@ -25,14 +25,36 @@ define('AJAX_SCRIPT', true);
 define('REQUIRE_CORRECT_ACCESS', true);
 define('NO_MOODLE_COOKIES', true);
 
-require_once(__DIR__ . '/../config.php');
+require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__ . '/../../lib/authlib.php');
 require_once($CFG->libdir . '/externallib.php');
-
-// Allow CORS requests.
-header('Access-Control-Allow-Origin: *');
 
 $username = required_param('username', PARAM_USERNAME);
 $serviceshortname = required_param('service', PARAM_TEXT);
+
+$headers = apache_request_headers();
+if(!isset($headers['Authorization'])){
+    throw new moodle_exception('invalidlogin');
+}
+$headr = array();
+$headr[] = 'Content-length: 0';
+$headr[] = 'Content-type: application/json';
+$headr[] = 'Authorization: '.$headers['Authorization'];
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => "https://graph.microsoft.com/v1.0/me/",
+    CURLOPT_HTTPHEADER => $headr)
+);
+$data = json_decode(curl_exec($curl));
+curl_close($curl);
+
+if($data->mail !== $username){
+    throw new moodle_exception('invalidlogin');
+}
+
+// Allow CORS requests.
+header('Access-Control-Allow-Origin: *');
 
 echo $OUTPUT->header();
 
@@ -42,17 +64,14 @@ if (!$CFG->enablewebservices) {
 
 $systemcontext = context_system::instance();
 
-if (empty($USER->id)) {
-    $SESSION->wantsurl = new moodle_url('/local/o365/token.php', array('username' => $username));
-
-    require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
-    $auth->set_httpclient(new \auth_oidc\httpclient());
-    $auth->handleredirect();
+$user = $DB->get_record('user', ['username' => $username, 'auth' => 'oidc']);
+if(empty($user)){
+    throw new moodle_exception('invalidlogin');
 }
 
-if (!empty($USER)) {
-    $user = $USER;
+login_attempt_valid($user);
+
+if (!empty($user)) {
     // Cannot authenticate unless maintenance access is granted.
     $hasmaintenanceaccess = has_capability('moodle/site:maintenanceaccess', $systemcontext, $user);
     if (!empty($CFG->maintenance_enabled) and !$hasmaintenanceaccess) {
