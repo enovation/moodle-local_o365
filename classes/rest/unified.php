@@ -1583,6 +1583,37 @@ class unified extends \local_o365\rest\o365api {
     }
 
     /**
+     * Add a user as owner to a course o365 usergoup.
+     *
+     * @param int $courseid The ID of the moodle group.
+     * @param int $userid The ID of the moodle user.
+     * @return bool|null|string True if successful, null if not applicable, string if other API error.
+     */
+    public function add_owner_to_course_group($courseid, $userid) {
+        global $DB;
+
+        $filters = ['type' => 'group', 'subtype' => 'course', 'moodleid' => $courseid];
+        $coursegroupobject = $DB->get_record('local_o365_objects', $filters);
+        if (empty($coursegroupobject)) {
+            return null;
+        }
+
+        $sql = 'SELECT u.*,
+                       tok.oidcuniqid as userobjectid
+                  FROM {auth_oidc_token} tok
+                  JOIN {user} u ON u.username = tok.username
+                 WHERE tok.resource = ? AND u.id = ? AND u.deleted = "0"';
+        $params = ['https://graph.windows.net', $userid];
+        $userobject = $DB->get_record_sql($sql, $params);
+        if (empty($userobject)) {
+            return null;
+        }
+
+        $response = $this->add_owner_to_group($coursegroupobject->objectid, $userobject->userobjectid);
+        return $response;
+    }
+
+    /**
      * Remove a user from a course o365 usergoup.
      *
      * @param int $courseid The ID of the moodle group.

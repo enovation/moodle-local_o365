@@ -380,10 +380,17 @@ class observers {
             return true;
         }
 
+        $apiclient = \local_o365\utils::get_api();
+        $teacherids = $apiclient->get_teacher_ids_of_course($courseid);
+
         try {
-            // Add user from course usergroup.
-            $apiclient = \local_o365\utils::get_api();
-            $apiclient->add_user_to_course_group($courseid, $userid);
+            if (in_array($userid, $teacherids)) {
+                // Add user to course usergroup as owner
+                $apiclient->add_owner_to_course_group($courseid, $userid);
+            } else {
+                // Add user to course usergroup as member
+                $apiclient->add_user_to_course_group($courseid, $userid);
+            }
         } catch (\Exception $e) {
             \local_o365\utils::debug('Exception: '.$e->getMessage(), $caller, $e);
         }
