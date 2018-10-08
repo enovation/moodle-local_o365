@@ -380,29 +380,10 @@ class observers {
             return true;
         }
 
-        $apiclient = \local_o365\utils::get_api();
-
-        // determine if the newly enrolled user is teacher
-        $roleteacher = $DB->get_record('role', array('shortname' => 'editingtecher'));
-        $rolenoneditingteacher = $DB->get_record('role', array('shortname' => 'teacher'));
-        $context = \context_course::instance($courseid);
-        $teachers = get_role_users($roleteacher->id, $context);
-        $noneditingteachers = get_role_users($rolenoneditingteacher->id, $context);
-        $allteachers = array_merge($teachers, $noneditingteachers);
-        $teacherids = array();
-        foreach ($allteachers as $teacher) {
-            array_push($teacherids, $teacher->id);
-        }
-        $isteacher = in_array($userid, $teacherids);
-
         try {
-            if ($isteacher) {
-                // Add user to course usergroup as owner
-                $apiclient->add_owner_to_course_group($courseid, $userid);
-            } else {
-                // Add user to course usergroup as member
-                $apiclient->add_user_to_course_group($courseid, $userid);
-            }
+            // Add user from course usergroup.
+            $apiclient = \local_o365\utils::get_api();
+            $apiclient->add_user_to_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug('Exception: '.$e->getMessage(), $caller, $e);
         }
@@ -626,10 +607,38 @@ class observers {
      * @return bool Success/Failure.
      */
     public static function handle_role_assigned(\core\event\role_assigned $event) {
-        if (\local_o365\utils::is_configured() !== true || \local_o365\rest\sharepoint::is_configured() !== true) {
-            return false;
+        global $DB;
+
+        $response = false;
+        if (\local_o365\utils::is_configured() !== true) {
+            $response = false;
+        } else {
+            if (\local_o365\rest\sharepoint::is_configured() === true) {
+                $response = static::sync_spsite_access_for_roleassign_change($event->objectid, $event->relateduserid,
+                    $event->contextid);
+            }
+            if (\local_o365\feature\usergroups\utils::is_enabled() === true) {
+                $caller = 'local_o365\observer::handle_role_assigned';
+
+                $userid = $event->relateduserid;
+                $courseid = $event->courseid;
+                $roleid = $event->objectid;
+
+                if (empty($userid) || empty($courseid)) {
+                    \local_o365\utils::debug("handle_role_assigned no userid $userid or course $courseid", $caller);
+                    return true;
+                }
+
+                $roleteacher = $DB->get_record('role', array('shortname' => 'editingteacher'));
+                $rolenoneditingteacher = $DB->get_record('role', array('shortname' => 'teacher'));
+                if (in_array($roleid, array($roleteacher->id, $rolenoneditingteacher->id))) {
+                    $apiclient = \local_o365\utils::get_api();
+                    $apiclient->add_owner_to_course_group($courseid, $userid);
+                }
+            }
         }
-        return static::sync_spsite_access_for_roleassign_change($event->objectid, $event->relateduserid, $event->contextid);
+
+        return $response;
     }
 
     /**
