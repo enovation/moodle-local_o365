@@ -388,7 +388,12 @@ class observers {
         $context = \context_course::instance($courseid);
         $teachers = get_role_users($roleteacher->id, $context);
         $noneditingteachers = get_role_users($rolenoneditingteacher->id, $context);
-        $isteacher = in_array($userid, array_keys($teachers)) || in_array($userid, array_keys($noneditingteachers));
+        $allteachers = array_merge($teachers, $noneditingteachers);
+        $teacherids = array();
+        foreach ($allteachers as $teacher) {
+            array_push($teacherids, $teacher->id);
+        }
+        $isteacher = in_array($userid, $teacherids);
 
         try {
             if ($isteacher) {
