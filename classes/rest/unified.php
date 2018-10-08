@@ -556,7 +556,7 @@ class unified extends \local_o365\rest\o365api {
         $data = [
             '@odata.id' => $this->get_apiuri().'/v1.0/users/'.$memberobjectid
         ];
-        $response = $this->apicall('post', $endpoint, json_encode($data));
+        $response = $this->betaapicall('post', $endpoint, json_encode($data));
         return ($response === '') ? true : $response;
     }
 
