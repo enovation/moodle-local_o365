@@ -381,10 +381,17 @@ class observers {
         }
 
         $apiclient = \local_o365\utils::get_api();
-        $teacherids = $apiclient->get_teacher_ids_of_course($courseid);
+
+        // determine if the newly enrolled user is teacher
+        $roleteacher = $DB->get_record('role', array('shortname' => 'editingtecher'));
+        $rolenoneditingteacher = $DB->get_record('role', array('shortname' => 'teacher'));
+        $context = \context_course::instance($courseid);
+        $teachers = get_role_users($roleteacher->id, $context);
+        $noneditingteachers = get_role_users($rolenoneditingteacher->id, $context);
+        $isteacher = in_array($userid, array_keys($teachers)) || in_array($userid, array_keys($noneditingteachers));
 
         try {
-            if (in_array($userid, $teacherids)) {
+            if ($isteacher) {
                 // Add user to course usergroup as owner
                 $apiclient->add_owner_to_course_group($courseid, $userid);
             } else {
