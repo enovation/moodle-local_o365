@@ -33,6 +33,21 @@ if (get_config('theme_boost_o365teams', 'version')) {
 echo "<script src=\"https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
 
+$id = required_param('id', PARAM_INT);
+
+$USER->edit = false; // turn off editing if the page is opened in iframe
+
+$redirecturl = new moodle_url('/local/o365/tab_redirect.php');
+$coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
+if (!$USER->id) {
+    $SESSION->wantsurl = $coursepageurl;
+
+    require_once($CFG->dirroot . '/auth/oidc/auth.php');
+    $auth = new \auth_plugin_oidc('authcode');
+    $auth->set_httpclient(new \auth_oidc\httpclient());
+    $auth->handleredirect();
+}
+
 $js = '
 microsoftTeams.initialize();
 
@@ -49,6 +64,12 @@ microsoftTeams.getContext(function (context) {
     upn = context.upn;
     loadData(upn);
 });
+
+if (inIframe()) {
+    window.location.href = "' . $coursepageurl->out() . '";
+} else {
+    window.location.href = "' . $redirecturl->out() . '";
+}
 
 // Loads data for the given user
 function loadData(upn) {
@@ -96,25 +117,3 @@ function inIframe () {
 ';
 
 echo html_writer::script($js);
-
-$id = required_param('id', PARAM_INT);
-
-$redirecturl = new moodle_url('/local/o365/tab_redirect.php');
-$coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
-if (!$USER->id) {
-    $SESSION->wantsurl = $coursepageurl;
-
-    require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
-    $auth->set_httpclient(new \auth_oidc\httpclient());
-    $auth->handleredirect();
-}
-
-$redirectjs = '
-if (inIframe()) {
-    window.location.href = "' . $coursepageurl->out() . '";
-} else {
-    window.location.href = "' . $redirecturl->out() . '";
-}
-';
-echo html_writer::script($redirectjs);
