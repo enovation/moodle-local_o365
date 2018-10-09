@@ -684,7 +684,6 @@ class observers {
                         if (in_array($roleid, array($roleteacher->id, $rolenoneditingteacher->id))) {
                             $apiclient = \local_o365\utils::get_api();
                             $response = $apiclient->remove_owner_from_course_group($courseid, $userid);
-                            $apiclient->add_user_to_course_group($courseid, $userid);
                         }
                     }
                 }
