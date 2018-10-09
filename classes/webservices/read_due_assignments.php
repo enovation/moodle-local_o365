@@ -16,9 +16,8 @@
 
 /**
  * @package local_o365
- * @author  2012 Paul Charsley, modified slightly 2017 James McQuillan
+ * @author  2018 Enovation
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  2012 Paul Charsley
  */
 
 namespace local_o365\webservices;
@@ -27,10 +26,11 @@ require_once($CFG->dirroot.'/course/modlib.php');
 require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/user/externallib.php');
 require_once($CFG->dirroot.'/mod/assign/locallib.php');
+require_once($CFG->dirroot.'/mod/assign/lib.php');
+
 
 /**
- * Get a list of assignments in one or more courses.
- * Borrowed heavily from mod_assign_get_assignments.
+ * Get a list of due assignments in one or more courses.
  */
 class read_due_assignments extends \external_api {
 
@@ -75,8 +75,7 @@ class read_due_assignments extends \external_api {
     }
 
     /**
-     * Returns an array of courses the user is enrolled, and for each course all of the assignments that the user can
-     * view within that course.
+     * Returns an array of due assignments the user is enrolled.
      *
      * @param array $courseids An optional array of course ids. If provided only assignments within the given course
      * will be returned. If the user is not enrolled in or can't view a given course a warning will be generated and returned.
@@ -84,11 +83,11 @@ class read_due_assignments extends \external_api {
      * @param array $capabilities An array of additional capability checks you wish to be made on the course context.
      * @param bool $includenotenrolledcourses Wheter to return courses that the user can see even if is not enroled in.
      * This requires the parameter $courseids to not be empty.
+     * @param int $limitnumber An optional number which lets to set the maximum nuber of returned records
      * @return An array of courses and warnings.
-     * @since  Moodle 2.4
      */
     public static function due_assignments_read($courseids = [], $assignmentids = [], $capabilities = [], $includenotenrolledcourses = false, $limitnumber = 10) {
-        global $USER, $DB, $CFG;
+        global $USER, $DB;
         $assignmentarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -148,15 +147,15 @@ class read_due_assignments extends \external_api {
         }
         if(!empty($courses)){
             $courseids = implode(",", array_keys($courses));
-            $assignments = $DB->get_records_sql("SELECT * FROM {assign} a WHERE a.courseid IN (".$courseids.") AND a.duedate > UNIX_TIMESTAMP() ORDER BY a.duedate ASC");
+            $assignments = $DB->get_records_sql("SELECT * FROM {assign} a WHERE a.course IN (".$courseids.") AND a.duedate > UNIX_TIMESTAMP() ORDER BY a.duedate ASC");
             foreach ($assignments as $assignment) {
                 // Check assignment ID filter.
                 if (!empty($assignmentids) && !isset($assignmentids[$assignment])) {
                     continue;
                 }
                 $cm = get_coursemodule_from_instance('assign', $assignment->id);
-                $course = get_course($assignment->courseid);
-                if(assign_get_completion_state($course,$cm, $USER->id)){
+                $course = get_course($assignment->course);
+                if(assign_get_completion_state($course,$cm, $USER->id,false)){
                     continue;
                 }
 
@@ -194,10 +193,9 @@ class read_due_assignments extends \external_api {
 
 
     /**
-     * Creates a course external_single_structure
+     * Creates an assignment external_single_structure
      *
      * @return external_single_structure
-     * @since Moodle 2.4
      */
     private static function get_due_assignments_structure() {
         return new \external_single_structure(
@@ -213,10 +211,9 @@ class read_due_assignments extends \external_api {
     }
 
     /**
-     * Describes the return value for get_assignments
+     * Describes the return value for get_due_assignments
      *
      * @return external_single_structure
-     * @since Moodle 2.4
      */
     public static function due_assignments_read_returns() {
         return new \external_single_structure(
