@@ -39,14 +39,6 @@ $USER->editing = false; // turn off editing if the page is opened in iframe
 
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
-if (!$USER->id) {
-    $SESSION->wantsurl = $coursepageurl;
-
-    require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
-    $auth->set_httpclient(new \auth_oidc\httpclient());
-    $auth->handleredirect();
-}
 
 $js = '
 microsoftTeams.initialize();
@@ -66,7 +58,7 @@ microsoftTeams.getContext(function (context) {
 });
 
 if (inIframe()) {
-    window.location.href = "' . $coursepageurl->out() . '";
+/*    window.location.href = "' . $coursepageurl->out() . '";*/
 } else {
     window.location.href = "' . $redirecturl->out() . '";
 }
@@ -117,3 +109,12 @@ function inIframe () {
 ';
 
 echo html_writer::script($js);
+
+if (!$USER->id) {
+    $SESSION->wantsurl = $coursepageurl;
+
+    require_once($CFG->dirroot . '/auth/oidc/auth.php');
+    $auth = new \auth_plugin_oidc('authcode');
+    $auth->set_httpclient(new \auth_oidc\httpclient());
+    $auth->handleredirect();
+}
