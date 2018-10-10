@@ -35,7 +35,7 @@ echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/ad
 
 $id = required_param('id', PARAM_INT);
 
-$USER->edit = false; // turn off editing if the page is opened in iframe
+$USER->editing = false; // turn off editing if the page is opened in iframe
 
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
