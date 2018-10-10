@@ -57,12 +57,6 @@ microsoftTeams.getContext(function (context) {
     loadData(upn);
 });
 
-if (inIframe()) {
-/*    window.location.href = "' . $coursepageurl->out() . '";*/
-} else {
-    window.location.href = "' . $redirecturl->out() . '";
-}
-
 // Loads data for the given user
 function loadData(upn) {
     // Setup extra query parameters for ADAL
@@ -117,4 +111,6 @@ if (!$USER->id) {
     $auth = new \auth_plugin_oidc('authcode');
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
+} else {
+    redirect($coursepageurl);
 }
