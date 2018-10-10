@@ -43,6 +43,12 @@ $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $js = '
 microsoftTeams.initialize();
 
+if (!inIframe()) {
+    window.location.href = "' . $redirecturl->out() . '";
+} else {
+    window.location.href = "' . $coursepageurl->out() . '";
+}
+
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
@@ -111,6 +117,4 @@ if (!$USER->id) {
     $auth = new \auth_plugin_oidc('authcode');
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
-} else {
-    redirect($coursepageurl);
 }
