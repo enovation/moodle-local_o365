@@ -105,11 +105,19 @@ $functions = [
         'classpath' => 'local/o365/classes/webservices/read_assignments_incomplete.php',
         'description' => 'Get a list of incomplete assignments.',
         'type' => 'read',
-    ],'local_o365_get_assignments_for_grading' => [
+    ],
+    'local_o365_get_assignments_for_grading' => [
         'classname' => '\local_o365\webservices\read_assignments_ungraded',
         'methodname' => 'assignments_ungraded_read',
         'classpath' => 'local/o365/classes/webservices/read_assignments_ungraded.php',
         'description' => 'Get a list of ungraded assignments.',
+        'type' => 'read',
+    ],
+    'local_o365_get_late_submissions' => [
+        'classname' => '\local_o365\webservices\read_late_submissions',
+        'methodname' => 'late_submissions_read',
+        'classpath' => 'local/o365/classes/webservices/read_late_submissions.php',
+        'description' => 'Get a list of late submissions.',
         'type' => 'read',
     ],
 ];
@@ -129,6 +137,7 @@ $services = [
             'local_o365_get_due_assignments',
             'local_o365_get_assignments_incomplete',
             'local_o365_get_assignments_for_grading',
+            'local_o365_get_late_submissions',
             'local_o365_update_grade',
             'local_o365_get_grades',
             'mod_assign_get_assignments',
