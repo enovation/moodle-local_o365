@@ -16,16 +16,15 @@
 
 /**
  * @package local_o365
- * @author  2012 Paul Charsley, modified slightly 2017 James McQuillan
+ * @author  2018 Enovation
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  2012 Paul Charsley
  */
 
 namespace local_o365\webservices;
 
 
 /**
- * Get a list of assignments and quizes grades in one or more courses.
+ * Get a list of user assignments grades compared to class average.
  */
 class read_assignments_compared extends \external_api {
 
@@ -46,15 +45,10 @@ class read_assignments_compared extends \external_api {
     }
 
     /**
-     * Returns an array of courses the user is enrolled, and for each course all of the assignments that the user can
-     * view within that course.
+     * Returns an array of assignments the user is enrolled and graded.
      *
-     * @param array $courseids An optional array of course ids. If provided only assignments within the given course
-     * will be returned. If the user is not enrolled in or can't view a given course a warning will be generated and returned.
-     * @param array $capabilities An array of additional capability checks you wish to be made on the course context.
-     * This requires the parameter $courseids to not be empty.
-     * @return An array of courses and warnings.
-     * @since  Moodle 2.4
+     * @param int $limitnumber An optional number which lets to set the maximum nuber of returned records
+     * @return An array of assignments and warnings.
      */
     public static function assignments_compared_read($limitnumber = 10) {
         global $USER, $DB;
@@ -121,7 +115,7 @@ class read_assignments_compared extends \external_api {
         }
 
         $result = array(
-            'grades' => $assignmentsarray,
+            'assignments' => $assignmentsarray,
             'warnings' => $warnings
         );
 
@@ -130,10 +124,9 @@ class read_assignments_compared extends \external_api {
 
 
     /**
-     * Creates a course external_single_structure
+     * Creates an assignment external_single_structure
      *
      * @return external_single_structure
-     * @since Moodle 2.4
      */
     private static function get_assignments_compared_structure() {
         return new \external_single_structure(
@@ -149,15 +142,14 @@ class read_assignments_compared extends \external_api {
     }
 
     /**
-     * Describes the return value for get_assignments
+     * Describes the return value for get_assignments_compared
      *
      * @return external_single_structure
-     * @since Moodle 2.4
      */
     public static function assignments_compared_read_returns() {
         return new \external_single_structure(
             array(
-                'grades' => new \external_multiple_structure(self::get_assignments_compared_structure(), 'list of user assignments with grades', VALUE_DEFAULT, []),
+                'assignments' => new \external_multiple_structure(self::get_assignments_compared_structure(), 'list of user assignments with grades', VALUE_DEFAULT, []),
                 'warnings'  => new \external_warnings('item can be \'assignments\' (errorcode 1)',
                     'When item is "assignments" then itemid is by default 0',
                     'errorcode can be 1 (no records found)')

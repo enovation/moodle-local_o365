@@ -16,9 +16,8 @@
 
 /**
  * @package local_o365
- * @author  2012 Paul Charsley, modified slightly 2017 James McQuillan
+ * @author  2018 Enovation
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  2012 Paul Charsley
  */
 
 namespace local_o365\webservices;
@@ -28,6 +27,9 @@ namespace local_o365\webservices;
  */
 class read_grades extends \external_api {
 
+    /**
+     * @return array the list of modules which latest grades are returned
+     */
     private static function get_activities_list(){
         return [
             'assign',
@@ -51,15 +53,10 @@ class read_grades extends \external_api {
     }
 
     /**
-     * Returns an array of courses the user is enrolled, and for each course all of the assignments that the user can
-     * view within that course.
+     * Returns an array of latest grades the user got.
      *
-     * @param array $courseids An optional array of course ids. If provided only assignments within the given course
-     * will be returned. If the user is not enrolled in or can't view a given course a warning will be generated and returned.
-     * @param array $capabilities An array of additional capability checks you wish to be made on the course context.
-     * This requires the parameter $courseids to not be empty.
-     * @return An array of courses and warnings.
-     * @since  Moodle 2.4
+     * @param int $limitnumber An optional number which lets to set the maximum nuber of returned record.
+     * @return An array of grades and warnings.
      */
     public static function grades_read($limitnumber = 10) {
         global $USER, $DB;
@@ -115,7 +112,7 @@ class read_grades extends \external_api {
 
 
     /**
-     * Creates a course external_single_structure
+     * Creates a grade external_single_structure
      *
      * @return external_single_structure
      * @since Moodle 2.4
@@ -134,10 +131,9 @@ class read_grades extends \external_api {
     }
 
     /**
-     * Describes the return value for get_assignments
+     * Describes the return value for get_grades
      *
      * @return external_single_structure
-     * @since Moodle 2.4
      */
     public static function grades_read_returns() {
         return new \external_single_structure(

@@ -99,6 +99,19 @@ $functions = [
         'description' => 'Get a list of assignments grades compared to class average.',
         'type' => 'read',
     ],
+    'local_o365_get_assignments_incomplete' => [
+        'classname' => '\local_o365\webservices\read_assignments_incomplete',
+        'methodname' => 'assignments_incomplete_read',
+        'classpath' => 'local/o365/classes/webservices/read_assignments_incomplete.php',
+        'description' => 'Get a list of incomplete assignments.',
+        'type' => 'read',
+    ],'local_o365_get_assignments_for_grading' => [
+        'classname' => '\local_o365\webservices\read_assignments_ungraded',
+        'methodname' => 'assignments_ungraded_read',
+        'classpath' => 'local/o365/classes/webservices/read_assignments_ungraded.php',
+        'description' => 'Get a list of ungraded assignments.',
+        'type' => 'read',
+    ],
 ];
 
 // Pre-built service.
@@ -114,6 +127,8 @@ $services = [
             'local_o365_get_assignments',
             'local_o365_get_assignments_compared',
             'local_o365_get_due_assignments',
+            'local_o365_get_assignments_incomplete',
+            'local_o365_get_assignments_for_grading',
             'local_o365_update_grade',
             'local_o365_get_grades',
             'mod_assign_get_assignments',
