@@ -114,7 +114,8 @@ if (!$USER->id) {
     $SESSION->wantsurl = $coursepageurl;
 
     require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
+    //$auth = new \auth_plugin_oidc('authcode');
+    $auth = new \auth_plugin_oidc('..\..\local_o365\loginflow\authcode');
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
 }
