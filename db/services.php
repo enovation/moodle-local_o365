@@ -119,6 +119,12 @@ $functions = [
         'classpath' => 'local/o365/classes/webservices/read_late_submissions.php',
         'description' => 'Get a list of late submissions.',
         'type' => 'read',
+    ],'local_o365_get_students_with_least_score' => [
+        'classname' => '\local_o365\webservices\read_assignment_lowest_grades',
+        'methodname' => 'assignment_lowest_grades_read',
+        'classpath' => 'local/o365/classes/webservices/read_assignment_lowest_grades.php',
+        'description' => 'Get a list of participants with lowest grade in the assignment.',
+        'type' => 'read',
     ],
 ];
 
@@ -138,6 +144,7 @@ $services = [
             'local_o365_get_assignments_incomplete',
             'local_o365_get_assignments_for_grading',
             'local_o365_get_late_submissions',
+            'local_o365_get_students_with_least_score',
             'local_o365_update_grade',
             'local_o365_get_grades',
             'mod_assign_get_assignments',
