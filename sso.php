@@ -22,9 +22,9 @@
  */
 
 require_once(__DIR__.'/../../config.php');
-require_once(__DIR__.'/auth.php');
+require_once($CFG->dirroot . '/auth/oidc/auth.php');
 
-$auth = new \auth_plugin_oidc('authcode');
+$auth = new \auth_plugin_oidc('authcodeteams');
 $auth->set_httpclient(new \auth_oidc\httpclient());
 try {
     $auth->handleredirect();
