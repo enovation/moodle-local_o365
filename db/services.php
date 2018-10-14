@@ -141,6 +141,13 @@ $functions = [
         'description' => 'Get student last login.',
         'type' => 'read',
     ],
+    'local_o365_get_last_logged_students' => [
+        'classname' => '\local_o365\webservices\read_last_logged_students',
+        'methodname' => 'last_logged_students_read',
+        'classpath' => 'local/o365/classes/webservices/read_last_logged_students.php',
+        'description' => 'Get last logged students.',
+        'type' => 'read',
+    ],
 ];
 
 // Pre-built service.
@@ -162,6 +169,7 @@ $services = [
             'local_o365_get_students_with_least_score',
             'local_o365_get_absent_students',
             'local_o365_get_student_last_login',
+            'local_o365_get_last_logged_students',
             'local_o365_update_grade',
             'local_o365_get_grades',
             'mod_assign_get_assignments',

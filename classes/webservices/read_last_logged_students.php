@@ -26,20 +26,21 @@ namespace local_o365\webservices;
 /**
  * Get a list of students with the name sent and their last login time.
  */
-class read_student_last_login extends \external_api {
+class read_last_logged_students extends \external_api {
 
     /**
      * Returns description of method parameters
      *
      * @return external_function_parameters
      */
-    public static function student_last_login_read_parameters() {
+    public static function last_logged_students_read_parameters() {
         return new \external_function_parameters([
-            'name' => new \external_value(
-                PARAM_TEXT,
-                'user name',
-                VALUE_REQUIRED
-            )
+            'limitnumber' => new \external_value(
+                PARAM_INT,
+                'maximum number of returned students',
+                VALUE_DEFAULT,
+                10
+            ),
         ]);
     }
 
@@ -49,20 +50,20 @@ class read_student_last_login extends \external_api {
      * @param text name Required param based on which the user is looked up in database
      * @return An array of students and warnings.
      */
-    public static function student_last_login_read($name) {
+    public static function last_logged_students_read($limit) {
         global $USER, $DB;
-        $studentsdetails = [];
+        $studentsarray = [];
         $warnings = [];
         $courses = [];
         $params = self::validate_parameters(
-            self::student_last_login_read_parameters(),
+            self::last_logged_students_read_parameters(),
             array(
-                'name' => $name
+                'limitnumber' => $limit
             )
         );
 
-        $lastloginsql = "SELECT u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
-                    WHERE CONCAT(u.firstname, ' ', u.lastname) LIKE '%{$params['name']}%' AND u.suspended = 0 AND u.deleted = 0";
+        $lastloggedsql = "SELECT u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
+                    WHERE u.suspended = 0 AND u.deleted = 0";
 
         if(!is_siteadmin()){
             $courses = array_keys(enrol_get_users_courses($USER->id, true, 'id'));
@@ -86,25 +87,28 @@ class read_student_last_login extends \external_api {
 
                 $userslist = $DB->get_fieldset_sql($userssql);
                 $userssqlparam = join(',', $userslist);
-                $lastloginsql .= ' AND u.id IN ('.$userssqlparam.')';
+                $lastloggedsql .= ' AND u.id IN ('.$userssqlparam.')';
             }else{
-                $lastloginsql .= ' AND u.id IN ('.$USER->id.')';
+                $lastloggedsql .= ' AND u.id IN ('.$USER->id.')';
             }
         }
-        $lastloginsql .= ' ORDER BY u.lastlogin DESC';
+        $lastloggedsql .= ' ORDER BY u.lastlogin DESC';
+        if(!empty($params['limit'])){
+            $lastloggedsql .= ' LIMIT '.$params['limitnumber'];
+        }
 
-        $users = $DB->get_records_sql($lastloginsql);
+        $users = $DB->get_records_sql($lastloggedsql);
 
         if (empty($users)) {
             $warnings[] = array(
                 'item' => 'users',
                 'itemid' => 0,
                 'warningcode' => '1',
-                'message' => 'No  user with such name found'
+                'message' => 'No  users found'
             );
         }else{
             foreach($users as $user){
-                $studentsdetails[] = [
+                $studentsarray[] = [
                     'username' => $user->username,
                     'fullname' => $user->fullname,
                     'lastlogin' => $user->lastlogin,
@@ -113,7 +117,7 @@ class read_student_last_login extends \external_api {
         }
 
         $result = array(
-            'students' => $studentsdetails,
+            'students' => $studentsarray,
             'warnings' => $warnings
         );
 
@@ -122,32 +126,32 @@ class read_student_last_login extends \external_api {
 
 
     /**
-     * Creates absent user external_single_structure
+     * Creates logged in students external_single_structure
      *
      * @return external_single_structure
      */
-    private static function get_student_last_login_structure() {
+    private static function get_last_logged_students_structure() {
         return new \external_single_structure(
             array(
                 'username' => new \external_value(PARAM_TEXT, 'participant username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'participant fullname'),
                 'lastlogin' => new \external_value(PARAM_INT, 'last login date'),
-            ), 'user last login details'
+            ), 'users last login details'
         );
     }
 
     /**
-     * Describes the return value for get_student_last_login
+     * Describes the return value for get_last_logged_students
      *
      * @return external_single_structure
      */
-    public static function student_last_login_read_returns() {
+    public static function last_logged_students_read_returns() {
         return new \external_single_structure(
             array(
-                'students' => new \external_multiple_structure(self::get_student_last_login_structure(), 'student last login details', VALUE_DEFAULT, []),
+                'students' => new \external_multiple_structure(self::get_last_logged_students_structure(), 'student last login details', VALUE_DEFAULT, []),
                 'warnings'  => new \external_warnings('item can be \'users\' (errorcode 1)',
                     'When item is "users" then itemid is by default 0',
-                    'errorcode can be 1 (no user with such name found)')
+                    'errorcode can be 1 (no user found)')
             )
         );
     }
