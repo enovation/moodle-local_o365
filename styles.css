@@ -180,3 +180,32 @@ select::-webkit-scrollbar-thumb:hover {
     background: rgba(100,100,100,.5);
 }
 
+option:hover {
+  background-color: #6264a7;
+  color: white;
+}
+
+#id_tab_name {
+  background-color: #f0f2f4;
+  border: 0px;
+  padding: 8px;
+  padding-left: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+select#id_course {
+  overflow: auto;
+  width: 100%;
+  min-height: 340px;
+  max-height: 340px;
+}
+select#id_course {
+  overflow: auto;
+  width: 100%;
+  /* min-height: 300px; */
+  max-height: 320px;
+}
+
+.form-group .col-md-3{
+  padding-bottom: 6px;
+}
