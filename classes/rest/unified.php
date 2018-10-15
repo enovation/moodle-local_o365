@@ -1917,4 +1917,23 @@ class unified extends \local_o365\rest\o365api {
         $response = $this->process_apicall_response($response, $expectedparams);
         return $response;
     }
+
+    /**
+     * Publish an app.
+     *
+     * @return array|null|string
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     */
+    public function publish_app() {
+        $response = null;
+        $manifestfile = local_o365_get_manifest_file_content();
+        if ($manifestfile) {
+            $response = $this->betaapicall('post', '/appCatalogs/teamsApp', json_encode($manifestfile));
+            $expectedparams = ['id' => null];
+            $response = $this->process_apicall_response($response, $expectedparams);
+        }
+
+        return $response;
+    }
 }

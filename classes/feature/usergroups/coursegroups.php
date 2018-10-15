@@ -835,6 +835,24 @@ class coursegroups {
             $teamobjectrec['id'] = $this->DB->insert_record('local_o365_objects', (object)$teamobjectrec);
             $this->mtrace('Recorded team object (' . $teamobjectrec['objectid'] . ') into object table with record id '
                 . $teamobjectrec['id']);
+
+            // Automatically public the app
+            try {
+                $publicappresponse = $this->graphclient->publish_app();
+                var_dump($publicappresponse);
+            } catch (\Exception $e) {
+                $this->mtrace('Could not public app to teams. Reason: ' . $e->getMessage());
+                return $teamobjectrec;
+            }
+
+            //// Automatically add app to team
+            //try {
+            //    $addapptoteamresponse = $this->graphclient->add_app_to_team($groupobjectid);
+            //} catch (\Exception $e) {
+            //    $this->mtrace('Could not add app to team for course #' . $courseid . '. Reason: ' . $e->getMessage());
+            //    return $teamobjectrec;
+            //}
+
             return $teamobjectrec;
         } else {
             // team already exists
