@@ -76,7 +76,7 @@ class tabconfiguration extends \moodleform {
 
         foreach ($courses as $course) {
             $courseoptions[$course->id] = $course->fullname . ' (' . $course->shortname . ')';
-            $courseoptions[$course->title] = $course->fullname . ' (' . $course->shortname . ')';
+            $courseoptions['title'] = $course->fullname . ' (' . $course->shortname . ')';
         }
 
         asort($courseoptions);
