@@ -114,7 +114,7 @@ if (!$USER->id) {
     $SESSION->wantsurl = $coursepageurl;
 
     require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
+    $auth = new \auth_plugin_oidc('authcodeteams');
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
 }

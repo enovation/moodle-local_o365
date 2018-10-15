@@ -159,7 +159,7 @@ class read_due_assignments extends \external_api {
                     continue;
                 }
 
-                $url = new \moodle_url('/mod/assign/view.php', ['id' => $assignment->id]);
+                $url = new \moodle_url('/mod/assign/view.php', ['id' => $cm->id]);
                 $assignment = array(
                     'id' => $assignment->id,
                     'cmid' => $cm->id,
