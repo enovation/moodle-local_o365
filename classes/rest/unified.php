@@ -1946,6 +1946,8 @@ class unified extends \local_o365\rest\o365api {
             // bot id not configured, app couldn't have been uploaded
             return null;
         }
+        var_dump('/appCatalogs/teamsApps?$filter=developerProvidedId' .
+            rawurlencode(' eq \'' . $developerappid . '\''));
         $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=developerProvidedId' .
             rawurlencode(' eq \'' . $developerappid . '\''));
         $response = $this->process_apicall_response($response, ['value' => null]);
