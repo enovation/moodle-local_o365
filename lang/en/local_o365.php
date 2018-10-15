@@ -634,3 +634,5 @@ $string['help_user_nodelta_help'] = 'By default, user sync will only sync change
 $string['teams_no_course'] = 'You don\'t have any course to add.';
 $string['tab_name'] = 'Tab name';
 $string['tab_moodle'] = 'Moodle';
+
+$string['course_selector_label'] = "Select existing course";
