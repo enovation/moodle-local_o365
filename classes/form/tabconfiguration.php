@@ -49,6 +49,9 @@ class tabconfiguration extends \moodleform {
 
             $mform->addElement($courseselector);
             $mform->setType('course', PARAM_INT);
+
+            $mform->addElement("<select><option value='1'>hi</option></select>");
+
         } else {
             // User cannot access any course, show message
             $messagehtml = \html_writer::tag('p', get_string('teams_no_course', 'local_o365'));
@@ -76,7 +79,6 @@ class tabconfiguration extends \moodleform {
 
         foreach ($courses as $course) {
             $courseoptions[$course->id] = $course->fullname . ' (' . $course->shortname . ')';
-            $courseoptions['title'] = $course->fullname . ' (' . $course->shortname . ')';
         }
 
         asort($courseoptions);
