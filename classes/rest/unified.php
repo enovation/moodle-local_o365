@@ -1929,7 +1929,8 @@ class unified extends \local_o365\rest\o365api {
         $response = null;
         $manifestfile = local_o365_get_manifest_file_content();
         if ($manifestfile) {
-            $response = $this->betaapicall('post', '/appCatalogs/teamsApps', $manifestfile);
+            $response = $this->betaapicall('post', '/appCatalogs/teamsApps', $manifestfile,
+                ['contenttype' => 'application/zip']);
             $expectedparams = ['id' => null];
             $response = $this->process_apicall_response($response, $expectedparams);
         }
