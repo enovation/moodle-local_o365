@@ -1946,10 +1946,10 @@ class unified extends \local_o365\rest\o365api {
             // bot id not configured, app couldn't have been uploaded
             return null;
         }
-        var_dump('/appCatalogs/teamsApps?$filter=developerProvidedId' .
-            rawurlencode(' eq ') . '\'' . $developerappid . '\'');
-        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=developerProvidedId' .
-            rawurlencode(' eq ') . '\'' . $developerappid . '\'');
+        var_dump('/appCatalogs/teamsApps?$filter=name' .
+            rawurlencode(' eq \'Moodle integration with Microsoft Teams\''));
+        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=name' .
+            rawurlencode(' eq \'Moodle integration with Microsoft Teams\''));
         $response = $this->process_apicall_response($response, ['value' => null]);
 
         return $response;
