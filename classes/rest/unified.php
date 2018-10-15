@@ -1941,8 +1941,13 @@ class unified extends \local_o365\rest\o365api {
     }
 
     public function get_published_apps() {
-        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=packageName' .
-            rawurlencode(' eq \'ie.enovation.microsoft.o365\''));
+        $developerappid = get_config('local_o365', 'bot_app_id');
+        if (!$developerappid || $developerappid == '00000000-0000-0000-0000-000000000000') {
+            // bot id not configured, app couldn't have been uploaded
+            return null;
+        }
+        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=developerProvidedId' .
+            rawurlencode(' eq \'' . $developerappid . '\''));
         $response = $this->process_apicall_response($response, ['value' => null]);
 
         return $response;
