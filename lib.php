@@ -148,7 +148,7 @@ function local_o365_create_manifest_file() {
     }
     mkdir($pathtomanifestfolder, 0777, true);
 
-// task 3 : prepare manifest file
+    // task 3 : prepare manifest file
     $manifest = array(
         '$schema' => 'https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json',
         'manifestVersion' => '1.3',

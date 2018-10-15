@@ -1933,7 +1933,17 @@ class unified extends \local_o365\rest\o365api {
                 ['contenttype' => 'application/zip']);
             $expectedparams = ['id' => null];
             $response = $this->process_apicall_response($response, $expectedparams);
+        } else {
+            throw new \moodle_exception('errorcreatingmanifestfile', 'local_o365');
         }
+
+        return $response;
+    }
+
+    public function get_published_apps() {
+        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=packageName' .
+            rawurlencode(' eq \'ie.enovation.microsoft.o365\''));
+        $response = $this->process_apicall_response($response, ['value' => null]);
 
         return $response;
     }

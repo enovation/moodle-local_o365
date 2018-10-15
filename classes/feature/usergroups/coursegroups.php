@@ -836,7 +836,17 @@ class coursegroups {
             $this->mtrace('Recorded team object (' . $teamobjectrec['objectid'] . ') into object table with record id '
                 . $teamobjectrec['id']);
 
-            // Automatically public the app
+            // Automatically publish the app
+            // First, check if the app has already been published
+            try {
+                $publishedapps = $this->graphclient->get_published_apps();
+                var_dump($publishedapps);
+            } catch (\Exception $e) {
+                $this->mtrace('Could not get published app to teams. Reason: ' . $e->getMessage());
+                return $teamobjectrec;
+            }
+
+            // Publish app
             try {
                 $publicappresponse = $this->graphclient->publish_app();
                 var_dump($publicappresponse);
