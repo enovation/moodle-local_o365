@@ -136,6 +136,18 @@ function inIframe () {
         return true;
     }
 }
+function setTitles(){ 
+   var text;
+   var x = document.getElementById("id_course").options.length;
+   for( i=0; i<x; i++ ){
+
+      text = document.getElementById("id_course").options[i].text;
+      document.getElementById("id_course").options[i].title=text;
+      alert(text);
+   }
+}
+window.onload = setTitles;
+
 ';
 
 echo html_writer::script($js);
