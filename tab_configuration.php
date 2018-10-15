@@ -101,8 +101,9 @@ function onCourseChange() {
     for (var i = 0; i < options.length; i++) {
         if (options[i].value != courseid) {
             options[i].selected = false;
+            options[i].style.backgroundColor = "#ffffff";
         } else {
-            options[i].style.color = "#464775";
+            options[i].style.backgroundColor = "#464775";
         }
     }
 
