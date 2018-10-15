@@ -101,6 +101,8 @@ function onCourseChange() {
     for (var i = 0; i < options.length; i++) {
         if (options[i].value != courseid) {
             options[i].selected = false;
+        } else {
+            options[i].style.color = "#464775";
         }
     }
 
