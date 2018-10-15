@@ -143,7 +143,6 @@ function setTitles(){
 
       text = document.getElementById("id_course").options[i].text;
       document.getElementById("id_course").options[i].title=text;
-      alert(text);
    }
 }
 window.onload = setTitles;
