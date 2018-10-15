@@ -144,19 +144,6 @@ table.local_o365_matchqueue {
   display: none; }
 
 
-select#id_course {
-    overflow: auto;
-    width: 450px;
-    min-height: 340px;
-    max-height: 340px;
-}
-
-select#id_course option {
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-bottom: 10px;
-    font-size: 1em;
-}
 
 /* width */
 select::-webkit-scrollbar {
@@ -196,16 +183,15 @@ option:hover {
 select#id_course {
   overflow: auto;
   width: 100%;
-  min-height: 340px;
-  max-height: 340px;
+  max-height: 280px;
+  overflow-x: hidden;
 }
-select#id_course {
-  overflow: auto;
-  width: 100%;
-  /* min-height: 300px; */
-  max-height: 320px;
+select#id_course option {
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  font-size: 1em;
 }
-
 .form-group .col-md-3{
   padding-bottom: 6px;
 }

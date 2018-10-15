@@ -43,7 +43,7 @@ class tabconfiguration extends \moodleform {
             $mform->setDefault('tab_name', get_string('tab_moodle', 'local_o365'));
 
             $courseselector = $mform->createElement('select', 'course', get_string('course'), $courseoptions,
-                array('onchange' => 'onCourseChange()', 'title' => $courseoptions));
+                array('onchange' => 'onCourseChange()', 'title' => "test"));
             $courseselector->setSize(100);
             $courseselector->setMultiple(true);
 
