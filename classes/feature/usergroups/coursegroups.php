@@ -842,6 +842,7 @@ class coursegroups {
                 $publishedapps = $this->graphclient->get_published_apps();
                 var_dump($publishedapps);
             } catch (\Exception $e) {
+                var_dump($e);
                 $this->mtrace('Could not get published app to teams. Reason: ' . $e->getMessage());
                 return $teamobjectrec;
             }
