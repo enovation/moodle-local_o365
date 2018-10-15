@@ -1947,9 +1947,9 @@ class unified extends \local_o365\rest\o365api {
             return null;
         }
         var_dump('/appCatalogs/teamsApps?$filter=developerProvidedId' .
-            rawurlencode(' eq \'' . $developerappid . '\''));
+            rawurlencode(' eq ') . '\'' . $developerappid . '\'');
         $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=developerProvidedId' .
-            rawurlencode(' eq \'' . $developerappid . '\''));
+            rawurlencode(' eq ') . '\'' . $developerappid . '\'');
         $response = $this->process_apicall_response($response, ['value' => null]);
 
         return $response;
