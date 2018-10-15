@@ -89,7 +89,7 @@ class read_assignments_compared extends \external_api {
                 $group = groups_get_course_group($course);
                 $participants = get_enrolled_users($coursecontext,'',$group,'u.id',null,0,0,false);
                 $participants = join(',', array_keys($participants));
-                $url = new \moodle_url("/mod/assign/view.php", ['id' => $assign->iteminstance]);
+                $url = new \moodle_url("/mod/assign/view.php", ['id' => $cm->id]);
                 $sql = "SELECT g.itemid, COUNT(*) AS amount, SUM(g.finalgrade) AS sum
                       FROM {grade_items} gi
                       JOIN {grade_grades} g ON g.itemid = gi.id

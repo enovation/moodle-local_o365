@@ -130,9 +130,9 @@ class read_late_submissions extends \external_api {
             array(
                 'cmid' => new \external_value(PARAM_INT, 'course module id'),
                 'name' => new \external_value(PARAM_TEXT, 'assignment name'),
-                'username' => new \external_value(PARAM_TEXT, 'number of users who did not complete'),
-                'fullname' => new \external_value(PARAM_TEXT, 'total users number'),
-                'timesubmitted' => new \external_value(PARAM_INT, 'percentage of incompleted/total'),
+                'username' => new \external_value(PARAM_TEXT, 'student username'),
+                'fullname' => new \external_value(PARAM_TEXT, 'student fullname'),
+                'timesubmitted' => new \external_value(PARAM_INT, 'time when submission was made'),
                 'url' => new \external_value(PARAM_TEXT, 'activity submissions link'),
             ), 'submission information object'
         );

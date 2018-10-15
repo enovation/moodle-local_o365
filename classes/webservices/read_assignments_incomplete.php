@@ -100,7 +100,7 @@ class read_assignments_incomplete extends \external_api {
         } else {
             foreach($assignments as $assign){
                 $cm = get_coursemodule_from_instance('assign', $assign->id);
-                $url = new \moodle_url("/mod/assign/view.php", ['id' => $assign->id]);
+                $url = new \moodle_url("/mod/assign/view.php", ['id' => $cm->id]);
                 if($usertype == 'teacher'){
                     $coursecontext = \context_course::instance($cm->course);
                     $enrolledusers = get_enrolled_users($coursecontext, '', 0, 'u.id', null, 0, 0, true);
