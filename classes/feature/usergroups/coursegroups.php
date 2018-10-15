@@ -841,7 +841,7 @@ class coursegroups {
                 $publicappresponse = $this->graphclient->publish_app();
                 var_dump($publicappresponse);
             } catch (\Exception $e) {
-                $this->mtrace('Could not public app to teams. Reason: ' . $e->getMessage());
+                $this->mtrace('Could not publish app to teams. Reason: ' . $e->getMessage());
                 return $teamobjectrec;
             }
 

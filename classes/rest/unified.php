@@ -1928,6 +1928,7 @@ class unified extends \local_o365\rest\o365api {
     public function publish_app() {
         $response = null;
         $manifestfile = local_o365_get_manifest_file_content();
+        var_dump($manifestfile);
         if ($manifestfile) {
             $response = $this->betaapicall('post', '/appCatalogs/teamsApps', json_encode($manifestfile));
             $expectedparams = ['id' => null];

@@ -117,6 +117,7 @@ function local_o365_get_manifest_file_content() {
 
     $manifestfilepath = local_o365_create_manifest_file();
 
+    var_dump($manifestfilepath);
     if ($manifestfilepath) {
         $filecontent = file_get_contents($manifestfilepath);
     }
