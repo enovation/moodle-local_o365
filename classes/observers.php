@@ -417,6 +417,13 @@ class observers {
             // Remove user from course usergroup.
             $apiclient = \local_o365\utils::get_api();
             $apiclient->remove_user_from_course_group($courseid, $userid);
+        } catch (\Exception $e) {
+            \local_o365\utils::debug($e->getMessage(), 'handle_user_enrolment_deleted', $e);
+        }
+
+        try {
+            // Remove owner from course usergroup.
+            $apiclient = \local_o365\utils::get_api();
             $apiclient->remove_owner_from_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug($e->getMessage(), 'handle_user_enrolment_deleted', $e);
