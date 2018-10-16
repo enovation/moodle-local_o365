@@ -1582,7 +1582,7 @@ class unified extends \local_o365\rest\o365api {
             return null;
         }
 
-        $sql = "SELECT u.id
+        $sql = "SELECT u.id,
                        objs.objectid as userobjectid
                   FROM {user} u
                   JOIN {local_o365_objects} objs ON objs.moodleid = u.id
@@ -1617,7 +1617,7 @@ class unified extends \local_o365\rest\o365api {
             return null;
         }
 
-        $sql = "SELECT u.id
+        $sql = "SELECT u.id,
                        objs.objectid as userobjectid
                   FROM {user} u
                   JOIN {local_o365_objects} objs ON objs.moodleid = u.id
@@ -1652,7 +1652,7 @@ class unified extends \local_o365\rest\o365api {
             return null;
         }
 
-        $sql = "SELECT u.id
+        $sql = "SELECT u.id,
                        objs.objectid as userobjectid
                   FROM {user} u
                   JOIN {local_o365_objects} objs ON objs.moodleid = u.id
@@ -1687,7 +1687,7 @@ class unified extends \local_o365\rest\o365api {
             return null;
         }
 
-        $sql = "SELECT u.id
+        $sql = "SELECT u.id,
                        objs.objectid as userobjectid
                   FROM {user} u
                   JOIN {local_o365_objects} objs ON objs.moodleid = u.id
