@@ -635,7 +635,7 @@ class observers {
                         if (in_array($roleid, array($roleteacher->id, $rolenoneditingteacher->id))) {
                             $response = $apiclient->add_owner_to_course_group($courseid, $userid);
                         } else {
-                            $response = $apiclient->add_user_to_course_group($courseid, $Userid);
+                            $response = $apiclient->add_user_to_course_group($courseid, $userid);
                         }
                     }
                 }
