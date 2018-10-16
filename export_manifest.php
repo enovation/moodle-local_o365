@@ -33,10 +33,10 @@ if ($manifestfilepath) {
     // download manifest file
     header("Content-type: application/zip");
     header("Content-Disposition: attachment; filename=manifest.zip");
-    header("Content-length: " . filesize($zipfilename));
+    header("Content-length: " . filesize($manifestfilepath));
     header("Pragma: no-cache");
     header("Expires: 0");
-    readfile($zipfilename);
+    readfile($manifestfilepath);
 } else {
     print_error('errorcreatingmanifestfile', 'local_o365');
 }
