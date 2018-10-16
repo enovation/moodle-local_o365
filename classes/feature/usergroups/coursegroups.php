@@ -837,32 +837,58 @@ class coursegroups {
                 . $teamobjectrec['id']);
 
             // Automatically publish the app
+            /*
+             * Commented out until the following API functions are made available for applications:
+             *  - teams_apps_list_published
+             *  - teams_apps_publish
+             *  - teams_apps_update_published
+             */
+            /*
             // First, check if the app has already been published
             try {
-                $publishedapps = $this->graphclient->get_published_apps();
-                var_dump($publishedapps);
+                $publishedmoodleapp = $this->graphclient->get_published_apps();
             } catch (\Exception $e) {
-                var_dump($e);
-                $this->mtrace('Could not get published app to teams. Reason: ' . $e->getMessage());
+                $this->mtrace('Could not get published apps. Reason: ' . $e->getMessage());
                 return $teamobjectrec;
             }
 
-            // Publish app
+            if ($publishedmoodleapp) {
+                // Update app
+                $appid = ''; // todo get published moodle app ID
+                try {
+                    $updateappresponse = $this->graphclient->update_app($appid);
+                } catch (\Exception $e) {
+                    $this->mtrace('Could not update app. Reason: ' . $e->getMessage());
+                    return $teamobjectrec;
+                }
+            } else {
+                // Publish app
+                try {
+                    $publishappresponse = $this->graphclient->publish_app();
+                    $appid = $publishedappresponse->id;
+                } catch (\Exception $e) {
+                    $this->mtrace('Could not publish app. Reason: ' . $e->getMessage());
+                    return $teamobjectrec;
+                }
+            }
+            */
+
+            /*
+             * Commented out until the following API function is made available for applications:
+             *  - teams_apps_add
+             */
+            /*
+            // Automatically add app to team
             try {
-                $publicappresponse = $this->graphclient->publish_app();
-                var_dump($publicappresponse);
+                $addapptoteamresponse = $this->graphclient->add_app_to_team($groupobjectid, $appid);
             } catch (\Exception $e) {
-                $this->mtrace('Could not publish app to teams. Reason: ' . $e->getMessage());
+                $this->mtrace('Could not add app to team for course #' . $courseid . '. Reason: ' . $e->getMessage());
                 return $teamobjectrec;
             }
+            */
 
-            //// Automatically add app to team
-            //try {
-            //    $addapptoteamresponse = $this->graphclient->add_app_to_team($groupobjectid);
-            //} catch (\Exception $e) {
-            //    $this->mtrace('Could not add app to team for course #' . $courseid . '. Reason: ' . $e->getMessage());
-            //    return $teamobjectrec;
-            //}
+            // Automatically add Moodle tab to the default channel.
+            // todo implement this function
 
             return $teamobjectrec;
         } else {

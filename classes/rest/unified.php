@@ -1919,7 +1919,35 @@ class unified extends \local_o365\rest\o365api {
     }
 
     /**
+     * Get published apps with developerProvidedId matching the Moodle app ID.
+     *
+     * This function is currently not working because "teams_apps_list_published" API function is unavailable for
+     * applications.
+     *
+     * @return array|null|string
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     */
+    public function get_published_apps() {
+        $externalid = get_config('local_o365', 'bot_app_id');
+        if (!$externalid || $externalid == '00000000-0000-0000-0000-000000000000') {
+            // bot id not configured, app couldn't have been uploaded
+            throw new \moodle_exception('errorcreatingmanifestfile', 'local_o365');
+        }
+
+        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=externalId%20eq%20\'' .
+            $externalid . '\'');
+        $response = $this->process_apicall_response($response, ['value' => null]);
+
+        // todo return at most one app only
+
+        return $response;
+    }
+
+    /**
      * Publish an app.
+     *
+     * This function is currently not working because "teams_apps_publish" API function is unavailable for applications.
      *
      * @return array|null|string
      * @throws \dml_exception
@@ -1940,16 +1968,50 @@ class unified extends \local_o365\rest\o365api {
         return $response;
     }
 
-    public function get_published_apps() {
-        $developerappid = get_config('local_o365', 'bot_app_id');
-        if (!$developerappid || $developerappid == '00000000-0000-0000-0000-000000000000') {
-            // bot id not configured, app couldn't have been uploaded
-            return null;
+    /**
+     * Update a published app.
+     *
+     * This function is currently not working because "teams_apps_update_published" API function is unavailable for
+     * applications.
+     *
+     * @param $appid
+     *
+     * @return array|null|string
+     * @throws \dml_exception
+     * @throws \moodle_exception
+     */
+    public function update_app($appid) {
+        $response = null;
+
+        $manifestfile = local_o365_get_manifest_file_content();
+        if ($manifestfile) {
+            $response = $this->betaapicall('put', '/appCatalogs/teamsApps/' . $appid, ['file' => $manifestfile,
+                ['contenttype' => 'application/zip']]);
+            $response = $this->process_apicall_response($response);
+        } else {
+            throw new \moodle_exception('errorcreatingmanifestfile', 'local_o365');
         }
 
-        $response = $this->betaapicall('get', '/appCatalogs/teamsApps?$filter=developerProvidedId%20eq%20\'' .
-            $developerappid . '\'');
-        $response = $this->process_apicall_response($response, ['value' => null]);
+        return $response;
+    }
+
+    /**
+     * Add an app to a team.
+     *
+     * This function is currently not working because "teams_apps_add" API function is unavailable for applications.
+     *
+     * @param $groupobjectid
+     * @param $appid
+     *
+     * @return array|null|string
+     * @throws \moodle_exception
+     */
+    public function add_app_to_team($groupobjectid, $appid) {
+        $response = null;
+
+        $appdata = json_encode(['id' => $appid]);
+        $response = $this->betaapicall('post', '/teams/' . $groupobjectid . '/apps', $appdata);
+        $response = $this->process_apicall_response($response);
 
         return $response;
     }
