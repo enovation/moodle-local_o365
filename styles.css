@@ -34,7 +34,9 @@ body {
 div.felement select option {
   font-family: "Segoe UI" !important;
 }
-
+form .felement input {
+   font-family: "Segoe UI" !important;
+}
 .local_o365_statusmessage.alert {
   margin-bottom: 0.25rem; }
 .local_o365_statusmessage img {
@@ -220,7 +222,7 @@ option:hover {
 select#id_course {
   overflow: auto;
   width: 100%;
-  max-height: 280px;
+  max-height: 270px;
   overflow-x: hidden;
 }
 select#id_course option {
