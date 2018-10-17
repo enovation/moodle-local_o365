@@ -31,6 +31,9 @@
 body {
   font-family: "Segoe UI","Helvetica Neue","Apple Color Emoji","Segoe UI Emoji",Helvetica,Arial,sans-serif;
 }
+div.felement select option {
+  font-family: "Segoe UI" !important;
+}
 
 .local_o365_statusmessage.alert {
   margin-bottom: 0.25rem; }
