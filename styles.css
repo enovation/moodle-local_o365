@@ -1,30 +1,30 @@
 @font-face { /* where FontName and fontname represents the name of the font you want to add */
   font-family: 'Segoe UI';
-  url(font/segoeui.ttf) format('truetype'),
+  src: url(font/segoeui.ttf) format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 @font-face { /* where FontName and fontname represents the name of the font you want to add */
   font-family: 'Segoe UI';
-  url(font/segoeuib.ttf) format('truetype'),
+  src: url(font/segoeuib.ttf) format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 @font-face { /* where FontName and fontname represents the name of the font you want to add */
   font-family: 'Segoe UI';
-  url(font/segoeuil.ttf) format('truetype'),
+  src: url(font/segoeuil.ttf) format('truetype');
   font-weight: 100;
   font-style: normal;
 }
 @font-face { /* where FontName and fontname represents the name of the font you want to add */
   font-family: 'Segoe UI';
-  url(font/segoeuisl.ttf) format('truetype'),
+  src: url(font/segoeuisl.ttf) format('truetype');
   font-weight: 300;
   font-style: normal;
 }
 @font-face { /* where FontName and fontname represents the name of the font you want to add */
   font-family: 'Segoe UI';
-  url(font/segoeuisb.ttf) format('truetype'),
+  src: url(font/seguisb.ttf) format('truetype');
   font-weight: 600;
   font-style: normal;
 }
