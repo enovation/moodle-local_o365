@@ -210,6 +210,10 @@ option:hover {
   background-color: #6264a7;
   color: white;
 }
+option:checked {
+  background-color: #6264a7;
+  color: white;
+}
 
 #id_tab_name {
   background-color: #f0f2f4;
