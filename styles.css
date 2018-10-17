@@ -211,7 +211,7 @@ option:hover {
   color: white;
 }
 option:checked {
-  background-color: #6264a7;
+  background-color: #6264a7 !important;
   color: white;
 }
 
