@@ -186,7 +186,7 @@ table.local_o365_matchqueue {
 
 /* width */
 select::-webkit-scrollbar {
-    width: 9px;
+    width: 6px;
 }
 
 /* Track */
