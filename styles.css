@@ -228,13 +228,24 @@ select#id_course {
   width: 100%;
   max-height: 270px;
   overflow-x: hidden;
+  border-color: #f1f1f1;
+}
+select#id_course:focus {
+  outline-offset: 0px !important;
+  outline: none !important;
 }
 select#id_course option {
   padding-top: 10px;
   padding-left: 20px;
   padding-bottom: 10px;
-  font-size: 1em;
+  font-size: 14px;
 }
 .form-group .col-md-3{
   padding-bottom: 6px;
+}
+label {
+  font-size: 14px;
+}
+select#id_course, #id_tab_name, body {
+  color: #2B2B30;
 }
