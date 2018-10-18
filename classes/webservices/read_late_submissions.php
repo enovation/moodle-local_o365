@@ -75,8 +75,9 @@ class read_late_submissions extends \external_api {
 
         if(!empty($courses)){
             $coursessqlparam = join(',', $courses);
-            $sql = 'SELECT ass.id, ass.userid, ass.assignment, ass.timemodified FROM {assign_submission} ass
+            $sql = 'SELECT ass.id, ass.userid, ass.assignment, ass.timemodified, a.duedate, co.fullname as coursename FROM {assign_submission} ass
                     JOIN {assign} a ON ass.assignment = a.id 
+                    JOIN {course} co ON co.id = a.course
                     WHERE a.course IN ('.$coursessqlparam.') AND ass.status LIKE "'.ASSIGN_SUBMISSION_STATUS_SUBMITTED.'" AND a.duedate < ass.timemodified 
                     ORDER BY ass.timecreated DESC';
             if (!empty($params['limitnumber'])){
@@ -106,6 +107,8 @@ class read_late_submissions extends \external_api {
                     'username' => $user->username,
                     'fullname' => $user->firstname.' '.$user->lastname,
                     'timesubmitted' => $submission->timemodified,
+                    'duedate' => $submission->duedate,
+                    'coursename' => $submission->coursename,
                     'url' => $url->out()
                 );
                 $submissionsarray[] = $record;
@@ -133,6 +136,8 @@ class read_late_submissions extends \external_api {
                 'username' => new \external_value(PARAM_TEXT, 'student username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'student fullname'),
                 'timesubmitted' => new \external_value(PARAM_INT, 'time when submission was made'),
+                'duedate' => new \external_value(PARAM_INT, 'time when activity is due'),
+                'coursename' => new \external_value(PARAM_TEXT, 'course name'),
                 'url' => new \external_value(PARAM_TEXT, 'activity submissions link'),
             ), 'submission information object'
         );
