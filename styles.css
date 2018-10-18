@@ -238,13 +238,16 @@ select#id_course option {
   padding-top: 10px;
   padding-left: 20px;
   padding-bottom: 10px;
-  font-size: 14px;
+  font-size: 15px;
+}
+#id_tab_name {
+  font-size: 15px;
 }
 .form-group .col-md-3{
   padding-bottom: 6px;
 }
 label {
-  font-size: 14px;
+  font-size: 13px;
 }
 select#id_course, #id_tab_name, body {
   color: #2B2B30;
