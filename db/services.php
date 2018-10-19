@@ -148,6 +148,13 @@ $functions = [
         'description' => 'Get last logged students.',
         'type' => 'read',
     ],
+    'local_o365_get_roles' => [
+        'classname' => '\local_o365\webservices\read_roles',
+        'methodname' => 'roles_read',
+        'classpath' => 'local/o365/classes/webservices/read_roles.php',
+        'description' => 'Get user roles.',
+        'type' => 'read',
+    ],
 ];
 
 // Pre-built service.
@@ -170,6 +177,7 @@ $services = [
             'local_o365_get_absent_students',
             'local_o365_get_student_last_login',
             'local_o365_get_last_logged_students',
+            'local_o365_get_roles',
             'local_o365_update_grade',
             'local_o365_get_grades',
             'mod_assign_get_assignments',
