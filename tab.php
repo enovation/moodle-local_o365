@@ -47,7 +47,7 @@ microsoftTeams.initialize();
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
-    redirectUri: "' . $CFG->wwwroot . '/auth/oidc",
+    redirectUri: "' . $CFG->wwwroot . '/local/o365/sso_end.php",
     cacheLocation: "localStorage",
     navigateToLoginRequestUrl: false,
 };
