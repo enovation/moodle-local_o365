@@ -44,6 +44,12 @@ $loginpageurl = new moodle_url('/login/index.php');
 $js = '
 microsoftTeams.initialize();
 
+if (!inIframe()) {
+    window.location.href = "' . $redirecturl->out() . '";
+} else {
+    window.location.href = "' . $coursepageurl->out() . '";
+}
+
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
@@ -89,18 +95,8 @@ function loadData(upn) {
                 console.log("Renewal failed: " + err);
                 // Failed to get the token silently; need to show the login button
                 window.location.href = "' . $loginpageurl->out() . '";
-            } else {
-                redirectToPage();
             }
         });
-    }
-}
-
-function redirectToPage() {
-    if (!inIframe()) {
-        window.location.href = "' . $redirecturl->out() . '";
-    } else {
-        window.location.href = "' . $coursepageurl->out() . '";
     }
 }
 
