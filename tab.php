@@ -44,12 +44,6 @@ $loginpageurl = new moodle_url('/login/index.php');
 $js = '
 microsoftTeams.initialize();
 
-if (!inIframe()) {
-    window.location.assign = "' . $redirecturl->out() . '";
-} else {
-    window.location.assign = "' . $coursepageurl->out() . '";
-}
-
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
@@ -74,9 +68,9 @@ function loadData(upn) {
     } else {
         config.extraQueryParameters = "scope=openid+profile";
     }
-    
+
     let authContext = new AuthenticationContext(config);
-    
+
     // See if there\'s a cached user and it matches the expected user
     let user = authContext.getCachedUser();
     if (user) {
@@ -85,7 +79,7 @@ function loadData(upn) {
             authContext.clearCache();
         }
     }
-    
+
     // Get the id token (which is the access token for resource = clientId)
     let token = authContext.getCachedToken(config.clientId);
     if (!token) {
@@ -94,9 +88,19 @@ function loadData(upn) {
             if (err) {
                 console.log("Renewal failed: " + err);
                 // Failed to get the token silently; need to show the login button
-                window.location.assign = "' . $loginpageurl->out() . '";
+                window.location.href = "' . $loginpageurl->out() . '";
+            } else {
+                redirectToPage();
             }
         });
+    }
+}
+
+function redirectToPage() {
+    if (!inIframe()) {
+        window.location.href = "' . $redirecturl->out() . '";
+    } else {
+        window.location.href = "' . $coursepageurl->out() . '";
     }
 }
 
