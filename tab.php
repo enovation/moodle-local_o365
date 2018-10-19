@@ -39,6 +39,7 @@ $USER->editing = false; // turn off editing if the page is opened in iframe
 
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
+$loginpageurl = new moodle_url('/login/index.php');
 
 $js = '
 microsoftTeams.initialize();
@@ -92,8 +93,8 @@ function loadData(upn) {
         authContext._renewIdToken(function (err, idToken) {
             if (err) {
                 console.log("Renewal failed: " + err);
-                
                 // Failed to get the token silently; need to show the login button
+                window.location.href = "' . $loginpageurl->out() . '";
             }
         });
     }
