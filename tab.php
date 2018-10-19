@@ -45,9 +45,9 @@ $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
-    window.location.href = "' . $redirecturl->out() . '";
+    window.location.assign = "' . $redirecturl->out() . '";
 } else {
-    window.location.href = "' . $coursepageurl->out() . '";
+    window.location.assign = "' . $coursepageurl->out() . '";
 }
 
 // ADAL.js configuration
@@ -94,7 +94,7 @@ function loadData(upn) {
             if (err) {
                 console.log("Renewal failed: " + err);
                 // Failed to get the token silently; need to show the login button
-                window.location.href = "' . $loginpageurl->out() . '";
+                window.location.assign = "' . $loginpageurl->out() . '";
             }
         });
     }
