@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page allows a Microsoft Teams Tab to be configured.
+ * This page displays a course page in a Microsoft Teams tab.
  *
  * @package local_o365
  * @author Lai Wei <lai.wei@enovation.ie>
@@ -25,27 +25,35 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-$url = new moodle_url('/local/o365/tab_configuration.php');
-
-// force a theme without navigation and block
+// force theme
 if (get_config('theme_boost_o365teams', 'version')) {
     $SESSION->theme = 'boost_o365teams';
 }
 
-echo '<link rel="stylesheet" type="text/css" href="styles.css">';
 echo "<script src=\"https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
+
+$id = required_param('id', PARAM_INT);
+
+$USER->editing = false; // turn off editing if the page is opened in iframe
+
+$redirecturl = new moodle_url('/local/o365/tab_redirect.php');
+$coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
+$loginpageurl = new moodle_url('/login/index.php');
 
 $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
-    window.location.href = "' . $CFG->wwwroot . '/local/o365/tab_redirect.php";
+    window.location.href = "' . $redirecturl->out() . '";
+} else {
+    window.location.href = "' . $coursepageurl->out() . '";
 }
 
+// ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
-    redirectUri: "' . $CFG->wwwroot . '/auth/oidc",
+    redirectUri: "' . $CFG->wwwroot . '/local/o365/sso_end.php",
     cacheLocation: "localStorage",
     navigateToLoginRequestUrl: false,
 };
@@ -85,48 +93,11 @@ function loadData(upn) {
         authContext._renewIdToken(function (err, idToken) {
             if (err) {
                 console.log("Renewal failed: " + err);
-
-                // Failed to get the token silently; show the login button
+                // Failed to get the token silently; need to show the login button
+                window.location.href = "' . $loginpageurl->out() . '";
             }
         });
     }
-}
-
-function onCourseChange() {
-    var course = document.getElementsByName("course[]")[0];
-    var courseid = course.value;
-    course.removeAttribute("multiple");
-
-    var options = course.options;
-    for (var i = 0; i < options.length; i++) {
-        if (options[i].value != courseid) {
-            options[i].selected = false;
-        }
-    }
-
-    var tabname =  document.getElementsByName("tab_name")[0];
-    var tabnamevalue = tabname.value;
-
-    microsoftTeams.settings.setSettings({
-        entityId: "course_" + courseid,
-        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
-        suggestedTabName: tabnamevalue,
-    });
-    microsoftTeams.settings.setValidityState(true);
-}
-
-function onTabNameChange() {
-    var course = document.getElementsByName("course[]")[0];
-    var courseid = course.value;
-
-    var tabname =  document.getElementsByName("tab_name")[0];
-    var tabnamevalue = tabname.value;
-
-    microsoftTeams.settings.setSettings({
-        entityId: "course_" + courseid,
-        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab_fake_auth.php?id=' . '" + courseid,
-        suggestedTabName: tabnamevalue,
-    });
 }
 
 function inIframe () {
@@ -136,29 +107,15 @@ function inIframe () {
         return true;
     }
 }
-function setTitles(){ 
-   var text;
-   var x = document.getElementById("id_course").options.length;
-   for( i=0; i<x; i++ ){
-
-      text = document.getElementById("id_course").options[i].text;
-      document.getElementById("id_course").options[i].title=text;
-   }
-}
-window.onload = setTitles;
-
 ';
 
 echo html_writer::script($js);
 
 if (!$USER->id) {
-    $SESSION->wantsurl = $url;
+    $SESSION->wantsurl = $coursepageurl;
 
     require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcode');
+    $auth = new \auth_plugin_oidc('authcodeteams');
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
 }
-
-$form = new \local_o365\form\tabconfiguration();
-$form->display();
