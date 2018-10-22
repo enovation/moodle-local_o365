@@ -99,7 +99,7 @@ class read_roles extends \external_api {
         return new \external_single_structure(
             array(
                 'shortname' => new \external_value(PARAM_TEXT, 'role short username'),
-                'fullname' => new \external_value(PARAM_TEXT, 'participant fullname'),
+                'name' => new \external_value(PARAM_TEXT, 'participant fullname'),
             ), 'user roles details'
         );
     }
