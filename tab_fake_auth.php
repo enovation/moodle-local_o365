@@ -30,7 +30,7 @@ if (get_config('theme_boost_o365teams', 'version')) {
     $SESSION->theme = 'boost_o365teams';
 }
 
-echo "<script src=\"https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
+echo "<script src=\"https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anonymous\"></script>";
 
@@ -103,15 +103,13 @@ function loadData(upn) {
         });
     } else {
         // login using the token
-        
+        console.log("Token exists.");
+        console.log(token);
     }
 }
 
 function login() {
-//    $("#divError").text("").css({ display: "none" });
-//    $("#divProfile").css({ display: "none" });
     microsoftTeams.authentication.authenticate({
-//        url: window.location.origin + "/tab-auth/silent-start",
         url: "' . $ssostarturl->out() . '",
         width: 600,
         height: 400,
@@ -135,8 +133,6 @@ function login() {
             }
             // At this point we have to get the user involved, so show the login button
             $("#btnLogin").css({ display: "" });
-//            $("#divError").text(reason).css({ display: "" });
-//            $("#divProfile").css({ display: "none" });
         }
     });
 }
