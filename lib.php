@@ -184,18 +184,20 @@ function local_o365_create_manifest_file() {
                     'personal',
                 ),
                 'commandLists' => array(
-                    'scopes' => array(
-                        'team',
-                        'personal',
-                    ),
-                    'commands' => array(
-                        array(
-                            'title' => 'Help',
-                            'description' => 'Displays help dialog'
+                    array(
+                        'scopes' => array(
+                            'team',
+                            'personal',
                         ),
-                        array(
-                            'title' => 'Feedback',
-                            'description' => 'Displays feedback dialog'
+                        'commands' => array(
+                            array(
+                                'title' => 'Help',
+                                'description' => 'Displays help dialog'
+                            ),
+                            array(
+                                'title' => 'Feedback',
+                                'description' => 'Displays feedback dialog'
+                            ),
                         ),
                     ),
                 ),
