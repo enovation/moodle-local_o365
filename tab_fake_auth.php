@@ -43,7 +43,7 @@ $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $loginpageurl = new moodle_url('/login/index.php');
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 
-echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()'));
+echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
 
 $js = '
 microsoftTeams.initialize();
