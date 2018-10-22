@@ -40,14 +40,16 @@ $USER->editing = false; // turn off editing if the page is opened in iframe
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $loginpageurl = new moodle_url('/login/index.php');
+$ssostarturl = new moodle_url('/local/o365/sso_start.php');
+
+html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()' , 'style' => 'display: none;'));
 
 $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
     window.location.href = "' . $redirecturl->out() . '";
-} else {
-    window.location.href = "' . $coursepageurl->out() . '";
+    sleep(20);
 }
 
 // ADAL.js configuration
@@ -93,11 +95,49 @@ function loadData(upn) {
         authContext._renewIdToken(function (err, idToken) {
             if (err) {
                 console.log("Renewal failed: " + err);
+                
+                $("#btnLogin").css({ display: "" });
+                
                 // Failed to get the token silently; need to show the login button
-                window.location.href = "' . $loginpageurl->out() . '";
+//                window.location.href = "' . $loginpageurl->out() . '";
+//                sleep(20);
             }
         });
     }
+}
+
+function login() {
+//    $("#divError").text("").css({ display: "none" });
+//    $("#divProfile").css({ display: "none" });
+    microsoftTeams.authentication.authenticate({
+//        url: window.location.origin + "/tab-auth/silent-start",
+        url: "' . $ssostarturl->out() . '",
+        width: 600,
+        height: 535,
+        successCallback: function (result) {
+            // AuthenticationContext is a singleton
+            let authContext = new AuthenticationContext();
+            let idToken = authContext.getCachedToken(config.clientId);
+            if (idToken) {
+                alert("authenticated");
+//                showProfileInformation(idToken);
+            } else {
+                console.error("Error getting cached id token. This should never happen.");                            
+                // At this point we have to get the user involved, so show the login button
+                $("#btnLogin").css({ display: "" });
+            };
+        },
+        failureCallback: function (reason) {
+            console.log("Login failed: " + reason);
+            if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
+                console.log("Login was blocked by popup blocker or canceled by user.");
+            }
+            // At this point we have to get the user involved, so show the login button
+            $("#btnLogin").css({ display: "" });
+//            $("#divError").text(reason).css({ display: "" });
+//            $("#divProfile").css({ display: "none" });
+        }
+    });
 }
 
 function inIframe () {
@@ -107,10 +147,15 @@ function inIframe () {
         return true;
     }
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 ';
 
 echo html_writer::script($js);
 
+/*
 if (!$USER->id) {
     $SESSION->wantsurl = $coursepageurl;
 
@@ -119,3 +164,4 @@ if (!$USER->id) {
     $auth->set_httpclient(new \auth_oidc\httpclient());
     $auth->handleredirect();
 }
+*/
