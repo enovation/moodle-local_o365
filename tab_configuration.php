@@ -109,7 +109,7 @@ function onCourseChange() {
 
     microsoftTeams.settings.setSettings({
         entityId: "course_" + courseid,
-        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
+        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab_fake_auth.php?id=' . '" + courseid,
         suggestedTabName: tabnamevalue,
     });
     microsoftTeams.settings.setValidityState(true);
@@ -124,7 +124,7 @@ function onTabNameChange() {
 
     microsoftTeams.settings.setSettings({
         entityId: "course_" + courseid,
-        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab.php?id=' . '" + courseid,
+        contentUrl: "' . $CFG->wwwroot . '/local/o365/tab_fake_auth.php?id=' . '" + courseid,
         suggestedTabName: tabnamevalue,
     });
 }
