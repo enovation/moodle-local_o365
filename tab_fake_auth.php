@@ -31,7 +31,8 @@ if (get_config('theme_boost_o365teams', 'version')) {
 }
 
 echo "<script src=\"https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
-echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
+echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
+echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anonymous\"></script>";
 
 $id = required_param('id', PARAM_INT);
 
@@ -42,7 +43,7 @@ $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $loginpageurl = new moodle_url('/login/index.php');
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 
-html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()' , 'style' => 'display: none;'));
+echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()'));
 
 $js = '
 microsoftTeams.initialize();
@@ -79,11 +80,11 @@ function loadData(upn) {
 
     let authContext = new AuthenticationContext(config);
 
-    // See if there\'s a cached user and it matches the expected user
+    // See if there is a cached user and it matches the expected user
     let user = authContext.getCachedUser();
     if (user) {
         if (user.userName !== upn) {
-            // User doesn\'t match, clear the cache
+            // User does not match, clear the cache
             authContext.clearCache();
         }
     }
@@ -113,13 +114,12 @@ function login() {
 //        url: window.location.origin + "/tab-auth/silent-start",
         url: "' . $ssostarturl->out() . '",
         width: 600,
-        height: 535,
+        height: 400,
         successCallback: function (result) {
             // AuthenticationContext is a singleton
             let authContext = new AuthenticationContext();
             let idToken = authContext.getCachedToken(config.clientId);
             if (idToken) {
-                alert("authenticated");
 //                showProfileInformation(idToken);
             } else {
                 console.error("Error getting cached id token. This should never happen.");                            
