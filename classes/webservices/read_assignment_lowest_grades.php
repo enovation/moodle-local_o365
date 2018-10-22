@@ -94,11 +94,12 @@ class read_assignment_lowest_grades extends \external_api {
         } else {
             $cm = get_coursemodule_from_instance('assign',$assignment);
             $url = new \moodle_url("/mod/assign/view.php", ['id' => $cm->id]);
-            $sql = 'SELECT * FROM {assign_grades} WHERE assignment = :aid ORDER BY grade ASC';
+            $sql = 'SELECT * FROM {assign_grades} WHERE assignment = :aid AND grade != :gradenotgraded ORDER BY grade ASC';
             if (!empty($params['limitnumber'])){
                 $sql .= ' LIMIT '.$params['limitnumber'];
             }
-            $grades = $DB->get_records_sql($sql, ['aid' => $assignment]);
+            $params = ['aid' => $assignment, 'gradenotgraded' => ASSIGN_GRADE_NOT_SET];
+            $grades = $DB->get_records_sql($sql, $params);
             foreach ($grades as $g) {
                 $user = $DB->get_record('user', ['id' => $g->userid], 'id, username, firstname, lastname');
                 $grade = array(
