@@ -97,13 +97,13 @@ function loadData(upn) {
             if (err) {
                 console.log("Renewal failed: " + err);
                 
-                $("#btnLogin").css({ display: "" });
-                
                 // Failed to get the token silently; need to show the login button
-//                window.location.href = "' . $loginpageurl->out() . '";
-//                sleep(20);
+                $("#btnLogin").css({ display: "" });
             }
         });
+    } else {
+        // login using the token
+        
     }
 }
 
@@ -120,7 +120,8 @@ function login() {
             let authContext = new AuthenticationContext();
             let idToken = authContext.getCachedToken(config.clientId);
             if (idToken) {
-//                showProfileInformation(idToken);
+                // login using the token
+                
             } else {
                 console.error("Error getting cached id token. This should never happen.");                            
                 // At this point we have to get the user involved, so show the login button
