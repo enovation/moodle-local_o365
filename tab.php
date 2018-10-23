@@ -59,7 +59,7 @@ if (!inIframe()) {
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
-    redirectUri: "' . $ssoendurl->out . '",
+    redirectUri: "' . $ssoendurl->out() . '",
     cacheLocation: "localStorage",
     navigateToLoginRequestUrl: false,
 };
