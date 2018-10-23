@@ -49,9 +49,11 @@ $externalloginurl = new moodle_url('/login/index.php');
 // output login pages
 echo html_writer::start_div('manuallogin');
 // Azure AD login box
-echo html_writer::tag('button', get_string('sso_login', 'local_o365'), array('onclick' => 'login()'));
+echo html_writer::tag('button', get_string('sso_login', 'local_o365'),
+    array('onclick' => 'login()', 'class' => 'manualloginbutton btn btn-primary'));
 // Manual login link
-echo html_writer::tag('button', get_string('other_login', 'local_o365'), array('onclick' => 'otherLogin()'));
+echo html_writer::tag('button', get_string('other_login', 'local_o365'),
+    array('onclick' => 'otherLogin()', 'class' => 'manualloginbutton btn btn-primary'));
 echo html_writer::end_div();
 
 $SESSION->wantsurl = $coursepageurl;
