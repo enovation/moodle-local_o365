@@ -42,6 +42,10 @@ $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 $ssoendurl = new moodle_url('/local/o365/sso_end.php');
 $oidcloginurl = new moodle_url('/auth/oidc/index.php');
 
+if (isset($SESSION->wantsurl)) {
+    unset($SESSION->wantsurl);
+}
+
 $js = '
 microsoftTeams.initialize();
 
