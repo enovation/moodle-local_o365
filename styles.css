@@ -281,3 +281,16 @@ button.manualloginbutton {
   box-shadow: unset !important;
   color: #FFFFFF;
 }
+button.manualloginbutton:not(:disabled):not(.disabled):active {
+  background: #A6A7DC;
+  border-color: transparent;
+  color: #201F1F;
+}
+button.manualloginbutton:hover, button.manualloginbutton.enabled {
+  background: #464775;
+  border-color: transparent;
+  color: #FFFFFF;
+}
+button.manualloginbutton:focus, button.manualloginbutton:focus:enabled {
+  
+}
