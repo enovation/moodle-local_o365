@@ -280,6 +280,7 @@ button.manualloginbutton {
   -webkit-box-shadow: unset !important;
   box-shadow: unset !important;
   color: #FFFFFF;
+  margin: 5px;
 }
 button.manualloginbutton:not(:disabled):not(.disabled):active {
   background: #A6A7DC;
@@ -292,5 +293,5 @@ button.manualloginbutton:hover, button.manualloginbutton.enabled {
   color: #FFFFFF;
 }
 button.manualloginbutton:focus, button.manualloginbutton:focus:enabled {
-  
+
 }
