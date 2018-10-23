@@ -45,6 +45,8 @@ $oidcloginurl = new moodle_url('/auth/oidc/index.php');
 
 echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
 
+$SESSION->wantsurl = $coursepageurl;
+
 $js = '
 microsoftTeams.initialize();
 
