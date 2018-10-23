@@ -80,6 +80,9 @@ let config = {
 
 let upn = undefined;
 microsoftTeams.getContext(function (context) {
+    theme = context.theme;
+    setPageTheme(theme);
+
     upn = context.upn;
     loadData(upn);
 });
@@ -169,6 +172,10 @@ function inIframe () {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function setPageTheme(theme) {
+    $("body").addClass(theme);
 }
 ';
 
