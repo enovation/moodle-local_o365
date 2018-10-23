@@ -44,8 +44,13 @@ $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 $ssoendurl = new moodle_url('/local/o365/sso_end.php');
 $oidcloginurl = new moodle_url('/auth/oidc/index.php');
 
-if (isset($SESSION->wantsurl)) {
-    unset($SESSION->wantsurl);
+$url->params(array('bypassauth' => 1, 'sesskey' => sesskey()));
+$SESSION->wantsurl = $url;
+
+$sesskey = optional_param('sesskey', null, PARAM_RAW);
+$bypassauth = optional_param('bypassauth', false, PARAM_BOOL);
+if (!confirm_sesskey($sesskey)) {
+    $bypassauth = false;
 }
 
 $js = '
@@ -65,10 +70,6 @@ let config = {
 };
 
 let upn = undefined;
-microsoftTeams.getContext(function (context) {
-    upn = context.upn;
-    loadData(upn);
-});
 
 window.onload = setTitles;
 
@@ -202,7 +203,17 @@ function setTitles() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
 ';
+
+if ($USER->id == 0 || !$bypassauth) {
+    $js .= '    
+microsoftTeams.getContext(function (context) {
+    upn = context.upn;
+    loadData(upn);
+});
+    ';
+}
 
 echo html_writer::script($js);
 
