@@ -49,7 +49,7 @@ $SESSION->wantsurl = $url;
 
 $sesskey = optional_param('sesskey', null, PARAM_RAW);
 $bypassauth = optional_param('bypassauth', false, PARAM_BOOL);
-if (!confirm_sesskey($sesskey)) {
+if ($sesskey || !confirm_sesskey($sesskey)) {
     $bypassauth = false;
 }
 
