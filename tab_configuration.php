@@ -34,7 +34,7 @@ if (get_config('theme_boost_o365teams', 'version')) {
     $SESSION->theme = 'boost_o365teams';
 }
 
-echo '<link rel="stylesheet" type="text/css" href="styles.css">';
+echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\">";
 echo "<script src=\"https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anonymous\"></script>";
@@ -47,14 +47,18 @@ $oidcloginurl = new moodle_url('/auth/oidc/index.php');
 $url->params(array('bypassauth' => 1, 'sesskey' => sesskey()));
 $SESSION->wantsurl = $url;
 
-$sesskey = optional_param('sesskey', null, PARAM_RAW);
-$bypassauth = optional_param('bypassauth', false, PARAM_BOOL);
-if ($sesskey) {
-    if (!confirm_sesskey($sesskey)) {
+if ($USER->id == 0) {
+    $bypassauth = false;
+} else {
+    $sesskey = optional_param('sesskey', null, PARAM_RAW);
+    $bypassauth = optional_param('bypassauth', false, PARAM_BOOL);
+    if ($sesskey) {
+        if (!confirm_sesskey($sesskey)) {
+            $bypassauth = false;
+        }
+    } else {
         $bypassauth = false;
     }
-} else {
-    $bypassauth = false;
 }
 
 $js = '
@@ -210,7 +214,7 @@ function sleep(ms) {
 
 ';
 
-if ($USER->id == 0 || !$bypassauth) {
+if (!$bypassauth) {
     $js .= '    
 microsoftTeams.getContext(function (context) {
     upn = context.upn;
