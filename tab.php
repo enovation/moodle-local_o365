@@ -41,6 +41,7 @@ $USER->editing = false; // turn off editing if the page is opened in iframe
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
+$ssoendurl = new moodle_url('/local/o365/sso_end.php');
 $oidcloginurl = new moodle_url('/auth/oidc/index.php');
 
 echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
@@ -58,7 +59,7 @@ if (!inIframe()) {
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
-    redirectUri: "' . $CFG->wwwroot . '/local/o365/sso_end.php",
+    redirectUri: "' . $ssoendurl->out . '",
     cacheLocation: "localStorage",
     navigateToLoginRequestUrl: false,
 };

@@ -37,6 +37,11 @@ echo "<script src=\"https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTea
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anonymous\"></script>";
 
+$redirecturl = new moodle_url('/local/o365/tab_redirect.php');
+$ssostarturl = new moodle_url('/local/o365/sso_start.php');
+$ssoendurl = new moodle_url('/local/o365/sso_end.php');
+$oidcloginurl = new moodle_url('/auth/oidc/index.php');
+
 $js = '
 microsoftTeams.initialize();
 
@@ -48,7 +53,7 @@ if (!inIframe()) {
 // ADAL.js configuration
 let config = {
     clientId: "' . get_config('auth_oidc', 'clientid') . '",
-    redirectUri: "' . $CFG->wwwroot . '/local/o365/sso_end.php",
+    redirectUri: "' . $ssoendurl->out . '",
     cacheLocation: "localStorage",
     navigateToLoginRequestUrl: false,
 };
