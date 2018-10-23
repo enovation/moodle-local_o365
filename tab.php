@@ -32,6 +32,7 @@ if (get_config('theme_boost_o365teams', 'version')) {
 
 echo "<script src=\"https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js\" crossorigin=\"anonymous\"></script>";
 echo "<script src=\"https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js\" crossorigin=\"anonymous\"></script>";
+echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anonymous\"></script>";
 
 $id = required_param('id', PARAM_INT);
 
@@ -39,15 +40,17 @@ $USER->editing = false; // turn off editing if the page is opened in iframe
 
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
-$loginpageurl = new moodle_url('/login/index.php');
+$ssostarturl = new moodle_url('/local/o365/sso_start.php');
+$oidcloginurl = new moodle_url('/auth/oidc/index.php');
+
+echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
 
 $js = '
 microsoftTeams.initialize();
 
 if (!inIframe()) {
     window.location.href = "' . $redirecturl->out() . '";
-} else {
-    window.location.href = "' . $coursepageurl->out() . '";
+    sleep(20);
 }
 
 // ADAL.js configuration
@@ -77,11 +80,11 @@ function loadData(upn) {
 
     let authContext = new AuthenticationContext(config);
 
-    // See if there\'s a cached user and it matches the expected user
+    // See if there is a cached user and it matches the expected user
     let user = authContext.getCachedUser();
     if (user) {
         if (user.userName !== upn) {
-            // User doesn\'t match, clear the cache
+            // User does not match, clear the cache
             authContext.clearCache();
         }
     }
@@ -93,11 +96,46 @@ function loadData(upn) {
         authContext._renewIdToken(function (err, idToken) {
             if (err) {
                 console.log("Renewal failed: " + err);
+                
                 // Failed to get the token silently; need to show the login button
-                window.location.href = "' . $loginpageurl->out() . '";
+                $("#btnLogin").css({ display: "" });
             }
         });
+    } else {
+        // login using the token
+        window.location.href = "' . $oidcloginurl->out() . '";
+        sleep(20);
     }
+}
+
+function login() {
+    microsoftTeams.authentication.authenticate({
+        url: "' . $ssostarturl->out() . '",
+        width: 600,
+        height: 400,
+        successCallback: function (result) {
+            // AuthenticationContext is a singleton
+            let authContext = new AuthenticationContext();
+            let idToken = authContext.getCachedToken(config.clientId);
+            if (idToken) {
+                // login using the token
+                window.location.href = "' . $oidcloginurl->out() . '";
+                sleep(20);
+            } else {
+                console.error("Error getting cached id token. This should never happen.");                            
+                // At this point we have to get the user involved, so show the login button
+                $("#btnLogin").css({ display: "" });
+            };
+        },
+        failureCallback: function (reason) {
+            console.log("Login failed: " + reason);
+            if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
+                console.log("Login was blocked by popup blocker or canceled by user.");
+            }
+            // At this point we have to get the user involved, so show the login button
+            $("#btnLogin").css({ display: "" });
+        }
+    });
 }
 
 function inIframe () {
@@ -107,15 +145,10 @@ function inIframe () {
         return true;
     }
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 ';
 
 echo html_writer::script($js);
-
-if (!$USER->id) {
-    $SESSION->wantsurl = $coursepageurl;
-
-    require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcodeteams');
-    $auth->set_httpclient(new \auth_oidc\httpclient());
-    $auth->handleredirect();
-}
