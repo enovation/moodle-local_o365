@@ -40,7 +40,7 @@ echo "<script src=\"https://code.jquery.com/jquery-3.1.1.js\" crossorigin=\"anon
 $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 $ssoendurl = new moodle_url('/local/o365/sso_end.php');
-$oidcloginurl = new moodle_url('/auth/oidc/index.php');
+$oidcloginurl = new moodle_url('/auth/oidc/index.php', array('justauth' => true));
 
 if (isset($SESSION->wantsurl)) {
     unset($SESSION->wantsurl);
