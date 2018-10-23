@@ -75,10 +75,6 @@ let config = {
 };
 
 let upn = undefined;
-microsoftTeams.getContext(function (context) {
-    upn = context.upn;
-    loadData(upn);
-});
 
 // Loads data for the given user
 function loadData(upn) {
@@ -167,5 +163,14 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 ';
+
+if ($USER->id == 0) {
+    $js .= '
+microsoftTeams.getContext(function (context) {
+    upn = context.upn;
+    loadData(upn);
+});
+    ';
+}
 
 echo html_writer::script($js);
