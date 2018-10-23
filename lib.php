@@ -158,8 +158,8 @@ function local_o365_create_manifest_file() {
         'developer' => array(
             'name' => 'Enovation Solutions', // todo update developer name
             'websiteUrl' => 'https://enovation.ie', // todo update developer website URL
-            'privacyUrl' => 'https://enovation.ie', // todo update privacy URL
-            'termsOfUseUrl' => 'https://enovation.ie', // todo update terms of use URL
+            'privacyUrl' => 'https://moodle.org/admin/tool/policy/view.php?policyid=1', // todo update privacy URL
+            'termsOfUseUrl' => 'https://moodle.org', // todo update terms of use URL
         ),
         'icons' => array(
             'color' => 'color.png',
