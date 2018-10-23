@@ -43,6 +43,7 @@ $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 $ssoendurl = new moodle_url('/local/o365/sso_end.php');
 $oidcloginurl = new moodle_url('/auth/oidc/index.php');
+$externalloginurl = new moodle_url('/login.index.php');
 
 echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
 
@@ -135,8 +136,8 @@ function login() {
             if (reason === "CancelledByUser" || reason === "FailedToOpenWindow") {
                 console.log("Login was blocked by popup blocker or canceled by user.");
             }
-            // At this point we have to get the user involved, so show the login button
-            $("#btnLogin").css({ display: "" });
+            // At this point sso login does not work. redirect to normal Moodle login page.
+            window.location.href = "' . $externalloginurl->out() . '";
         }
     });
 }
