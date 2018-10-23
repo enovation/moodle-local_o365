@@ -58,6 +58,10 @@ echo html_writer::end_div();
 
 $SESSION->wantsurl = $coursepageurl;
 
+if ($USER->id != 0) {
+    redirect($coursepageurl);
+}
+
 $js = '
 microsoftTeams.initialize();
 
