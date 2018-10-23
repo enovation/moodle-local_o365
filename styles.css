@@ -252,3 +252,6 @@ label {
 select#id_course, #id_tab_name, body {
   color: #484644;
 }
+div.manuallogin {
+  display: none;
+}
