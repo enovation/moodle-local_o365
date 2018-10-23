@@ -43,6 +43,7 @@ $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
 $ssoendurl = new moodle_url('/local/o365/sso_end.php');
 $oidcloginurl = new moodle_url('/auth/oidc/index.php');
+$externalloginurl = new moodle_url('/login/index.php');
 
 $url->params(array('bypassauth' => 1, 'sesskey' => sesskey()));
 $SESSION->wantsurl = $url;
@@ -60,6 +61,16 @@ if ($USER->id == 0) {
         $bypassauth = false;
     }
 }
+
+// output login pages
+echo html_writer::start_div('manuallogin');
+// Azure AD login box
+echo html_writer::tag('button', get_string('sso_login', 'local_o365'),
+    array('onclick' => 'login()', 'class' => 'manualloginbutton'));
+// Manual login link
+echo html_writer::tag('button', get_string('other_login', 'local_o365'),
+    array('onclick' => 'otherLogin()', 'class' => 'manualloginbutton'));
+echo html_writer::end_div();
 
 $js = '
 microsoftTeams.initialize();
@@ -111,8 +122,9 @@ function loadData(upn) {
             if (err) {
                 console.log("Renewal failed: " + err);
                 
-                // Failed to get the token silently; need to show the login button
-                $("#btnLogin").css({ display: "" });
+                // Failed to get the token silently; redirect to manual login page
+                $("#courselist").css("display", "none");
+                $(".manuallogin").css("display", "block");
             }
         });
     } else {
@@ -138,7 +150,7 @@ function login() {
             } else {
                 console.error("Error getting cached id token. This should never happen.");                            
                 // At this point we have to get the user involved, so show the login button
-                $("#btnLogin").css({ display: "" });
+                window.location.href = "' . $oidcloginurl->out() . '";
             };
         },
         failureCallback: function (reason) {
@@ -147,7 +159,7 @@ function login() {
                 console.log("Login was blocked by popup blocker or canceled by user.");
             }
             // At this point we have to get the user involved, so show the login button
-            $("#btnLogin").css({ display: "" });
+            window.location.href = "' . $externalloginurl->out() . '";
         }
     });
 }
@@ -225,5 +237,5 @@ microsoftTeams.getContext(function (context) {
 
 echo html_writer::script($js);
 
-$form = new \local_o365\form\tabconfiguration();
+$form = new \local_o365\form\tabconfiguration(null, null, 'post', '', array('id' => 'courselist'));
 $form->display();
