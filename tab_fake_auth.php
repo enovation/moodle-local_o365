@@ -42,6 +42,9 @@ $redirecturl = new moodle_url('/local/o365/tab_redirect.php');
 $coursepageurl = new moodle_url('/course/view.php', array('id' => $id));
 $loginpageurl = new moodle_url('/login/index.php');
 $ssostarturl = new moodle_url('/local/o365/sso_start.php');
+$oidcloginurl = new moodle_url('/auth/oidc/index.php');
+
+$SESSION->wantsurl = $coursepageurl;
 
 echo html_writer::tag('button', 'Login to Azure AD', array('id' => 'btnLogin', 'onclick' => 'login()', 'style' => 'display: none;'));
 
@@ -103,8 +106,8 @@ function loadData(upn) {
         });
     } else {
         // login using the token
-        console.log("Token exists.");
-        console.log(token);
+        window.location.href = "' . $oidcloginurl->out() . '";
+        sleep(20);
     }
 }
 
@@ -119,7 +122,8 @@ function login() {
             let idToken = authContext.getCachedToken(config.clientId);
             if (idToken) {
                 // login using the token
-                
+                window.location.href = "' . $oidcloginurl->out() . '";
+                sleep(20);
             } else {
                 console.error("Error getting cached id token. This should never happen.");                            
                 // At this point we have to get the user involved, so show the login button
@@ -151,14 +155,3 @@ function sleep(ms) {
 ';
 
 echo html_writer::script($js);
-
-/*
-if (!$USER->id) {
-    $SESSION->wantsurl = $coursepageurl;
-
-    require_once($CFG->dirroot . '/auth/oidc/auth.php');
-    $auth = new \auth_plugin_oidc('authcodeteams');
-    $auth->set_httpclient(new \auth_oidc\httpclient());
-    $auth->handleredirect();
-}
-*/
