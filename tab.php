@@ -109,7 +109,7 @@ function loadData(upn) {
                 console.log("Renewal failed: " + err);
                 
                 // Failed to get the token silently; need to show the login button
-                $("div.manuallogin").css({ display: "" });
+                $(".manuallogin").css("display", "block");
             }
         });
     } else {
