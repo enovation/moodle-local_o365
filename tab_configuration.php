@@ -27,6 +27,8 @@ require_once(__DIR__ . '/../../config.php');
 
 $url = new moodle_url('/local/o365/tab_configuration.php');
 
+$PAGE->set_context(context_system::instance());
+
 // force a theme without navigation and block
 if (get_config('theme_boost_o365teams', 'version')) {
     $SESSION->theme = 'boost_o365teams';
