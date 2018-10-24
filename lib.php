@@ -152,7 +152,7 @@ function local_o365_create_manifest_file() {
     $manifest = array(
         '$schema' => 'https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json',
         'manifestVersion' => '1.3',
-        'version' => '1.0.0',
+        'version' => '1.2.1',
         'id' => $appid,
         'packageName' => 'ie.enovation.microsoft.o365', //todo update package name
         'developer' => array(
@@ -173,7 +173,7 @@ function local_o365_create_manifest_file() {
             'short' => 'Bot and tab for Moodle in Teams.', // todo update short description
             'full' => 'This plugin contains a bot that allows users to interact with Moodle from Teams, and a tab to show course page in Teams.', // todo update full description
         ),
-        'accentColor' => '#60A18E',
+        'accentColor' => '#F89C31',
         'bots' => array(
             array(
                 'botId' => $appid,
