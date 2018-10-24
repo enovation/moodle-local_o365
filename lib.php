@@ -218,6 +218,7 @@ function local_o365_create_manifest_file() {
         ),
         'validDomains' => array(
             parse_url($CFG->wwwroot, PHP_URL_HOST),
+            'token.botframework.com',
         ),
     );
 
