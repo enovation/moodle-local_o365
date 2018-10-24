@@ -297,4 +297,5 @@ button.manualloginbutton:focus, button.manualloginbutton:focus:enabled {
 }
 .acpoption {
   vertical-align: top;
+  margin-right: 10px;
 }
