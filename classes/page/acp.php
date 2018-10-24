@@ -28,15 +28,15 @@ namespace local_o365\page;
  */
 class acp extends base {
 
-    public function __construct($url, $title, $context = null) {
+    /**
+     * Override set_title() function - not showing heading.
+     *
+     * @param string $title
+     */
+    public function set_title($title) {
         global $PAGE;
-        if (empty($context)) {
-            $context = \context_system::instance();
-        }
-        $this->set_context($context);
-        $this->set_url($url);
-        $PAGE->set_pagelayout('standard');
-        $this->add_navbar();
+        $this->title = $title;
+        $PAGE->set_title($this->title);
     }
 
     /**
