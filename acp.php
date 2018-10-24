@@ -28,5 +28,5 @@ require_capability('moodle/site:config', \context_system::instance());
 
 $mode = optional_param('mode', null, PARAM_TEXT);
 $url = new \moodle_url('/local/o365/acp.php', ['mode' => $mode]);
-$page = new \local_o365\page\acp($url, '');
+$page = new \local_o365\page\acp($url, get_string('settings_header_syncsettings', 'local_o365'));
 $page->run($mode);

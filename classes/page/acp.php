@@ -28,6 +28,17 @@ namespace local_o365\page;
  */
 class acp extends base {
 
+    public function __construct($url, $title, $context = null) {
+        global $PAGE;
+        if (empty($context)) {
+            $context = \context_system::instance();
+        }
+        $this->set_context($context);
+        $this->set_url($url);
+        $PAGE->set_pagelayout('standard');
+        $this->add_navbar();
+    }
+
     /**
      * Add base navbar for this page.
      */
