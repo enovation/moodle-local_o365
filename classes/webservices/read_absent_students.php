@@ -51,7 +51,7 @@ class read_absent_students extends \external_api {
      * @return An array of assignments and warnings.
      */
     public static function absent_students_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $PAGE;
         $usersarray = [];
         $warnings = [];
         $courses = [];
@@ -75,7 +75,7 @@ class read_absent_students extends \external_api {
         }
         if(!empty($courses) ||  is_siteadmin()){
             $monthstart = mktime(0, 0, 0, date("n"), 1);
-            $userssql = 'SELECT u.id, u.username, u.firstname, u.lastname, u.lastaccess FROM {user} u ';
+            $userssql = 'SELECT u.id, u.username, u.firstname, u.lastname, u.lastaccess, u.picture FROM {user} u ';
             $sqlparams = [];
             if(!empty($courses)){
                 $coursessqlparam = join(',', $courses);
@@ -102,9 +102,13 @@ class read_absent_students extends \external_api {
             );
         } else {
             foreach ($userslist as $user) {
+                $userpicture = new \user_picture($user);
+                $userpicture->size = 1;
+                $pictureurl = $userpicture->get_url($PAGE)->out(false);
                 $usersarray[] = array(
                     'username' => $user->username,
                     'fullname' => $user->firstname.' '.$user->lastname,
+                    'picture' => $pictureurl,
                     'lastaccess' => $user->lastaccess,
                 );
             }
@@ -129,6 +133,7 @@ class read_absent_students extends \external_api {
             array(
                 'username' => new \external_value(PARAM_TEXT, 'participant username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'participant fullname'),
+                'picture' => new \external_value(PARAM_URL, 'participant picture url'),
                 'lastaccess' => new \external_value(PARAM_INT, 'grade date'),
             ), 'user grade information object'
         );

@@ -53,7 +53,7 @@ class read_assignments_ungraded extends \external_api {
      * @return An array of assignments and warnings.
      */
     public static function assignments_ungraded_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $OUTPUT;
         $assignmentsarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -113,6 +113,7 @@ class read_assignments_ungraded extends \external_api {
                     'participants' => $participants,
                     'submitted' => $submitted,
                     'percentage' => number_format(($percentage*100),2).'%',
+                    'icon' => $OUTPUT->image_url('icon', 'assign')->out(),
                     'url' => $url->out()
                 );
                 $assignmentsarray[] = $assignment;
@@ -152,6 +153,7 @@ class read_assignments_ungraded extends \external_api {
                 'participants' => new \external_value(PARAM_INT, 'total users number'),
                 'submitted' => new \external_value(PARAM_INT, 'percentage of incompleted/total'),
                 'percentage' => new \external_value(PARAM_TEXT, 'due date'),
+                'icon' => new \external_value(PARAM_TEXT, 'activity link'),
                 'url' => new \external_value(PARAM_TEXT, 'activity link'),
             ), 'assignment information object'
         );

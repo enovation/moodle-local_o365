@@ -51,7 +51,7 @@ class read_assignments_compared extends \external_api {
      * @return An array of assignments and warnings.
      */
     public static function assignments_compared_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $OUTPUT;
         $assignmentsarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -108,6 +108,7 @@ class read_assignments_compared extends \external_api {
                     'grade' => $assign->finalgrade,
                     'classgrade' => $average->sum / $average->amount,
                     'date' => $assign->timemodified,
+                    'icon' => $OUTPUT->image_url('icon', 'assign')->out(),
                     'url' => $url->out()
                 );
                 $assignmentsarray[] = $assignment;
@@ -136,6 +137,7 @@ class read_assignments_compared extends \external_api {
                 'grade' => new \external_value(PARAM_TEXT, 'activity grade'),
                 'classgrade' => new \external_value(PARAM_TEXT, 'grade date (unix timestamp)'),
                 'date' => new \external_value(PARAM_INT, 'grade date'),
+                'icon' => new \external_value(PARAM_TEXT, 'activity link'),
                 'url' => new \external_value(PARAM_TEXT, 'activity link'),
             ), 'assignment information object'
         );

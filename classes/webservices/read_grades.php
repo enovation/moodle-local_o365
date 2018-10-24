@@ -59,7 +59,7 @@ class read_grades extends \external_api {
      * @return An array of grades and warnings.
      */
     public static function grades_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $OUTPUT;
         $gradesarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -97,6 +97,7 @@ class read_grades extends \external_api {
                     'type' => $grade->itemmodule,
                     'grade' => $grade->finalgrade,
                     'date' => $grade->timemodified,
+                    'icon' => $OUTPUT->image_url('icon', $grade->itemmodule)->out(),
                     'url' => $url->out()
                 );
                 $gradesarray[] = $grade;
@@ -125,6 +126,7 @@ class read_grades extends \external_api {
                 'type' => new \external_value(PARAM_TEXT, 'activity type'),
                 'grade' => new \external_value(PARAM_TEXT, 'activity grade'),
                 'date' => new \external_value(PARAM_INT, 'grade date (unix timestamp)'),
+                'icon' => new \external_value(PARAM_TEXT, 'activity link'),
                 'url' => new \external_value(PARAM_TEXT, 'activity link'),
             ), 'assignment information object'
         );

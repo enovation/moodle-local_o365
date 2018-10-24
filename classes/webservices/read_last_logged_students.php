@@ -51,7 +51,7 @@ class read_last_logged_students extends \external_api {
      * @return An array of students and warnings.
      */
     public static function last_logged_students_read($limit) {
-        global $USER, $DB;
+        global $USER, $DB, $PAGE;
         $studentsarray = [];
         $warnings = [];
         $courses = [];
@@ -108,9 +108,13 @@ class read_last_logged_students extends \external_api {
             );
         }else{
             foreach($users as $user){
+                $userpicture = new \user_picture($user);
+                $userpicture->size = 1;
+                $pictureurl = $userpicture->get_url($PAGE)->out(false);
                 $studentsarray[] = [
                     'username' => $user->username,
                     'fullname' => $user->fullname,
+                    'picture' => $pictureurl,
                     'lastlogin' => $user->lastlogin,
                 ];
             }
@@ -135,6 +139,7 @@ class read_last_logged_students extends \external_api {
             array(
                 'username' => new \external_value(PARAM_TEXT, 'participant username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'participant fullname'),
+                'picture' => new \external_value(PARAM_URL, 'participant picture url'),
                 'lastlogin' => new \external_value(PARAM_INT, 'last login date'),
             ), 'users last login details'
         );

@@ -53,7 +53,7 @@ class read_assignment_lowest_grades extends \external_api {
      * @return An array of assignments and warnings.
      */
     public static function assignment_lowest_grades_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $PAGE;
         $gradesarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -102,9 +102,13 @@ class read_assignment_lowest_grades extends \external_api {
             $grades = $DB->get_records_sql($sql, $params);
             foreach ($grades as $g) {
                 $user = $DB->get_record('user', ['id' => $g->userid], 'id, username, firstname, lastname');
+                $userpicture = new \user_picture($user);
+                $userpicture->size = 1;
+                $pictureurl = $userpicture->get_url($PAGE)->out(false);
                 $grade = array(
                     'username' => $user->username,
                     'fullname' => $user->firstname.' '.$user->lastname,
+                    'picture' => $pictureurl,
                     'grade' => $g->grade,
                     'date' => $g->timemodified,
                 );
@@ -143,6 +147,7 @@ class read_assignment_lowest_grades extends \external_api {
             array(
                 'username' => new \external_value(PARAM_TEXT, 'participant username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'participant fullname'),
+                'picture' => new \external_value(PARAM_URL, 'participant picture url'),
                 'grade' => new \external_value(PARAM_FLOAT, 'participant grade'),
                 'date' => new \external_value(PARAM_INT, 'grade date'),
             ), 'user grade information object'

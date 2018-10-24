@@ -57,7 +57,7 @@ class read_assignments_incomplete extends \external_api {
      * @return An array of assignments and warnings.
      */
     public static function assignments_incomplete_read($limitnumber = 10, $usertype = 'teacher') {
-        global $USER, $DB;
+        global $USER, $DB, $OUTPUT;
         $assignmentsarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -136,6 +136,7 @@ class read_assignments_incomplete extends \external_api {
                     'total' => $total,
                     'percentage' => $percentage,
                     'duedate' => $assign->duedate,
+                    'icon' => $OUTPUT->image_url('icon', 'assign')->out(),
                     'url' => $url->out()
                 );
                 $assignmentsarray[] = $assignment;
@@ -175,6 +176,7 @@ class read_assignments_incomplete extends \external_api {
                 'total' => new \external_value(PARAM_INT, 'total users number'),
                 'percentage' => new \external_value(PARAM_TEXT, 'percentage of incompleted/total'),
                 'duedate' => new \external_value(PARAM_INT, 'due date'),
+                'icon' => new \external_value(PARAM_TEXT, 'activity link'),
                 'url' => new \external_value(PARAM_TEXT, 'activity link'),
             ), 'assignment information object'
         );

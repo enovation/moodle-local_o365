@@ -52,7 +52,7 @@ class read_late_submissions extends \external_api {
      * @return An array of submissions and warnings.
      */
     public static function late_submissions_read($limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $PAGE;
         $submissionsarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -100,12 +100,16 @@ class read_late_submissions extends \external_api {
             foreach ($submissions as $submission) {
                 $cm = get_coursemodule_from_instance('assign', $submission->assignment);
                 $user = $DB->get_record('user', ['id' => $submission->userid], 'id, username, firstname, lastname');
+                $userpicture = new \user_picture($user);
+                $userpicture->size = 1;
+                $pictureurl = $userpicture->get_url($PAGE)->out(false);
                 $url = new \moodle_url('/mod/assign/view.php', ['action' => 'grading', 'id'=> $cm->id, 'tsort' => 'timesubmitted']);
                 $record = array(
                     'cmid' => $cm->id,
                     'name' => $cm->name,
                     'username' => $user->username,
                     'fullname' => $user->firstname.' '.$user->lastname,
+                    'picture' => $pictureurl,
                     'timesubmitted' => $submission->timemodified,
                     'duedate' => $submission->duedate,
                     'coursename' => $submission->coursename,
@@ -135,6 +139,7 @@ class read_late_submissions extends \external_api {
                 'name' => new \external_value(PARAM_TEXT, 'assignment name'),
                 'username' => new \external_value(PARAM_TEXT, 'student username'),
                 'fullname' => new \external_value(PARAM_TEXT, 'student fullname'),
+                'picture' => new \external_value(PARAM_URL, 'student picture'),
                 'timesubmitted' => new \external_value(PARAM_INT, 'time when submission was made'),
                 'duedate' => new \external_value(PARAM_INT, 'time when activity is due'),
                 'coursename' => new \external_value(PARAM_TEXT, 'course name'),

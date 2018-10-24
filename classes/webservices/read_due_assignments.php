@@ -87,7 +87,7 @@ class read_due_assignments extends \external_api {
      * @return An array of courses and warnings.
      */
     public static function due_assignments_read($courseids = [], $assignmentids = [], $capabilities = [], $includenotenrolledcourses = false, $limitnumber = 10) {
-        global $USER, $DB;
+        global $USER, $DB, $OUTPUT;
         $assignmentarray = [];
         $warnings = [];
         $params = self::validate_parameters(
@@ -166,6 +166,7 @@ class read_due_assignments extends \external_api {
                     'course' => $assignment->course,
                     'name' => $assignment->name,
                     'duedate' => $assignment->duedate,
+                    'icon' => $OUTPUT->image_url('icon', 'assign')->out(),
                     'url' => $url->out(),
                 );
                 $assignmentarray[] = $assignment;
@@ -205,6 +206,7 @@ class read_due_assignments extends \external_api {
                 'course' => new \external_value(PARAM_INT, 'course id'),
                 'name' => new \external_value(PARAM_TEXT, 'assignment name'),
                 'duedate' => new \external_value(PARAM_TEXT, 'assignment due date'),
+                'icon' => new \external_value(PARAM_TEXT, 'activity link'),
                 'url' => new \external_value(PARAM_TEXT, 'assignment link'),
             ), 'assignment information object'
         );
