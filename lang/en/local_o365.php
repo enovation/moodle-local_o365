@@ -80,7 +80,7 @@ $string['acp_usergroupcustom'] = 'Teams Customization';
 $string['acp_usergroupcustom_off'] = 'Disabled<br />Disable Teams creation for all Moodle courses.';
 $string['acp_usergroupcustom_savemessage'] = 'Your changes have been saved.';
 $string['acp_usergroupcustom_searchwarning'] = 'Note: Searches will lose any unsaved progress. Press save changes to ensure your changes are saved.';
-$string['acp_usergroupcustom_oncustom'] = 'Customize<br />Allows you to select which courses to create Teams for.<br> <span id="adminsetting_usergroups" style="font-weight: bold"><a href="{$a}">Customize Teams</a></span>';
+$string['acp_usergroupcustom_oncustom'] = 'Customize<br />Allows you to select which courses to create Teams for.<br> <span id="adminsetting_teams" style="font-weight: bold"><a href="{$a}">Customize Teams</a></span>';
 $string['acp_usergroupcustom_onall'] = 'All Features Enabled<br />Create Teams for all Moodle courses.';
 $string['acp_usergroupcustom_enabled'] = 'Enabled';
 $string['acp_usergroupcustom_bulk'] = 'Bulk Operations';
