@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'L\'API unificata non è stata t
 $string['settings_azuresetup_legacyheader'] = 'API di Office 365';
 $string['settings_azuresetup_legacydesc'] = 'L\'API di Office 365 è costituita dalle API specifiche delle applicazioni.';
 $string['settings_azuresetup_legacyerror'] = 'Si è verificato un errore durante la verifica delle impostazioni dell\'API di Office 365.';
-$string['settings_creategroups'] = 'Crea gruppi utenti';
-$string['settings_creategroups_details'] = 'Crea e mantiene un gruppo di docenti e studenti in Office 365 per ogni corso sul sito. Verranno creati i gruppi necessari eseguiti da ogni cron (e aggiunti tutti i membri correnti). In seguito, l\'appartenenza al gruppo verrà mantenuta mentre utenti vengono iscritti o rimossi dai corsi Moodle.<br /><b>Nota: </b>questa funzione richiede che l\'API unificata Office 365 venga aggiunta all\'applicazione che è stata aggiunta in Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Istruzioni e documentazione per il setup.</a>';
+$string['settings_usergroups'] = 'Crea gruppi utenti';
+$string['settings_usergroups_details'] = 'Crea e mantiene un gruppo di docenti e studenti in Office 365 per ogni corso sul sito. Verranno creati i gruppi necessari eseguiti da ogni cron (e aggiunti tutti i membri correnti). In seguito, l\'appartenenza al gruppo verrà mantenuta mentre utenti vengono iscritti o rimossi dai corsi Moodle.<br /><b>Nota: </b>questa funzione richiede che l\'API unificata Office 365 venga aggiunta all\'applicazione che è stata aggiunta in Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Istruzioni e documentazione per il setup.</a>';
 $string['settings_o365china'] = 'Office 365 per la Cina';
 $string['settings_o365china_details'] = 'Seleziona questa opzione se utilizzi Office 365 per la Cina.';
 $string['settings_debugmode'] = 'Registra messaggi di debug';

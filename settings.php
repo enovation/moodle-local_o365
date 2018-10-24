@@ -218,7 +218,7 @@ if ($hassiteconfig) {
 
         $label = new lang_string('settings_usergroups', 'local_o365');
         $desc = new lang_string('settings_usergroups_details', 'local_o365');
-        $settings->add(new \local_o365\adminsetting\usergroups('local_o365/creategroups', $label, $desc, 'off'));
+        $settings->add(new \local_o365\adminsetting\usergroups('local_o365/createteams', $label, $desc, 'off'));
 
     }
 

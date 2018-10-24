@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'API unifiée introuvable dans c
 $string['settings_azuresetup_legacyheader'] = 'API Office 365';
 $string['settings_azuresetup_legacydesc'] = 'L\'API Office 365 est composée d\'API propres aux applications.';
 $string['settings_azuresetup_legacyerror'] = 'Une erreur est survenue pendant la vérification des paramètres de l\'API Office 365.';
-$string['settings_creategroups'] = 'Créer des groupes d\'utilisateurs';
-$string['settings_creategroups_details'] = 'Si cette option est activée, elle crée et conserve un groupe d\'étudiants et d\'enseignants dans Office 365 pour chaque cours sur le site. Cela crée tous les groupes nécessaires pour chaque cron (et ajoute tous les membres actuels). Après cela, l\'adhésion aux groupes est maintenue lorsque les utilisateurs sont inscrits ou désinscrits des cours Moodle.<br /><b>Remarque : </b>cette fonctionnalité nécessite l\'ajout de l\'API unifiée Office 365 dans l\'application ajoutée dans Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Documentation et instructions de configuration.</a>';
+$string['settings_usergroups'] = 'Créer des groupes d\'utilisateurs';
+$string['settings_usergroups_details'] = 'Si cette option est activée, elle crée et conserve un groupe d\'étudiants et d\'enseignants dans Office 365 pour chaque cours sur le site. Cela crée tous les groupes nécessaires pour chaque cron (et ajoute tous les membres actuels). Après cela, l\'adhésion aux groupes est maintenue lorsque les utilisateurs sont inscrits ou désinscrits des cours Moodle.<br /><b>Remarque : </b>cette fonctionnalité nécessite l\'ajout de l\'API unifiée Office 365 dans l\'application ajoutée dans Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Documentation et instructions de configuration.</a>';
 $string['settings_o365china'] = 'Office 365 for China';
 $string['settings_o365china_details'] = 'Vérifiez ces données si vous utilisez Office 365 for China.';
 $string['settings_debugmode'] = 'Enregistrer les messages de débogage';

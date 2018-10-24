@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'Sjednocené rozhraní API nebyl
 $string['settings_azuresetup_legacyheader'] = 'Office 365 API';
 $string['settings_azuresetup_legacydesc'] = 'Rozhraní Office 365 API se skládá z rozhraní API specifických pro aplikace.';
 $string['settings_azuresetup_legacyerror'] = 'Při kontrole nastavení rozhraní Office 365 API došlo k chybě.';
-$string['settings_creategroups'] = 'Vytvořit skupiny uživatelů';
-$string['settings_creategroups_details'] = 'Pokud je toto nastavení povoleno, vytvoří a bude udržovat v Office 365 skupinu učitele a studentů pro každý kurz na webu. Při každém spuštění procesu cron dojde k vytvoření potřebných skupin (a přidání všech aktuálních členů). Následně probíhá údržba členství ve skupině podle toho, jak se uživatelé registrují nebo ruší registraci v kurzech v Moodlu.<br /><b>Poznámka: </b>Tato funkce vyžaduje, aby do aplikace přidané v Azure bylo přidáno sjednocené rozhraní API Office 365. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Pokyny a dokumentace k nastavení.</a>';
+$string['settings_usergroups'] = 'Vytvořit skupiny uživatelů';
+$string['settings_usergroups_details'] = 'Pokud je toto nastavení povoleno, vytvoří a bude udržovat v Office 365 skupinu učitele a studentů pro každý kurz na webu. Při každém spuštění procesu cron dojde k vytvoření potřebných skupin (a přidání všech aktuálních členů). Následně probíhá údržba členství ve skupině podle toho, jak se uživatelé registrují nebo ruší registraci v kurzech v Moodlu.<br /><b>Poznámka: </b>Tato funkce vyžaduje, aby do aplikace přidané v Azure bylo přidáno sjednocené rozhraní API Office 365. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Pokyny a dokumentace k nastavení.</a>';
 $string['settings_o365china'] = 'Office 365 pro Čínu';
 $string['settings_o365china_details'] = 'Toto políčko zaškrtněte, pokud používáte Office 365 pro Čínu.';
 $string['settings_debugmode'] = 'Zaznamenávat zprávy ladění';

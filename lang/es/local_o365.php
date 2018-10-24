@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'No se encontró la API unificad
 $string['settings_azuresetup_legacyheader'] = 'API de Office&nbsp;365';
 $string['settings_azuresetup_legacydesc'] = 'La API de Office&nbsp;365 está compuesta de API específicas de la aplicación.';
 $string['settings_azuresetup_legacyerror'] = 'Ocurrió un error al verificar la configuración de la API de Office&nbsp;365.';
-$string['settings_creategroups'] = 'Crear grupos de usuarios';
-$string['settings_creategroups_details'] = 'Si está habilitado, creará y mantendrá un grupo de profesores y alumnos en Office&nbsp;365 para cada curso del sitio. Esto creará todas las ejecuciones de cron de cada grupo necesario (y agregará todos los miembros actuales). Después de esto, se mantendrá la membresía de grupos a medida que los usuarios se inscriban o cancelen la inscripción desde cursos de Moodle.<br /><b>Nota: </b>Esta característica requiere agregar la API unificada de Office&nbsp;365 a la aplicación agregada en Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Instrucciones y documentación de configuración.</a>';
+$string['settings_usergroups'] = 'Crear grupos de usuarios';
+$string['settings_usergroups_details'] = 'Si está habilitado, creará y mantendrá un grupo de profesores y alumnos en Office&nbsp;365 para cada curso del sitio. Esto creará todas las ejecuciones de cron de cada grupo necesario (y agregará todos los miembros actuales). Después de esto, se mantendrá la membresía de grupos a medida que los usuarios se inscriban o cancelen la inscripción desde cursos de Moodle.<br /><b>Nota: </b>Esta característica requiere agregar la API unificada de Office&nbsp;365 a la aplicación agregada en Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Instrucciones y documentación de configuración.</a>';
 $string['settings_o365china'] = 'Office&nbsp;365 para China';
 $string['settings_o365china_details'] = 'Marque esta opción si está utilizando Office&nbsp;365 para China.';
 $string['settings_debugmode'] = 'Grabar mensajes de depuración';

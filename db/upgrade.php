@@ -576,5 +576,11 @@ function xmldb_local_o365_upgrade($oldversion) {
         upgrade_plugin_savepoint($result, '2017111301', 'local', 'o365');
     }
 
+    if ($result && $oldversion < 2018101901) {
+        $createteamssetting = get_config('local_o365', 'creatgroups');
+        set_config('createteams', $createteamssetting, 'local_o365');
+        upgrade_plugin_savepoint($result, '2018101901', 'local', 'o365');
+    }
+
     return $result;
 }

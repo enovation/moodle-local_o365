@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'De Unified API is niet gevonden
 $string['settings_azuresetup_legacyheader'] = 'Office&nbsp;365 API';
 $string['settings_azuresetup_legacydesc'] = 'De Office&nbsp;365-API bestaat uit toepassingspecifieke API\'s.';
 $string['settings_azuresetup_legacyerror'] = 'Er is een fout opgetreden tijdens het controleren van de API-instellingen van Office&nbsp;365.';
-$string['settings_creategroups'] = 'Gebruikersgroepen maken';
-$string['settings_creategroups_details'] = 'Als deze optie is ingeschakeld, wordt er in Office&nbsp;365 een leraar- en studentengroep gemaakt en onderhouden voor elke cursus op de site. Hiermee worden alle noodzakelijke groepen gemaakt die elke cron uitvoert (en worden alle huidige leden toegevoegd). Daarna wordt het groepslidmaatschap beheerd naarmate gebruikers zich in- of uitschrijven voor Moodle-cursussen.<br /><b>Opmerking: </b>voor deze functie moet de Unified API van Office&nbsp;365 zijn toegevoegd aan de toepassing die in Azure is toegevoegd. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Setup-instructies en -documentatie.</a>';
+$string['settings_usergroups'] = 'Gebruikersgroepen maken';
+$string['settings_usergroups_details'] = 'Als deze optie is ingeschakeld, wordt er in Office&nbsp;365 een leraar- en studentengroep gemaakt en onderhouden voor elke cursus op de site. Hiermee worden alle noodzakelijke groepen gemaakt die elke cron uitvoert (en worden alle huidige leden toegevoegd). Daarna wordt het groepslidmaatschap beheerd naarmate gebruikers zich in- of uitschrijven voor Moodle-cursussen.<br /><b>Opmerking: </b>voor deze functie moet de Unified API van Office&nbsp;365 zijn toegevoegd aan de toepassing die in Azure is toegevoegd. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Setup-instructies en -documentatie.</a>';
 $string['settings_o365china'] = 'Office&nbsp;365 voor China';
 $string['settings_o365china_details'] = 'Controleer dit als je gebruikmaakt van Office&nbsp;365 voor China.';
 $string['settings_debugmode'] = 'Foutopsporingsberichten registreren';

@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'Tästä sovelluksesta ei löyty
 $string['settings_azuresetup_legacyheader'] = 'Office&nbsp;365:n ohjelmointirajapinta';
 $string['settings_azuresetup_legacydesc'] = 'Office&nbsp;365:n ohjelmointirajapinta koostuu sovelluskohtaisista ohjelmointirajapinnoista.';
 $string['settings_azuresetup_legacyerror'] = 'Office&nbsp;365:n ohjelmointirajapinnan asetusten tarkistamisessa tapahtui virhe.';
-$string['settings_creategroups'] = 'Luo käyttäjäryhmät';
-$string['settings_creategroups_details'] = 'Jos asetus on käytössä, opettaja- ja opiskelijaryhmät luodaan Office&nbsp;365:een jokaista sivuston kurssia varten. Kaikki tarvittavat ryhmät luodaan jokaisen cron-työn aikana (myös kaikki uudet jäsenet lisätään). Tämän jälkeen ryhmien jäsenyyksiä lisätään ja poistetaan sen mukaan, miten käyttäjät rekisteröityvät Moodle-kursseille.<br /><b>Huomautus: </b>Tämä toiminto edellyttää Office&nbsp;365:n yhdistetyn ohjelmointirajapinnan lisäämistä sovellukseen Azuressa. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Katso määritysohjeet täältä.</a>';
+$string['settings_usergroups'] = 'Luo käyttäjäryhmät';
+$string['settings_usergroups_details'] = 'Jos asetus on käytössä, opettaja- ja opiskelijaryhmät luodaan Office&nbsp;365:een jokaista sivuston kurssia varten. Kaikki tarvittavat ryhmät luodaan jokaisen cron-työn aikana (myös kaikki uudet jäsenet lisätään). Tämän jälkeen ryhmien jäsenyyksiä lisätään ja poistetaan sen mukaan, miten käyttäjät rekisteröityvät Moodle-kursseille.<br /><b>Huomautus: </b>Tämä toiminto edellyttää Office&nbsp;365:n yhdistetyn ohjelmointirajapinnan lisäämistä sovellukseen Azuressa. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Katso määritysohjeet täältä.</a>';
 $string['settings_o365china'] = 'Office&nbsp;365 Kiinassa';
 $string['settings_o365china_details'] = 'Valitse tämä, jos käytät Office&nbsp;365:tä Kiinassa.';
 $string['settings_debugmode'] = 'Kirjaa virheenkorjausviestit';

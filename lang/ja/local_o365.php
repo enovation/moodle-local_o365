@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = '統合APIは、このアプリ�
 $string['settings_azuresetup_legacyheader'] = 'Office&nbsp;365 API';
 $string['settings_azuresetup_legacydesc'] = 'Office&nbsp;365 APIはアプリケーション固有のAPIで構成されています。';
 $string['settings_azuresetup_legacyerror'] = 'Office&nbsp;365 API設定の確認中にエラーが発生しました。';
-$string['settings_creategroups'] = 'ユーザグループを作成する';
-$string['settings_creategroups_details'] = 'この機能を有効にした場合、サイト上のコースごとに、Office&nbsp;365で教師と学生のグループを作成して維持管理します。これにより、cronの実行ごとに必要なグループが作成され、現在のすべてのメンバーが追加されます。その後、グループのメンバーシップは、ユーザのMoodleコースへの登録/登録解除に従って維持管理されます。<br /><b>注 : </b>この機能を利用するには、Azureに追加されたアプリケーションにOffice&nbsp;365統合APIが追加されている必要があります。<a href="https://docs.moodle.org/30/en/Office365#User_groups">設定手順とドキュメント。</a>';
+$string['settings_usergroups'] = 'ユーザグループを作成する';
+$string['settings_usergroups_details'] = 'この機能を有効にした場合、サイト上のコースごとに、Office&nbsp;365で教師と学生のグループを作成して維持管理します。これにより、cronの実行ごとに必要なグループが作成され、現在のすべてのメンバーが追加されます。その後、グループのメンバーシップは、ユーザのMoodleコースへの登録/登録解除に従って維持管理されます。<br /><b>注 : </b>この機能を利用するには、Azureに追加されたアプリケーションにOffice&nbsp;365統合APIが追加されている必要があります。<a href="https://docs.moodle.org/30/en/Office365#User_groups">設定手順とドキュメント。</a>';
 $string['settings_o365china'] = '中国向けOffice&nbsp;365';
 $string['settings_o365china_details'] = '中国向けOffice&nbsp;365を使用している場合は、ここをチェックします。';
 $string['settings_debugmode'] = 'デバッグメッセージを記録する';

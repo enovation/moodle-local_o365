@@ -78,8 +78,8 @@ $string['settings_azuresetup_unifiedmissing'] = 'A API unificada não foi encont
 $string['settings_azuresetup_legacyheader'] = 'API do Office 365';
 $string['settings_azuresetup_legacydesc'] = 'A API do Office 365 é composta por APIs de aplicativos específicos.';
 $string['settings_azuresetup_legacyerror'] = 'Houve um erro ao verificar as configurações da API do Office 365.';
-$string['settings_creategroups'] = 'Criar grupos de usuários';
-$string['settings_creategroups_details'] = 'Se essa opção estiver ativada, um grupo de professores e alunos no Office 365 será criado e mantido para cada curso do site. Serão criados todos os grupos necessários a cada execução do cron (além da adição de todos os membros atuais). Depois disso, a associação a grupos será mantida à medida que os usuários se inscreverem ou cancelarem a inscrição em cursos do Moodle.<br /><b>Observação: </b>esse recurso exige a API unificada do Office 365 incluída no aplicativo adicionado ao Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Instruções de configuração e documentação</a> (em inglês).';
+$string['settings_usergroups'] = 'Criar grupos de usuários';
+$string['settings_usergroups_details'] = 'Se essa opção estiver ativada, um grupo de professores e alunos no Office 365 será criado e mantido para cada curso do site. Serão criados todos os grupos necessários a cada execução do cron (além da adição de todos os membros atuais). Depois disso, a associação a grupos será mantida à medida que os usuários se inscreverem ou cancelarem a inscrição em cursos do Moodle.<br /><b>Observação: </b>esse recurso exige a API unificada do Office 365 incluída no aplicativo adicionado ao Azure. <a href="https://docs.moodle.org/30/en/Office365#User_groups">Instruções de configuração e documentação</a> (em inglês).';
 $string['settings_o365china'] = 'Office 365 para a China';
 $string['settings_o365china_details'] = 'Marque essa opção se você estiver usando a versão do Office 365 para a China.';
 $string['settings_debugmode'] = 'Registrar mensagens de depuração';
