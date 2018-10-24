@@ -472,7 +472,7 @@ class acp extends base {
     }
 
     /**
-     * Endpoint to change user group customization.
+     * Endpoint to change Teams customization.
      */
     public function mode_usergroupcustom_change() {
         $coursedata = json_decode(required_param('coursedata', PARAM_RAW), true);
@@ -499,7 +499,7 @@ class acp extends base {
     }
 
     /**
-     * Endpoint to change user group customization.
+     * Endpoint to change Teams customization.
      */
     public function mode_usergroupcustom_bulkchange() {
         $enabled = (bool)required_param('state', PARAM_BOOL);
@@ -510,7 +510,7 @@ class acp extends base {
     }
 
     /**
-     * User group customization.
+     * Teams customization.
      */
     public function mode_usergroupcustom() {
         global $OUTPUT, $PAGE;
