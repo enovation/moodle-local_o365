@@ -173,7 +173,7 @@ function local_o365_create_manifest_file() {
             'short' => 'Bot and tab for Moodle in Teams.', // todo update short description
             'full' => 'This plugin contains a bot that allows users to interact with Moodle from Teams, and a tab to show course page in Teams.', // todo update full description
         ),
-        'accentColor' => '#F89C31',
+        'accentColor' => '#FF7A00',
         'bots' => array(
             array(
                 'botId' => $appid,
