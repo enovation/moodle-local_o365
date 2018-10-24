@@ -65,7 +65,6 @@ class usergroups extends \admin_setting {
             'onall' => get_string('acp_usergroupcustom_onall', 'local_o365'),
         ];
         $curval = (isset($options[$data])) ? $data : $this->get_defaultsetting();
-        $customenabled = get_string('acp_usergroupcustom_oncustom', 'local_o365', $customizeurl->out());
         foreach ($options as $key => $desc) {
             $radioattrs = [
                 'type' => 'radio',
@@ -73,6 +72,7 @@ class usergroups extends \admin_setting {
                 'name' => $this->get_full_name(),
                 'value' => $key,
                 'onchange' => 'teams_togglecustom()',
+                'class' => 'acpoption',
             ];
             if ($curval === $key) {
                 $radioattrs['checked'] = 'checked';

@@ -295,3 +295,6 @@ button.manualloginbutton:hover, button.manualloginbutton.enabled {
 button.manualloginbutton:focus, button.manualloginbutton:focus:enabled {
 
 }
+.acpoption {
+  vertical-align: top;
+}
