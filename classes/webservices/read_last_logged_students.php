@@ -62,7 +62,7 @@ class read_last_logged_students extends \external_api {
             )
         );
 
-        $lastloggedsql = "SELECT u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
+        $lastloggedsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
                     WHERE u.suspended = 0 AND u.deleted = 0 AND u.lastlogin > 0";
 
         if(!is_siteadmin()){

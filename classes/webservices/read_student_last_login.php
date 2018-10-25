@@ -61,7 +61,7 @@ class read_student_last_login extends \external_api {
             )
         );
 
-        $lastloginsql = "SELECT u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
+        $lastloginsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
                     WHERE CONCAT(u.firstname, ' ', u.lastname) LIKE '%{$params['name']}%' AND u.suspended = 0 AND u.deleted = 0";
 
         if(!is_siteadmin()){
