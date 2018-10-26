@@ -365,7 +365,6 @@ class observers {
      * @return bool Success/Failure.
      */
     public static function handle_user_enrolment_created(\core\event\user_enrolment_created $event) {
-        global $DB;
         $caller = 'local_o365\observer::handle_user_enrolment_created';
         if (\local_o365\utils::is_configured() !== true || \local_o365\feature\usergroups\utils::is_enabled() !== true) {
             \local_o365\utils::debug("Not configured", $caller);
@@ -383,7 +382,8 @@ class observers {
         try {
             // Add user from course usergroup.
             $apiclient = \local_o365\utils::get_api();
-            $apiclient->add_user_to_course_group($courseid, $userid);
+            // disabled, as team membership should be managed by role assignment/unassignment.
+            //$apiclient->add_user_to_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug('Exception: '.$e->getMessage(), $caller, $e);
         }
@@ -416,7 +416,8 @@ class observers {
         try {
             // Remove user from course usergroup.
             $apiclient = \local_o365\utils::get_api();
-            $apiclient->remove_user_from_course_group($courseid, $userid);
+            // disabled, as team membership should be managed by role assignment/unassignment.
+            //$apiclient->remove_user_from_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug($e->getMessage(), 'handle_user_enrolment_deleted', $e);
         }
