@@ -382,8 +382,7 @@ class observers {
         try {
             // Add user from course usergroup.
             $apiclient = \local_o365\utils::get_api();
-            // disabled, as team membership should be managed by role assignment/unassignment.
-            //$apiclient->add_user_to_course_group($courseid, $userid);
+            $apiclient->add_user_to_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug('Exception: '.$e->getMessage(), $caller, $e);
         }
@@ -416,8 +415,7 @@ class observers {
         try {
             // Remove user from course usergroup.
             $apiclient = \local_o365\utils::get_api();
-            // disabled, as team membership should be managed by role assignment/unassignment.
-            //$apiclient->remove_user_from_course_group($courseid, $userid);
+            $apiclient->remove_user_from_course_group($courseid, $userid);
         } catch (\Exception $e) {
             \local_o365\utils::debug($e->getMessage(), 'handle_user_enrolment_deleted', $e);
         }
