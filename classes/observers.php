@@ -511,6 +511,9 @@ class observers {
         }
         $courseid = $event->objectid;
 
+        // delete course group
+        \local_o365\feature\usergroups\utils::delete_course_group($courseid);
+
         $sharepoint = static::construct_sharepoint_api_with_system_user();
         if (!empty($sharepoint)) {
             $sharepoint->delete_course_site($courseid);
