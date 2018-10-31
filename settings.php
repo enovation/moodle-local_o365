@@ -376,6 +376,18 @@ if ($hassiteconfig) {
             get_string('settings_bot_app_id_desc', 'local_o365'),
             '00000000-0000-0000-0000-000000000000', PARAM_TEXT, 38, 36));
 
+        // bot_app_password
+        $settings->add(new admin_setting_configpasswordunmask('local_o365/bot_app_password',
+            get_string('settings_bot_app_password', 'local_o365'),
+            get_string('settings_bot_app_password_desc', 'local_o365'),
+            ''));
+
+        // bot_webhook_endpoint
+        $settings->add(new admin_setting_configtext_trim_lower('local_o365/bot_webhook_endpoint',
+            get_string('settings_bot_webhook_endpoint', 'local_o365'),
+            get_string('settings_bot_webhook_endpoint_desc', 'local_o365'),
+            ''));
+
         // manifest download link
         $html = html_writer::start_tag('p');
         $manifesturl = new moodle_url('/local/o365/export_manifest.php');

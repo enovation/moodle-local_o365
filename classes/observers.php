@@ -767,4 +767,68 @@ class observers {
         $DB->delete_records('local_o365_appassign', ['muserid' => $userid]);
         return true;
     }
+
+    /**
+     * Send proactive notifications to o365 users when a notification is sent to the Moodle user.
+     *
+     * @param \core\event\notification_sent $event
+     *
+     * @return bool
+     * @throws \dml_exception
+     */
+    public static function handle_notification_sent(\core\event\notification_sent $event) {
+        global $DB;
+
+        $notificationid = $event->objectid;
+        $notification = $DB->get_record('notifications', ['id' => $notificationid]);
+        if (!$notification) {
+            // notification cannot be found, exit.
+            return true;
+        }
+
+        $user = $DB->get_record('user', ['id' => $notification->useridto]);
+        if (!$user) {
+            // recipient user invalid, exit.
+            return true;
+        }
+
+        if ($user->auth != 'oidc') {
+            // recipient user is not office 365 user, exit.
+            return true;
+        }
+
+        // get user object record
+        $userrecord = $DB->get_record('local_o365_objects', ['type' => 'user', 'moodleid' => $user->id]);
+        if (!$userrecord) {
+            // recipient user doesn't have an ID, exit.
+            return true;
+        }
+
+        // get course object record
+        if (!array_key_exists('courseid', $event->other)) {
+            // course doesn't exist, exit.
+            return true;
+        }
+        $courseid = $event->other['courseid'];
+        if (!$courseid || $courseid == SITEID) {
+            // invalid course id, exit.
+            return true;
+        }
+        $course = $DB->get_record('course', ['id' => $courseid]);
+        if (!$course) {
+            // invalid course, exit.
+            return true;
+        }
+
+        // get course object record
+        $courserecord = $DB->get_record('local_o365_objects',
+            ['type' => 'group', 'subtype' => 'course', 'moodleid' => $courseid]);
+        if (!$courserecord) {
+            // course record doesn't have an ID, exit.
+            return true;
+        }
+
+        // passed all tests, need to send notification.
+
+    }
 }
