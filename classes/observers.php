@@ -777,23 +777,34 @@ class observers {
      * @throws \dml_exception
      */
     public static function handle_notification_sent(\core\event\notification_sent $event) {
-        global $DB;
+        global $CFG, $DB;
+
+        $debugfile = $CFG->dataroot . '/notificaitons.txt';
+
+        file_put_contents($debugfile, 'notification_sent observer started: ' . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
 
         $notificationid = $event->objectid;
         $notification = $DB->get_record('notifications', ['id' => $notificationid]);
         if (!$notification) {
             // notification cannot be found, exit.
+            file_put_contents($debugfile, 'notification cannot be found ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
         $user = $DB->get_record('user', ['id' => $notification->useridto]);
         if (!$user) {
             // recipient user invalid, exit.
+            file_put_contents($debugfile, 'recipient user invalid ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
         if ($user->auth != 'oidc') {
             // recipient user is not office 365 user, exit.
+            file_put_contents($debugfile, 'recipient user not in o365 ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
@@ -801,22 +812,30 @@ class observers {
         $userrecord = $DB->get_record('local_o365_objects', ['type' => 'user', 'moodleid' => $user->id]);
         if (!$userrecord) {
             // recipient user doesn't have an ID, exit.
+            file_put_contents($debugfile, 'recipient user does not have ID ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
         // get course object record
         if (!array_key_exists('courseid', $event->other)) {
             // course doesn't exist, exit.
+            file_put_contents($debugfile, 'course does not exist ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
         $courseid = $event->other['courseid'];
         if (!$courseid || $courseid == SITEID) {
             // invalid course id, exit.
+            file_put_contents($debugfile, 'invalid course 1 ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
         $course = $DB->get_record('course', ['id' => $courseid]);
         if (!$course) {
             // invalid course, exit.
+            file_put_contents($debugfile, 'invalid course 2 ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
@@ -825,11 +844,17 @@ class observers {
             ['type' => 'group', 'subtype' => 'course', 'moodleid' => $courseid]);
         if (!$courserecord) {
             // course record doesn't have an ID, exit.
+            file_put_contents($debugfile, 'course does not have ID ' . date('Ymd H:i:s') . PHP_EOL,
+                FILE_APPEND | LOCK_EX);
             return true;
         }
 
         // passed all tests, need to send notification.
+        file_put_contents($debugfile, 'ready to send notification ' . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
         $botframework = new \local_o365\rest\botframework();
+        file_put_contents($debugfile, 'botframework token created ' . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
         $botframework->send_notification($courserecord->objectid, $userrecord->objectid,
             $notification->fullmessagehtml);
    }

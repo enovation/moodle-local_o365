@@ -80,6 +80,10 @@ class botframework {
      * @throws \dml_exception
      */
     public function send_notification($teamid, $userid, $message) {
+        global $CFG;
+
+        $debugfile = $CFG->dataroot . '/notificaitons.txt';
+
         $tenant = get_config('local_o365', 'aadtenant');
         $notificationendpoint = get_config('local_o365', 'bot_webhook_endpoint');
 
@@ -96,11 +100,35 @@ class botframework {
             'Content-Type: application/json',
         ];
 
+        ob_start();
+        var_dump($notificationendpoint);
+        $vardump = ob_get_clean();
+        file_put_contents($debugfile, 'endpoint: ' . $vardump . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
+
+        ob_start();
+        var_dump($header);
+        $vardump = ob_get_clean();
+        file_put_contents($debugfile, 'header: ' . $vardump . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
+
+        ob_start();
+        var_dump($params);
+        $vardump = ob_get_clean();
+        file_put_contents($debugfile, 'params: ' . $vardump . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
+
         $this->httpclient->resetHeader();
         $this->httpclient->setHeader($header);
         $result = $this->httpclient->post($notificationendpoint, $params);
 
         $result = json_decode($result);
+
+        ob_start();
+        var_dump($result);
+        $vardump = ob_get_clean();
+        file_put_contents($debugfile, 'result: ' . $vardump . date('Ymd H:i:s') . PHP_EOL,
+            FILE_APPEND | LOCK_EX);
 
         echo '<pre>';
         var_dump($result);
