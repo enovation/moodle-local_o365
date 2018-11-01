@@ -829,6 +829,8 @@ class observers {
         }
 
         // passed all tests, need to send notification.
-
-    }
+        $botframework = new \local_o365\rest\botframework();
+        $botframework->send_notification($courserecord->objectid, $userrecord->objectid,
+            $notification->fullmessagehtml);
+   }
 }

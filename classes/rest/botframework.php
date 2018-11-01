@@ -27,11 +27,21 @@ class botframework {
     private $token;
     private $httpclient;
 
+    /**
+     * botframework constructor.
+     *
+     * @throws \dml_exception
+     */
     public function __construct() {
         $this->httpclient = new \local_o365\httpclient();
         $this->get_token();
     }
 
+    /**
+     * Authenticate with bot framework to get token.
+     *
+     * @throws \dml_exception
+     */
     public function get_token() {
         $tokenendpoint = 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token';
         $params = [
@@ -52,10 +62,47 @@ class botframework {
 
         $this->httpclient->resetHeader();
         $this->httpclient->setHeader($header);
-        $result = $this->httpclient->post($tokenendpoint, $paramstring);
+        $rawresult = $this->httpclient->post($tokenendpoint, $paramstring);
+
+        $result = json_decode($rawresult);
+        if (array_key_exists('access_token', $result)) {
+            $this->token = $result['access_token'];
+        }
+    }
+
+    /**
+     * Send a notificaiton to notification endpoint.
+     *
+     * @param $teamid
+     * @param $userid
+     * @param $message
+     *
+     * @throws \dml_exception
+     */
+    public function send_notification($teamid, $userid, $message) {
+        $tenant = get_config('local_o365', 'aadtenant');
+        $notificationendpoint = get_config('local_o365', 'bot_webhook_endpoint');
+
+        $params = [
+            'tenant' => $tenant,
+            'team' => $teamid,
+            'user' => $userid,
+            'message' => $message,
+        ];
+        $params = json_encode($params);
+
+        $header = [
+            'Authorization: Bearer ' . $this->token,
+            'Content-Type: application/json',
+        ];
+
+        $this->httpclient->resetHeader();
+        $this->httpclient->setHeader($header);
+        $result = $this->httpclient->post($notificationendpoint, $params);
+
+        $result = json_decode($result);
 
         echo '<pre>';
-        var_dump($paramstring);
         var_dump($result);
     }
 }
