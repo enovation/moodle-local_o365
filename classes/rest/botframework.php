@@ -44,7 +44,7 @@ class botframework {
         $header = [
             'Host: login.microsoftonline.com',
             'Content-Type: application/json',
-            'Content-length: ' . strleng($params),
+            'Content-length: ' . strlen($params),
         ];
 
         $this->httpclient->resetHeader();
