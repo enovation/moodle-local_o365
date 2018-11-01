@@ -40,16 +40,19 @@ class botframework {
             'client_secret' => get_config('local_o365', 'bot_app_password'),
             'scope' => 'https://api.botframework.com/.default',
         ];
-        $params = json_encode($params);
+        $paramstring = '';
+        foreach ($params as $key => $param) {
+            $paramstring .= urlencode($key) . '=' . urlencode($param) . '&';
+        }
+        $paramstring = substr($paramstring, 0, strlen($paramstring) - 1);
         $header = [
             'Host: login.microsoftonline.com',
-            'Content-Type: application/json',
-            'Content-length: ' . strlen($params),
+            'Content-Type: application/x-www-form-urlencoded',
         ];
 
         $this->httpclient->resetHeader();
         $this->httpclient->setHeader($header);
-        $result = $this->httpclient->post($tokenendpoint, $params);
+        $result = $this->httpclient->post($tokenendpoint, $paramstring);
 
         echo '<pre>';
         var_dump($result);
