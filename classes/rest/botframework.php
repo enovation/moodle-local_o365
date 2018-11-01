@@ -120,9 +120,9 @@ class botframework {
 
         $this->httpclient->resetHeader();
         $this->httpclient->setHeader($header);
-        $result = $this->httpclient->post($notificationendpoint, $params);
+        $this->httpclient->post($notificationendpoint, $params);
 
-        $result = json_decode($result);
+        $result = $this->httpclient->info['http_code'];
 
         ob_start();
         var_dump($result);
