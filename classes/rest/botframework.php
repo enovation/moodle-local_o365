@@ -51,6 +51,7 @@ class botframework {
         $this->httpclient->setHeader($header);
         $result = $this->httpclient->post($tokenendpoint, $params);
 
+        echo '<pre>';
         var_dump($result);
     }
 }
