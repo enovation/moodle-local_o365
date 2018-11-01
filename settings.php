@@ -383,7 +383,7 @@ if ($hassiteconfig) {
             ''));
 
         // bot_webhook_endpoint
-        $settings->add(new admin_setting_configtext_trim_lower('local_o365/bot_webhook_endpoint',
+        $settings->add(new admin_setting_configtext('local_o365/bot_webhook_endpoint',
             get_string('settings_bot_webhook_endpoint', 'local_o365'),
             get_string('settings_bot_webhook_endpoint_desc', 'local_o365'),
             ''));

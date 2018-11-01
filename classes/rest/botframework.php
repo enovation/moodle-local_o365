@@ -48,7 +48,7 @@ class botframework {
         ];
 
         $this->httpclient->resetHeader();
-        $this->httpclient->setHeader($params);
+        $this->httpclient->setHeader($header);
         $result = $this->httpclient->post($tokenendpoint, $params);
 
         var_dump($result);
