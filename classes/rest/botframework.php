@@ -65,8 +65,8 @@ class botframework {
         $rawresult = $this->httpclient->post($tokenendpoint, $paramstring);
 
         $result = json_decode($rawresult);
-        if (array_key_exists('access_token', $result)) {
-            $this->token = $result['access_token'];
+        if (property_exists($result, 'access_token')) {
+            $this->token = $result->access_token;
         }
     }
 
