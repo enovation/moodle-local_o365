@@ -61,7 +61,7 @@ class read_student_last_login extends \external_api {
             )
         );
 
-        $lastloginsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
+        $lastloginsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastaccess FROM {user} u
                     WHERE CONCAT(u.firstname, ' ', u.lastname) LIKE '%{$params['name']}%' AND u.suspended = 0 AND u.deleted = 0";
 
         if(!is_siteadmin()){
@@ -91,7 +91,7 @@ class read_student_last_login extends \external_api {
                 $lastloginsql .= ' AND u.id IN ('.$USER->id.')';
             }
         }
-        $lastloginsql .= ' ORDER BY u.lastlogin DESC';
+        $lastloginsql .= ' ORDER BY u.lastaccess DESC';
 
         $users = $DB->get_records_sql($lastloginsql);
 
@@ -111,7 +111,7 @@ class read_student_last_login extends \external_api {
                     'username' => $user->username,
                     'fullname' => $user->fullname,
                     'picture' => $pictureurl,
-                    'lastlogin' => $user->lastlogin,
+                    'lastlogin' => $user->lastaccess,
                 ];
             }
         }

@@ -62,8 +62,8 @@ class read_latest_logged_students extends \external_api {
             )
         );
 
-        $lastloggedsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastlogin FROM {user} u
-                    WHERE u.suspended = 0 AND u.deleted = 0 AND u.lastlogin > 0";
+        $lastloggedsql = "SELECT u.id, u.username, CONCAT(u.firstname, ' ', u.lastname) as fullname, u.lastaccess FROM {user} u
+                    WHERE u.suspended = 0 AND u.deleted = 0 AND u.lastaccess > 0";
 
         if(!is_siteadmin()){
             $courses = array_keys(enrol_get_users_courses($USER->id, true, 'id'));
@@ -83,7 +83,7 @@ class read_latest_logged_students extends \external_api {
                                JOIN {role} r ON ra.roleid = r.id AND r.shortname = 'student'
                                JOIN {context} c ON c.id = ra.contextid AND c.contextlevel = 50 AND c.instanceid IN ($coursessqlparam)
                                ";
-                $userssql .= ' WHERE u.deleted = 0 AND u.suspended = 0 AND u.lastlogin > 0';
+                $userssql .= ' WHERE u.deleted = 0 AND u.suspended = 0 AND u.lastaccess > 0';
 
                 $userslist = $DB->get_fieldset_sql($userssql);
                 $userssqlparam = join(',', $userslist);
@@ -92,7 +92,7 @@ class read_latest_logged_students extends \external_api {
                 $lastloggedsql .= ' AND u.id IN ('.$USER->id.')';
             }
         }
-        $lastloggedsql .= ' ORDER BY u.lastlogin ASC';
+        $lastloggedsql .= ' ORDER BY u.lastaccess ASC';
         if(!empty($params['limit'])){
             $lastloggedsql .= ' LIMIT '.$params['limitnumber'];
         }
@@ -115,7 +115,7 @@ class read_latest_logged_students extends \external_api {
                     'username' => $user->username,
                     'fullname' => $user->fullname,
                     'picture' => $pictureurl,
-                    'lastlogin' => $user->lastlogin,
+                    'lastlogin' => $user->lastaccess,
                 ];
             }
         }
